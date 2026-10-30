@@ -55,7 +55,7 @@
   .stats div{text-align:right}
   .stats b{display:block;font-size:28px;font-weight:800;line-height:1}
   .stats span{font-size:13px;color:var(--em-200)}
-  .route{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px;position:relative;z-index:1;counter-reset:stop}
+  .route{display:grid;grid-template-columns:repeat(var(--n,4),1fr);gap:12px;margin-top:22px;position:relative;z-index:1;counter-reset:stop}
   .route .ph{aspect-ratio:4/3}
   .route .ph::before{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(41,23,17,.85),transparent 55%);z-index:1;pointer-events:none}
   .route figcaption{z-index:2;text-shadow:none}
@@ -68,6 +68,69 @@
   .nav a{display:block;white-space:nowrap;text-decoration:none;font-weight:600;font-size:14.5px;padding:7px 13px;border-radius:999px;color:var(--em-800)}
   .nav a:hover{background:var(--em-100)}
 
+
+  /* ---------- plan section ---------- */
+  .plan-sec{padding-bottom:28px}
+  .plan-summary{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+  .ps{background:var(--c);color:var(--fg);border-radius:999px;padding:6px 14px;font-size:14px;font-weight:600}
+  .ps b{font-weight:800;margin-left:2px}
+  .ps-total{align-self:center;font-size:14px;font-weight:700;color:var(--soft);margin-left:4px}
+
+  /* ---------- mini converter ---------- */
+  .mini-conv{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);border-radius:14px;padding:10px 12px;min-width:220px;max-width:280px}
+  .mini-conv label{display:block;font-size:12px;font-weight:700;color:var(--pink);margin-bottom:6px}
+  .mc-row{display:flex;gap:6px}
+  .mini-conv input{width:96px;font-size:16px;font-weight:800;padding:6px 8px;border:0;border-radius:8px;color:var(--brown)}
+  .mini-conv select{font-size:15px;font-weight:700;padding:6px 8px;border:0;border-radius:8px;color:var(--brown);background:#fff}
+  .mini-conv p{margin-top:6px;font-size:13px;font-weight:600;color:#fff;line-height:1.4}
+
+  /* ---------- city groups ---------- */
+  details.city{margin-bottom:16px}
+  details.city > summary{list-style:none;cursor:pointer;display:flex;align-items:center;flex-wrap:wrap;gap:6px 14px;background:var(--c);color:var(--fg);border-radius:16px;padding:14px 18px}
+  details.city > summary::-webkit-details-marker{display:none}
+  .city-name{font-size:22px;font-weight:800;letter-spacing:-0.02em}
+  .city-name small{font-size:13px;font-weight:600;opacity:.8}
+  .city-dates{font-weight:600;opacity:.92}
+  .city-count{margin-left:auto;font-size:13px;font-weight:700;background:rgba(255,255,255,.22);padding:4px 11px;border-radius:999px}
+  .chev{width:12px;height:12px;border-right:2.5px solid currentColor;border-bottom:2.5px solid currentColor;transform:rotate(45deg);margin:-4px 4px 0 2px;transition:transform .2s}
+  details.city[open] .chev{transform:rotate(-135deg);margin-top:6px}
+  details.city .days{margin-top:14px}
+  @media (prefers-reduced-motion:reduce){.chev{transition:none}}
+  .filters button[aria-pressed="true"]{background:var(--c, var(--green));border-color:var(--c, var(--green));color:var(--fg, #fff)}
+
+  /* ---------- calendar badge ---------- */
+  .cal{width:64px;flex:none;background:#fff;border:2px solid var(--brown);border-radius:12px;text-align:center;position:relative;transform:rotate(-4deg);box-shadow:4px 4px 0 var(--c);margin:6px 4px 4px 0}
+  .days > .day:nth-child(even) .cal{transform:rotate(3deg)}
+  .cal::before,.cal::after{content:"";position:absolute;top:-8px;width:6px;height:13px;border-radius:4px;background:var(--brown);border:2px solid #fff}
+  .cal::before{left:13px}
+  .cal::after{right:13px}
+  .cal-m{display:block;background:var(--c);color:var(--fg);font-size:12.5px;font-weight:800;padding:7px 0 3px;border-radius:9px 9px 0 0;border-bottom:2px solid var(--brown)}
+  .cal b{display:block;font-size:27px;font-weight:800;line-height:1.05;padding-top:3px;color:var(--brown)}
+  .cal-d{display:block;font-size:11.5px;font-weight:700;color:var(--soft);padding-bottom:5px}
+  .day-no{font-size:13px;font-weight:800;color:var(--copper);margin-bottom:2px}
+  @media (max-width:520px){.cal{width:56px}.cal b{font-size:23px}.city-name{font-size:19px}.mini-conv{max-width:none;width:100%}}
+  /* ---------- where to stay ---------- */
+  .planner{display:flex;flex-wrap:wrap;gap:12px 24px;margin-bottom:18px}
+  .toggle{display:flex;align-items:center;flex-wrap:wrap;gap:6px}
+  .t-label{font-size:13px;font-weight:800;color:var(--copper);margin-right:4px}
+  .toggle button{border:1px solid var(--line);background:var(--paper);color:var(--ink);font-weight:700;font-size:14px;padding:7px 13px;border-radius:999px;cursor:pointer}
+  .toggle button[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#fff}
+  .bookings{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+  .bk{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);display:grid;grid-template-columns:120px 1fr;overflow:hidden}
+  .bk .ph{border-radius:0;min-height:100%}
+  .bk-body{padding:16px 18px}
+  .bk-top{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin-bottom:10px}
+  .bk-top h3{font-size:20px}
+  .bk-dates{font-weight:800;color:var(--green)}
+  .bk-nights{font-size:13px;font-weight:800;background:var(--amber);color:var(--brown);border-radius:999px;padding:3px 10px}
+  .bk-io{font-size:13.5px;color:var(--soft);width:100%}
+  .areas{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px}
+  .area{border-radius:12px;padding:10px 12px;background:var(--bg);border:1px solid var(--line)}
+  .area.top{background:#E3F1EC;border-color:#BFDCD1}
+  .area b{display:block;font-size:15px}
+  .area em{font-style:normal;font-size:12px;font-weight:800;color:var(--copper)}
+  .area p{font-size:13.5px;color:var(--soft);margin-top:2px}
+  @media (max-width:640px){.bk{grid-template-columns:1fr}.bk .ph{aspect-ratio:16/7}}
   /* ---------- weather ---------- */
   .weather{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
   .wx{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:18px}
@@ -232,27 +295,24 @@
     <div class="hero-head">
       <div>
         <h1><span class="logo">Malaysia</span> <span>2026</span></h1>
-        <p class="dates">26 Nov to 10 Dec · two sisters, four stops</p>
+        <p class="dates">26 Nov to 10 Dec · two sisters · <span id="heroStops">4 stops</span></p>
       </div>
-      <div class="stats">
-        <div><b>15</b><span>days</span></div>
-        <div><b>4</b><span>stops</span></div>
-        <div><b>2</b><span>travellers</span></div>
+      <div class="mini-conv">
+        <label for="mAmt">Quick convert</label>
+        <div class="mc-row"><input id="mAmt" type="number" inputmode="decimal" min="0" step="any" value="1" aria-label="Amount"><select id="mCur" aria-label="Currency"><option value="MYR" selected>RM</option><option value="EGP">EGP</option><option value="GBP">£</option><option value="USD">$</option></select></div>
+        <p id="mOut" aria-live="polite"></p>
       </div>
     </div>
-    <div class="route">
-      <figure class="ph" data-k="cenang"><figcaption><b>Langkawi</b><span>4 nights · beach</span></figcaption></figure>
-      <figure class="ph" data-k="armenian"><figcaption><b>Penang</b><span>4 nights · food &amp; adventure</span></figcaption></figure>
-      <figure class="ph" data-k="concubine"><figcaption><b>Ipoh</b><span>1 night · caves &amp; coffee</span></figcaption></figure>
-      <figure class="ph" data-k="petronas"><figcaption><b>Kuala Lumpur</b><span>5 nights · city nights</span></figcaption></figure>
-    </div>
+    <div class="route" id="route"></div>
   </div>
 </header>
 
 <nav class="nav" aria-label="Sections">
   <ul>
+    <li><a href="#plan">Your plan</a></li>
+    <li><a href="#stay">Where to stay</a></li>
+        <li><a href="#days">Day by day</a></li>
     <li><a href="#weather">Weather</a></li>
-    <li><a href="#days">Day by day</a></li>
     <li><a href="#food">Food</a></li>
     <li><a href="#money">Money &amp; costs</a></li>
     <li><a href="#around">Getting around</a></li>
@@ -262,7 +322,43 @@
 
 <main>
 
-<section id="weather">
+<section id="plan" class="plan-sec">
+  <div class="wrap">
+    <div class="eyebrow-row"><div><h2>Your plan</h2><p class="sub">Choose once and the whole site updates: stays, days, costs, food and transport.</p></div></div>
+    <div class="planner">
+      <div class="toggle" role="group" aria-label="Ipoh">
+        <span class="t-label">Ipoh</span>
+        <button type="button" data-ipoh="1" aria-pressed="true">1 night in Ipoh</button>
+        <button type="button" data-ipoh="0" aria-pressed="false">Skip Ipoh</button>
+      </div>
+      <div class="toggle" role="group" aria-label="Malacca">
+        <span class="t-label">Malacca</span>
+        <button type="button" data-mal="day" aria-pressed="true">Day trip</button>
+        <button type="button" data-mal="night" aria-pressed="false">Stay 1 night</button>
+        <button type="button" data-mal="no" aria-pressed="false">Skip</button>
+      </div>
+    </div>
+    <div class="plan-summary" id="planSummary"></div>
+  </div>
+</section>
+
+<section id="stay" style="padding-top:0">
+  <div class="wrap">
+    <div class="eyebrow-row"><div><h2>Where to stay</h2><p class="sub">Exact dates and nights to book for your plan, with 2–3 areas per city.</p></div></div>
+    <ol class="bookings" id="bookings"></ol>
+    <p class="note" id="planNote"></p>
+  </div>
+</section>
+
+<section id="days" style="padding-top:0">
+  <div class="wrap">
+    <div class="eyebrow-row"><div><h2>Day by day</h2><p class="sub">Times are a guide. Tap any photo to see it big. Costs are per person. </p></div></div>
+    <div class="filters" id="filters" role="group" aria-label="Show days for"></div>
+    <div id="dayGroups"></div>
+  </div>
+</section>
+
+<section id="weather" style="padding-top:0">
   <div class="wrap">
     <div class="eyebrow-row"><div><h2>Weather</h2><p class="sub">Hot and humid, with showers. It gets drier as December starts.</p></div></div>
     <div class="weather">
@@ -273,7 +369,7 @@
         <ul><li>Showers on many November days, often short</li><li>Sea is about 29°C, perfect for swimming</li><li>About 6–7 hours of sun a day</li></ul>
       </div>
       <div class="wx">
-        <div class="wx-top"><h3>Penang &amp; Ipoh · 30 Nov–5 Dec</h3>
+        <div class="wx-top"><h3 id="wxPenang">Penang &amp; Ipoh · 30 Nov–5 Dec</h3>
           <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M9 26a8 8 0 0 1 3-15 10 10 0 0 1 19 4 6 6 0 0 1-1 11z" fill="#FFB7C3"/><path d="M14 30l-2 5M21 30l-2 5M28 30l-2 5" stroke="#1F8A70" stroke-width="2.5" stroke-linecap="round"/></svg></div>
         <p class="temp">22–31°C</p>
         <ul><li>Wettest of the trip: rain on roughly half the days</li><li>Usually afternoon or evening downpours</li><li>Mornings are your best outdoor time</li></ul>
@@ -288,20 +384,6 @@
     <div class="pack">
       <span class="chip">☂ Small umbrella</span><span class="chip">Light rain jacket</span><span class="chip">Sandals that can get wet</span><span class="chip">Sunscreen &amp; hat</span><span class="chip">Cardigan for the cold AC</span><span class="chip">Swimwear for ESCAPE</span>
     </div>
-  </div>
-</section>
-
-<section id="days" style="padding-top:0">
-  <div class="wrap">
-    <div class="eyebrow-row"><div><h2>Day by day</h2><p class="sub">Times are a guide. Tap any photo to see it big. Costs are per person. Hotels get added once they're booked.</p></div></div>
-    <div class="filters" role="group" aria-label="Show days for">
-      <button type="button" data-f="all" aria-pressed="true">All days</button>
-      <button type="button" data-f="langkawi" aria-pressed="false">Langkawi</button>
-      <button type="button" data-f="penang" aria-pressed="false">Penang</button>
-      <button type="button" data-f="ipoh" aria-pressed="false">Ipoh</button>
-      <button type="button" data-f="kl" aria-pressed="false">Kuala Lumpur</button>
-    </div>
-    <ol class="days" id="dayList"></ol>
   </div>
 </section>
 
@@ -388,7 +470,7 @@
       <div class="leg"><div class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="14" rx="4" fill="#176A57"/><rect x="8" y="6" width="8" height="4" fill="#fff"/><path d="M7 22l3-4M17 22l-3-4" stroke="#291711" stroke-width="2"/></svg></div><div><h3>Penang → Ipoh → KL</h3><p>ETS train from Butterworth (ferry or Grab there). ~2 hrs, then ~2.5 hrs. Book on KTMB.</p></div></div>
       <div class="leg"><div class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2" fill="#176A57"/><rect x="6" y="9" width="7" height="4" rx="1" fill="#F1A50C"/></svg></div><div><h3>KL</h3><p>Touch 'n Go card for trains (cards can't tap the gates yet). Rapid Kembara pass: RM25/day or RM55/3 days.</p></div></div>
       <div class="leg"><div class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="14" rx="4" fill="#176A57"/><rect x="8" y="6" width="8" height="4" fill="#fff"/><path d="M7 22l3-4M17 22l-3-4" stroke="#291711" stroke-width="2"/></svg></div><div><h3>KL → airport</h3><p>KLIA Ekspres from KL Sentral, ~30 min, RM55.</p></div></div>
-      <div class="leg"><div class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="9" rx="3" fill="#176A57"/><circle cx="7" cy="18" r="2" fill="#291711"/><circle cx="17" cy="18" r="2" fill="#291711"/></svg></div><div><h3>KL → Malacca (optional)</h3><p>Komuter to TBS, then bus ~2.5 hrs, from RM12. Book the return.</p></div></div>
+      <div class="leg" data-need="malacca"><div class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="9" rx="3" fill="#176A57"/><circle cx="7" cy="18" r="2" fill="#291711"/><circle cx="17" cy="18" r="2" fill="#291711"/></svg></div><div><h3>KL → Malacca</h3><p>Komuter to TBS, then bus ~2.5 hrs, from RM12. Book the return.</p></div></div>
     </div>
   </div>
 </section>
@@ -483,7 +565,10 @@
   var PLACE = {langkawi:'Langkawi', penang:'Penang', ipoh:'Ipoh', kl:'Kuala Lumpur', malacca:'Malacca'};
 
   /* ---------- itinerary ---------- */
-  var days = [{"n":1,"date":"Thu 26 Nov","s":"langkawi","t":"Land in Malaysia, fly on to Langkawi","stay":"Langkawi hotel (to add once booked)","g":[["lk_sunset","Langkawi sunset"],["cenang","Pantai Cenang"],["cenang_view","Cenang beach"],["cenang3","Beach strip"]],"p":[["Arrival","KLIA, then the domestic flight","Clear immigration, change a small amount of cash for the first day, and switch on your eSIM or buy a SIM in arrivals. Check in again for the Langkawi flight (about 1 hour)."],["Afternoon","Check in at Pantai Cenang","Grab from Langkawi airport is only 10–15 minutes. Drop the bags, shower, and have a slow first swim in the pool or the sea."],["Sunset","Pantai Cenang beach","Cenang faces west, so sunsets here are the best on the island. Walk the sand barefoot while the sky turns orange."],["Dinner","Beachfront seafood","Pick a beach restaurant with tables on the sand: grilled fish, butter prawns, and a coconut. An easy first night."]],"go":"Plane, then Grab from the airport.","alt":"Landing late? Order Grab Food to the hotel and save the beach for tomorrow.","tip":"Separate tickets: leave about 3 hours between flights at KLIA.","c":[]},{"n":2,"date":"Fri 27 Nov","s":"langkawi","t":"Up the mountain: SkyCab & Sky Bridge","g":[["skycab","SkyCab cable car"],["skybridge","Sky Bridge"],["cablebridge","Top station"],["sevenwells","Seven Wells waterfall"]],"p":[["09:00","SkyCab cable car","One of the steepest cable cars in the world, rising from Oriental Village to the top of Gunung Mat Cincang. Be there at opening for clear views and short queues."],["10:00","Sky Bridge","A curved walkway hanging over the rainforest, with views to the sea and the Thai islands on a clear day. Walk down or take the short SkyGlide."],["12:30","Lunch at Oriental Village","Cafes and small restaurants at the bottom station. Rest in the shade."],["14:00","Seven Wells waterfall","Seven natural rock pools stacked up the mountain, a short steep walk from the car park. Swim in the cool pools at the top."],["Evening","Night market","Langkawi's night market moves to a different village each day; ask the hotel where it is tonight. Try satay, murtabak and fresh fruit juice."]],"go":"Grab to Oriental Village (~20 min from Cenang), or rent a car for the day.","alt":"Cloudy or windy (the cable car pauses)? Swap with Day 4.","tip":"Buy the SkyCab + SkyBridge combo online to skip the queue.","c":[["SkyCab + SkyBridge",89]]},{"n":3,"date":"Sat 28 Nov","s":"langkawi","t":"Island hopping: lake, eagles, white sand","g":[["berasbasah","Beras Basah beach"],["kite","Brahminy kite"],["langkawi","Langkawi islands"],["eaglesq","Eagle Square, Kuah"]],"p":[["09:00","Speedboat from Cenang","A half-day island-hopping tour. Boats are small and fast, so expect some spray."],["09:30","Pregnant Maiden Lake","A freshwater lake on Pulau Dayang Bunting, surrounded by jungle and limestone. Swim with a life vest or rent a pedal boat."],["11:00","Eagle feeding","The boat stops in open water while dozens of brahminy kites and sea eagles swoop down to catch fish. The best photos of the day."],["11:30","Beras Basah island","White sand and clear shallow water. Swim, snorkel at the edge, and grab a cold drink."],["Afternoon","Pool and rest","Back by lunchtime. Hide from the midday heat with a nap or a massage."],["Evening","Cenang strip","Cafes, dessert shops and beach bars along the main road. Some bars do fire shows after dark."]],"go":"Most tours pick you up at the hotel or Cenang jetty.","alt":"Want more action? Swap the boat for a jet-ski tour.","tip":"Dry bag, reef-safe sunscreen, small cash for snacks on the islands.","c":[["Island hopping tour",45,1]]},{"n":4,"date":"Sun 29 Nov","s":"langkawi","t":"Mangroves & a lazy beach day","tag":"Beach day","g":[["kilim","Kilim Geoforest"],["mangrove","Mangrove river"],["kite2","Eagles over Kilim"],["tanjungrhu","Tanjung Rhu beach"]],"p":[["09:00","Kilim mangrove tour","A boat ride through mangrove rivers between huge limestone cliffs, part of Langkawi's UNESCO Geopark."],["10:00","Bat cave & fish farm","Walk into a cave full of sleeping bats, then stop at a floating fish farm. You'll see more eagles and maybe monkeys on the banks."],["13:00","Tanjung Rhu beach","The quietest, prettiest beach on the island: soft sand, clear water, limestone islets offshore. Bring snacks and stay for the afternoon."],["Evening","Sunset & packing","Last sunset drinks on Cenang, then pack for Penang."]],"go":"Grab to Kilim jetty (~40 min from Cenang); Tanjung Rhu is 10 minutes from Kilim.","alt":"Kayak the mangroves instead of the motorboat.","tip":"Book the mangrove tour the day before; mornings are calmer and cooler.","c":[["Kilim mangrove tour (with transfer)",90,1]]},{"n":5,"date":"Mon 30 Nov","s":"penang","t":"Penang: street art & clan jetties","stay":"Penang hotel in George Town (to add once booked)","g":[["armenian","Armenian Street"],["kidsbike","\"Kids on a Bicycle\" mural"],["streetart","George Town street art"],["chewjetty","Chew Jetty"],["chulia","Chulia Street"]],"p":[["Morning","Fly to Penang","Short flight from Langkawi, then Grab to George Town (30–40 min). Drop the bags."],["14:00","Armenian Street & the murals","The UNESCO old town is full of painted walls and iron-rod sculptures. Find \"Kids on a Bicycle\" and \"Boy on a Bike\", then wander the side lanes."],["16:00","Khoo Kongsi","A hidden clan temple with an incredibly ornate hall, tucked behind Cannon Square."],["17:30","Chew Jetty","Wooden houses on stilts over the water, built by Chinese clans over a century ago. Walk to the end of the pier for sunset."],["Dinner","Chulia Street hawkers","After dark, stalls line the street: wonton mee, char kway teow, satay. Bring cash."]],"go":"Flight, then Grab from Penang airport. The old town is walkable.","alt":"Too hot? Start with a cafe and do the mural walk after 17:00.","tip":"Save a George Town street-art map offline.","c":[]},{"n":6,"date":"Tue 1 Dec","s":"penang","t":"Adventure day at ESCAPE","tag":"Adventure day","g":[["escape","ESCAPE Adventureplay"],["ferringhi","Batu Ferringhi beach"],["ferringhi_sunset","Batu Ferringhi sunset"],["entopia","Entopia (rain plan)"]],"p":[["10:00","Adventureplay","Get there at opening. Do the zip coaster (the world's longest), high ropes, climbing towers and free-fall jumps first while queues are short."],["12:30","Lunch in the park","Halal-certified food and prayer rooms on site."],["13:30","Waterplay","Take the chairlift up to \"The Longest\", the world's longest tube waterslide, then the diving towers and splash pools."],["17:00","Batu Ferringhi beach","Penang's beach strip is 10 minutes away. Watch the sunset from the sand."],["Evening","Batu Ferringhi night market","Stalls selling souvenirs, clothes and snacks, plus beachfront seafood restaurants."]],"go":"Rapid Penang bus 101 to Teluk Bahang, or Grab (~40 min).","alt":"Raining? Swap with Day 8 and do Entopia butterfly park instead; ESCAPE is all outdoors.","tip":"Register your face online before going. Pack swimwear, a towel and a phone pouch. Last entry 16:00.","c":[["ESCAPE day pass",185,1]]},{"n":7,"date":"Wed 2 Dec","s":"penang","t":"Penang Hill & Kek Lok Si","g":[["hillview","View from Penang Hill"],["funicular","Penang Hill funicular"],["keklok","Kek Lok Si"],["keklok_night","Kek Lok Si at night"],["kuanyin","Kuan Yin statue"],["gurney","Gurney Drive"]],"p":[["08:30","Funicular up Penang Hill","A steep old railway up to over 800 m. Go early: the air is cooler and the view over George Town and the bridge is clearest."],["09:30","The Habitat","A rainforest trail at the top with a treetop walkway and a lookout above the canopy."],["12:30","Lunch, then Kek Lok Si","Malaysia's biggest Buddhist temple, a short ride down the hill: the tall Pagoda of Ten Thousand Buddhas and a giant bronze Kuan Yin statue (take the incline lift up)."],["Afternoon","Rest at the hotel","Escape the heat for a couple of hours."],["Dinner","Gurney Drive hawker centre","A huge seafront food court: char kway teow, assam laksa, oyster omelette, rojak. Cash only at most stalls."]],"go":"Rapid Penang bus 204 goes to both, or Grab.","alt":"Cloudy? Skip the hill and do Entopia or the Penang Botanic Gardens.","tip":"Buy funicular tickets online; the Fast Lane (RM80) saves time on busy days.","c":[["Penang Hill funicular (return)",40]]},{"n":8,"date":"Thu 3 Dec","s":"penang","t":"Heritage mansions & a food crawl","tag":"Food day","g":[["bluemansion","Blue Mansion"],["peranakan","Peranakan Mansion"],["kapitan","Kapitan Keling Mosque"],["f_kandar","Nasi kandar"],["f_cendol","Cendol"]],"p":[["10:00","Blue Mansion tour","An indigo-blue Chinese courtyard mansion with a guided tour full of stories. Tours run at set times."],["11:30","Pinang Peranakan Mansion","A green mansion packed with gold, carved wood and antiques that shows how wealthy Straits Chinese families lived."],["13:00","Nasi kandar lunch","Rice with a mix of curries poured over it. Penang's most famous halal meal."],["14:30","Kapitan Keling Mosque & Little India","A white mosque from the early 1800s, then colourful streets with spice shops, Bollywood music and sari stores."],["16:00","Cendol on Penang Road","Shaved ice, coconut milk, green jelly and palm sugar. The perfect afternoon cool-down."],["Evening","New Lane hawkers or a rooftop bar","More street food, or drinks with a view over George Town."]],"go":"Everything is walkable; Grab between food stops.","alt":"Prefer shopping? Gurney Plaza, or a Nyonya cooking class.","tip":"Check Blue Mansion tour times the day before.","c":[["Blue Mansion tour",25,1],["Peranakan Mansion",25,1]]},{"n":9,"date":"Fri 4 Dec","s":"ipoh","t":"Train to Ipoh: old town & white coffee","stay":"Ipoh hotel (to add once booked)","g":[["ipohstation","Ipoh railway station"],["concubine","Concubine Lane"],["ipohhall","Old Town Hall"],["ipohtown","Ipoh old town"],["f_coffee","Ipoh white coffee"]],"p":[["09:00","Ferry or Grab to Butterworth","The ETS station is right next to the ferry terminal."],["10:00","ETS train to Ipoh","About 2 hours of countryside and limestone hills."],["13:00","Ipoh railway station","A grand white colonial station, nicknamed the \"Taj Mahal of Ipoh\". Lunch nearby."],["15:00","Concubine Lane & murals","A narrow, colourful lane of shops and snacks, plus the famous old-town wall murals."],["Dinner","Chicken with bean sprouts","Ipoh's signature: silky poached chicken with crunchy local bean sprouts."],["After dinner","White coffee","The original Ipoh white coffee, creamy and sweet, in an old kopitiam."]],"go":"ETS from Butterworth (KTMB app). Walk or Grab in Ipoh.","alt":"Skip Ipoh: one more Penang night, then the train straight to KL (~4 hrs).","tip":"Pack light; it's one night.","c":[["ETS train Butterworth → Ipoh",33,1]]},{"n":10,"date":"Sat 5 Dec","s":"kl","t":"Cave temples, then KL lights","tag":"City night","stay":"KL hotel (to add once booked)","g":[["sampohtong","Sam Poh Tong cave temple"],["peraktong","Perak Tong cave temple"],["jalanalor2","Jalan Alor"],["bukitbintang","Bukit Bintang"]],"p":[["08:00","Dim sum breakfast","Ipoh is famous for it: steamer baskets of dumplings and buns."],["09:30","Sam Poh Tong & Perak Tong","Buddhist temples built inside limestone caves, with a hidden garden and turtle pond at Sam Poh Tong and huge murals at Perak Tong."],["12:00","ETS train to KL","About 2.5 hours to KL Sentral."],["15:30","Check in & Touch 'n Go card","Buy the card at a train station counter (and the Rapid Kembara pass if you want it)."],["Evening","Bukit Bintang & Jalan Alor","KL's bright shopping street, then Jalan Alor food street: satay, grilled seafood, chicken wings, durian for the brave."]],"go":"Grab to the temples, ETS to KL Sentral, MRT or Grab to the hotel.","alt":"Tired? Pavilion mall food court and an early night.","tip":"Get the 3-day Rapid Kembara pass if you'll ride trains a lot.","c":[["ETS train Ipoh → KL",30,1],["Rapid Kembara 3-day pass",55]]},{"n":11,"date":"Sun 6 Dec","options":[{"label":"Malacca","s":"malacca","t":"Malacca day trip","tag":"Optional","g":[["dutchsquare","Dutch Square"],["christchurch","Christ Church"],["melakariver","Melaka River"],["f_riceballs","Chicken rice balls"],["jonker","Jonker Street night market"]],"p":[["08:00","Leave KL","Komuter to Bandar Tasik Selatan, walk to TBS bus terminal, bus to Melaka Sentral (~2.5 hrs), then Grab to the old town."],["11:30","Dutch Square","The red Stadthuys and Christ Church from the 1700s, a clock tower and trishaws covered in flowers and lights."],["12:30","Chicken rice balls lunch","Malacca's own way of serving chicken rice, rolled into balls."],["14:00","St Paul's Hill & A Famosa","Climb to the ruined hilltop church for views, then the old Portuguese fort gate."],["16:00","Melaka River cruise","A 45-minute boat ride past murals, old warehouses and riverside cafes."],["18:00","Jonker Street night market","Only on Friday to Sunday: street food, sweets, souvenirs and live music. Leave in time for the bus back."]],"go":"~4 hrs each way door to door. Book the return bus ahead.","alt":"Stay one night in Malacca and come back Monday morning.","tip":"Sunday is the busiest day; book bus seats in advance.","c":[["Komuter + bus return",35,1]]},{"label":"Genting","s":"kl","t":"Genting Highlands theme park","tag":"Adventure","g":[["skyway","Awana SkyWay"],["skyworlds","Genting SkyWorlds"],["carousel","SkyWorlds carousel"],["gentingnight","Cable car at night"]],"p":[["08:30","Bus to Awana","From KL Sentral or TBS, about an hour up into the hills."],["09:45","Awana SkyWay","A long cable car ride over the rainforest canopy, often through the clouds."],["10:30","Genting SkyWorlds","An outdoor theme park with 26 rides across 9 themed zones: roller coasters, drop towers and family rides."],["Afternoon","More rides & the indoor park","Cooler mountain air all day. The indoor zone is good if it rains."],["Evening","Back to KL","Dinner in Bukit Bintang."]],"go":"Bus + cable car (~1.5 hrs), or Grab all the way up.","alt":"Skip the rides: SkyWay views, the outlet mall and the indoor park.","tip":"It's cool up top; bring a jacket.","c":[["SkyWorlds + SkyWay combo",161,1]]},{"label":"Easy KL day","s":"kl","t":"A slow day in KL","tag":"Rest day","g":[["islamicarts","Islamic Arts Museum"],["birdpark","KL Bird Park"],["klccpark","KLCC Park"],["saloma","Saloma Link bridge"]],"p":[["10:30","Islamic Arts Museum","Calm, cool and beautiful: domes, calligraphy, textiles and architecture models."],["13:00","KL Bird Park","A huge free-flight aviary next door, with hornbills, flamingos and parrots flying around you."],["16:00","Rest at the hotel","Pool or nap."],["20:00","KLCC Park fountain show","Music and light fountain shows in the lake below the Petronas Towers."],["21:00","Saloma Link bridge","A pedestrian bridge that glows in shifting colours, with skyline views."]],"go":"Grab or MRT; the museum and Bird Park are side by side.","alt":"Rain: Aquaria KLCC and Suria KLCC mall.","tip":"Pick this and Day 14 afternoon becomes free.","c":[["KL Bird Park",90],["Islamic Arts Museum",20,1]]}]},{"n":12,"date":"Mon 7 Dec","s":"kl","t":"Old KL: Merdeka Square to Chinatown","g":[["abdulsamad","Merdeka Square"],["petaling","Petaling Street"],["f_claypot","Claypot chicken rice"],["theanhou","Thean Hou Temple"],["jamek","Masjid Jamek at night"]],"p":[["09:30","Merdeka Square","Where Malaysia declared independence. The copper-domed Sultan Abdul Samad Building faces a huge field and a giant flagpole."],["10:30","Central Market","An art-deco market full of batik, crafts and souvenirs, with air-conditioning."],["11:30","Chinatown","Petaling Street's market, Kwai Chai Hong's painted lane, and Sri Mahamariamman, KL's oldest Hindu temple with its colourful tower."],["13:00","Heun Kee Claypot Chicken Rice","Smoky chicken rice cooked in clay pots over charcoal. One of the meals from your list."],["18:00","Thean Hou Temple at sunset","A six-tier Chinese temple on a hill, with red lanterns and views over the city."],["20:00","River of Life","The river behind Masjid Jamek glows blue after dark, with misty fountains and lights."]],"go":"Walk the old city, LRT to Masjid Jamek, Grab to Thean Hou.","alt":"Rain: the Textile Museum and Central Market are indoors.","tip":"Thean Hou is on a hill without a train: Grab both ways.","c":[]},{"n":13,"date":"Tue 8 Dec","s":"kl","t":"Batu Caves & the twin towers at night","tag":"City night","g":[["batucaves","Batu Caves"],["murugan","Murugan statue"],["menara","Menara KL"],["klskyline","KL skyline at night"],["petronas","Petronas Towers"],["saloma","Saloma Link bridge"]],"p":[["08:00","Batu Caves","272 rainbow steps up to a huge cave temple, guarded by a giant golden Murugan statue. Go before 9 to beat the heat and crowds."],["11:00","Back to the hotel","Shower and rest."],["15:00","Menara KL","The city's TV tower, with an observation deck and sky box high above the green Bukit Nanas forest."],["17:30","KLCC Park","Walk the park under the Petronas Towers as the lights come on."],["20:00","Fountain show & Saloma bridge","The lake fountain show, then the glowing Saloma Link bridge."],["21:30","Rooftop bar","A drink with the twin towers lit up in front of you. The city-night moment of the trip."]],"go":"KTM Komuter from KL Sentral to Batu Caves (~30 min), Grab back.","alt":"Petronas skybridge tour (~RM98) instead of Menara.","tip":"Knees covered at Batu Caves (sarongs to rent). Keep snacks hidden from the monkeys.","c":[["Menara KL observation deck",60,1]]},{"n":14,"date":"Wed 9 Dec","s":"kl","t":"Putrajaya & Lake Gardens","g":[["putra","Putra Mosque"],["putracomplex","Putrajaya lakeside"],["negara","National Mosque"],["birdpark","KL Bird Park"],["f_bananaleaf","Banana leaf rice"]],"p":[["09:00","Putra Mosque","A rose-pink granite mosque on the edge of a lake. Visitors get robes at the entrance."],["10:30","Putrajaya lakeside","Walk to the bridges and boulevard, or take a lake cruise."],["13:00","National Mosque","A modern mosque with a star-shaped roof, near the Lake Gardens."],["14:30","KL Bird Park & Botanical Gardens","The free-flight aviary (skip if you went on Day 11) and shady gardens next door."],["Evening","Brickfields","KL's Little India: banana leaf rice, sweets and bright shops. Then last shopping."]],"go":"Grab to Putrajaya (~40 min each way).","alt":"Free afternoon: spa, or shopping at Pavilion.","tip":"Mosques are closed to visitors at prayer times; avoid Friday midday.","c":[["KL Bird Park (skip if done Day 11)",90]]},{"n":15,"date":"Thu 10 Dec","s":"kl","t":"Last breakfast, fly home","g":[["f_nasilemak","Nasi lemak"],["f_roti","Roti canai & teh tarik"],["klia","KLIA Ekspres"],["klia1","KLIA"]],"p":[["Morning","Mamak breakfast","A last nasi lemak or roti canai with teh tarik."],["Before the flight","KLIA Ekspres","From KL Sentral to the airport in about 30 minutes."]],"go":"KLIA Ekspres or Grab (~1 hr).","alt":"Late flight? Leave bags at the hotel and fit in one more market.","tip":"Spend leftover ringgit; it's hard to change back in Egypt.","c":[["KLIA Ekspres",55]]}];
+  var days = [{"n":1,"date":"Thu 26 Nov","s":"langkawi","t":"Land in Malaysia, fly on to Langkawi","stay":"Pantai Tengah (or Pantai Cenang), 4 nights","g":[["lk_sunset","Langkawi sunset"],["cenang","Pantai Cenang"],["cenang_view","Cenang beach"],["cenang3","Beach strip"]],"p":[["Arrival","KLIA, then the domestic flight","Clear immigration, change a small amount of cash for the first day, and switch on your eSIM or buy a SIM in arrivals. Check in again for the Langkawi flight (about 1 hour)."],["Afternoon","Check in at Pantai Cenang","Grab from Langkawi airport is only 10–15 minutes. Drop the bags, shower, and have a slow first swim in the pool or the sea."],["Sunset","Pantai Cenang beach","Cenang faces west, so sunsets here are the best on the island. Walk the sand barefoot while the sky turns orange."],["Dinner","Beachfront seafood","Pick a beach restaurant with tables on the sand: grilled fish, butter prawns, and a coconut. An easy first night."]],"go":"Plane, then Grab from the airport.","alt":"Landing late? Order Grab Food to the hotel and save the beach for tomorrow.","tip":"Separate tickets: leave about 3 hours between flights at KLIA.","c":[]},{"n":2,"date":"Fri 27 Nov","s":"langkawi","t":"Up the mountain: SkyCab & Sky Bridge","g":[["skycab","SkyCab cable car"],["skybridge","Sky Bridge"],["cablebridge","Top station"],["sevenwells","Seven Wells waterfall"]],"p":[["09:00","SkyCab cable car","One of the steepest cable cars in the world, rising from Oriental Village to the top of Gunung Mat Cincang. Be there at opening for clear views and short queues."],["10:00","Sky Bridge","A curved walkway hanging over the rainforest, with views to the sea and the Thai islands on a clear day. Walk down or take the short SkyGlide."],["12:30","Lunch at Oriental Village","Cafes and small restaurants at the bottom station. Rest in the shade."],["14:00","Seven Wells waterfall","Seven natural rock pools stacked up the mountain, a short steep walk from the car park. Swim in the cool pools at the top."],["Evening","Night market","Langkawi's night market moves to a different village each day; ask the hotel where it is tonight. Try satay, murtabak and fresh fruit juice."]],"go":"Grab to Oriental Village (~20 min from Cenang), or rent a car for the day.","alt":"Cloudy or windy (the cable car pauses)? Swap with Day 4.","tip":"Buy the SkyCab + SkyBridge combo online to skip the queue.","c":[["SkyCab + SkyBridge",89]]},{"n":3,"date":"Sat 28 Nov","s":"langkawi","t":"Island hopping: lake, eagles, white sand","g":[["berasbasah","Beras Basah beach"],["kite","Brahminy kite"],["langkawi","Langkawi islands"],["eaglesq","Eagle Square, Kuah"]],"p":[["09:00","Speedboat from Cenang","A half-day island-hopping tour. Boats are small and fast, so expect some spray."],["09:30","Pregnant Maiden Lake","A freshwater lake on Pulau Dayang Bunting, surrounded by jungle and limestone. Swim with a life vest or rent a pedal boat."],["11:00","Eagle feeding","The boat stops in open water while dozens of brahminy kites and sea eagles swoop down to catch fish. The best photos of the day."],["11:30","Beras Basah island","White sand and clear shallow water. Swim, snorkel at the edge, and grab a cold drink."],["Afternoon","Pool and rest","Back by lunchtime. Hide from the midday heat with a nap or a massage."],["Evening","Cenang strip","Cafes, dessert shops and beach bars along the main road. Some bars do fire shows after dark."]],"go":"Most tours pick you up at the hotel or Cenang jetty.","alt":"Want more action? Swap the boat for a jet-ski tour.","tip":"Dry bag, reef-safe sunscreen, small cash for snacks on the islands.","c":[["Island hopping tour",45,1]]},{"n":4,"date":"Sun 29 Nov","s":"langkawi","t":"Mangroves & a lazy beach day","tag":"Beach day","g":[["kilim","Kilim Geoforest"],["mangrove","Mangrove river"],["kite2","Eagles over Kilim"],["tanjungrhu","Tanjung Rhu beach"]],"p":[["09:00","Kilim mangrove tour","A boat ride through mangrove rivers between huge limestone cliffs, part of Langkawi's UNESCO Geopark."],["10:00","Bat cave & fish farm","Walk into a cave full of sleeping bats, then stop at a floating fish farm. You'll see more eagles and maybe monkeys on the banks."],["13:00","Tanjung Rhu beach","The quietest, prettiest beach on the island: soft sand, clear water, limestone islets offshore. Bring snacks and stay for the afternoon."],["Evening","Sunset & packing","Last sunset drinks on Cenang, then pack for Penang."]],"go":"Grab to Kilim jetty (~40 min from Cenang); Tanjung Rhu is 10 minutes from Kilim.","alt":"Kayak the mangroves instead of the motorboat.","tip":"Book the mangrove tour the day before; mornings are calmer and cooler.","c":[["Kilim mangrove tour (with transfer)",90,1]]},{"n":5,"date":"Mon 30 Nov","s":"penang","t":"Penang: street art & clan jetties","stay":"George Town: Muntri St / Stewart Lane (or Penang Road), 4 nights","g":[["armenian","Armenian Street"],["kidsbike","\"Kids on a Bicycle\" mural"],["streetart","George Town street art"],["chewjetty","Chew Jetty"],["chulia","Chulia Street"]],"p":[["Morning","Fly to Penang","Short flight from Langkawi, then Grab to George Town (30–40 min). Drop the bags."],["14:00","Armenian Street & the murals","The UNESCO old town is full of painted walls and iron-rod sculptures. Find \"Kids on a Bicycle\" and \"Boy on a Bike\", then wander the side lanes."],["16:00","Khoo Kongsi","A hidden clan temple with an incredibly ornate hall, tucked behind Cannon Square."],["17:30","Chew Jetty","Wooden houses on stilts over the water, built by Chinese clans over a century ago. Walk to the end of the pier for sunset."],["Dinner","Chulia Street hawkers","After dark, stalls line the street: wonton mee, char kway teow, satay. Bring cash."]],"go":"Flight, then Grab from Penang airport. The old town is walkable.","alt":"Too hot? Start with a cafe and do the mural walk after 17:00.","tip":"Save a George Town street-art map offline.","c":[]},{"n":6,"date":"Tue 1 Dec","s":"penang","t":"Adventure day at ESCAPE","tag":"Adventure day","g":[["escape","ESCAPE Adventureplay"],["ferringhi","Batu Ferringhi beach"],["ferringhi_sunset","Batu Ferringhi sunset"],["entopia","Entopia (rain plan)"]],"p":[["10:00","Adventureplay","Get there at opening. Do the zip coaster (the world's longest), high ropes, climbing towers and free-fall jumps first while queues are short."],["12:30","Lunch in the park","Halal-certified food and prayer rooms on site."],["13:30","Waterplay","Take the chairlift up to \"The Longest\", the world's longest tube waterslide, then the diving towers and splash pools."],["17:00","Batu Ferringhi beach","Penang's beach strip is 10 minutes away. Watch the sunset from the sand."],["Evening","Batu Ferringhi night market","Stalls selling souvenirs, clothes and snacks, plus beachfront seafood restaurants."]],"go":"Rapid Penang bus 101 to Teluk Bahang, or Grab (~40 min).","alt":"Raining? Swap with Day 8 and do Entopia butterfly park instead; ESCAPE is all outdoors.","tip":"Register your face online before going. Pack swimwear, a towel and a phone pouch. Last entry 16:00.","c":[["ESCAPE day pass",185,1]]},{"n":7,"date":"Wed 2 Dec","s":"penang","t":"Penang Hill & Kek Lok Si","g":[["hillview","View from Penang Hill"],["funicular","Penang Hill funicular"],["keklok","Kek Lok Si"],["keklok_night","Kek Lok Si at night"],["kuanyin","Kuan Yin statue"],["gurney","Gurney Drive"]],"p":[["08:30","Funicular up Penang Hill","A steep old railway up to over 800 m. Go early: the air is cooler and the view over George Town and the bridge is clearest."],["09:30","The Habitat","A rainforest trail at the top with a treetop walkway and a lookout above the canopy."],["12:30","Lunch, then Kek Lok Si","Malaysia's biggest Buddhist temple, a short ride down the hill: the tall Pagoda of Ten Thousand Buddhas and a giant bronze Kuan Yin statue (take the incline lift up)."],["Afternoon","Rest at the hotel","Escape the heat for a couple of hours."],["Dinner","Gurney Drive hawker centre","A huge seafront food court: char kway teow, assam laksa, oyster omelette, rojak. Cash only at most stalls."]],"go":"Rapid Penang bus 204 goes to both, or Grab.","alt":"Cloudy? Skip the hill and do Entopia or the Penang Botanic Gardens.","tip":"Buy funicular tickets online; the Fast Lane (RM80) saves time on busy days.","c":[["Penang Hill funicular (return)",40]]},{"n":8,"date":"Thu 3 Dec","s":"penang","t":"Heritage mansions & a food crawl","tag":"Food day","g":[["bluemansion","Blue Mansion"],["peranakan","Peranakan Mansion"],["kapitan","Kapitan Keling Mosque"],["f_kandar","Nasi kandar"],["f_cendol","Cendol"]],"p":[["10:00","Blue Mansion tour","An indigo-blue Chinese courtyard mansion with a guided tour full of stories. Tours run at set times."],["11:30","Pinang Peranakan Mansion","A green mansion packed with gold, carved wood and antiques that shows how wealthy Straits Chinese families lived."],["13:00","Nasi kandar lunch","Rice with a mix of curries poured over it. Penang's most famous halal meal."],["14:30","Kapitan Keling Mosque & Little India","A white mosque from the early 1800s, then colourful streets with spice shops, Bollywood music and sari stores."],["16:00","Cendol on Penang Road","Shaved ice, coconut milk, green jelly and palm sugar. The perfect afternoon cool-down."],["Evening","New Lane hawkers or a rooftop bar","More street food, or drinks with a view over George Town."]],"go":"Everything is walkable; Grab between food stops.","alt":"Prefer shopping? Gurney Plaza, or a Nyonya cooking class.","tip":"Check Blue Mansion tour times the day before.","c":[["Blue Mansion tour",25,1],["Peranakan Mansion",25,1]]},{"n":9,"date":"Fri 4 Dec","s":"ipoh","t":"Train to Ipoh: old town & white coffee","stay":"Ipoh Old Town (or New Town), 1 night","g":[["ipohstation","Ipoh railway station"],["concubine","Concubine Lane"],["ipohhall","Old Town Hall"],["ipohtown","Ipoh old town"],["f_coffee","Ipoh white coffee"]],"p":[["09:00","Ferry or Grab to Butterworth","The ETS station is right next to the ferry terminal."],["10:00","ETS train to Ipoh","About 2 hours of countryside and limestone hills."],["13:00","Ipoh railway station","A grand white colonial station, nicknamed the \"Taj Mahal of Ipoh\". Lunch nearby."],["15:00","Concubine Lane & murals","A narrow, colourful lane of shops and snacks, plus the famous old-town wall murals."],["Dinner","Chicken with bean sprouts","Ipoh's signature: silky poached chicken with crunchy local bean sprouts."],["After dinner","White coffee","The original Ipoh white coffee, creamy and sweet, in an old kopitiam."]],"go":"ETS from Butterworth (KTMB app). Walk or Grab in Ipoh.","alt":"Skip Ipoh: one more Penang night, then the train straight to KL (~4 hrs).","tip":"Pack light; it's one night.","c":[["ETS train Butterworth → Ipoh",33,1]],"noIpoh":{"n":9,"date":"Fri 4 Dec","s":"penang","t":"Extra Penang day: gardens & local food","g":[["hillview","Penang views"],["chulia","Chulia Street"],["f_laksa","Assam laksa"],["gurney","Gurney Drive"]],"p":[["09:00","Penang Botanic Gardens","Shady trails, waterfalls and monkeys, a short Grab from the old town. Free entry."],["12:00","Air Itam assam laksa","Head towards Air Itam for the famous sour fish noodle soup."],["14:00","Rest or shopping","Gurney Plaza or Gurney Paragon malls, or a slow afternoon at the hotel."],["17:00","Cafe hop in George Town","Old shophouse cafes, then a last walk through the heritage streets."],["Dinner","Kimberley Street or New Lane hawkers","Your last Penang dinner: char kway teow, satay and cendol."]],"go":"Grab around the island.","alt":"Missed anything? Use today for Entopia or a second go at the street art.","tip":"Pack tonight; the train to KL leaves Butterworth tomorrow.","c":[]}},{"n":10,"date":"Sat 5 Dec","s":"kl","t":"Cave temples, then KL lights","tag":"City night","stay":"Kampung Baru (or Tengkat Tong Shin / KL Sentral), 5 nights","g":[["sampohtong","Sam Poh Tong cave temple"],["peraktong","Perak Tong cave temple"],["jalanalor2","Jalan Alor"],["bukitbintang","Bukit Bintang"]],"p":[["08:00","Dim sum breakfast","Ipoh is famous for it: steamer baskets of dumplings and buns."],["09:30","Sam Poh Tong & Perak Tong","Buddhist temples built inside limestone caves, with a hidden garden and turtle pond at Sam Poh Tong and huge murals at Perak Tong."],["12:00","ETS train to KL","About 2.5 hours to KL Sentral."],["15:30","Check in & Touch 'n Go card","Buy the card at a train station counter (and the Rapid Kembara pass if you want it)."],["Evening","Bukit Bintang & Jalan Alor","KL's bright shopping street, then Jalan Alor food street: satay, grilled seafood, chicken wings, durian for the brave."]],"go":"Grab to the temples, ETS to KL Sentral, MRT or Grab to the hotel.","alt":"Tired? Pavilion mall food court and an early night.","tip":"Get the 3-day Rapid Kembara pass if you'll ride trains a lot.","c":[["ETS train Ipoh → KL",30,1],["Rapid Kembara 3-day pass",55]],"noIpoh":{"n":10,"date":"Sat 5 Dec","s":"kl","t":"Train to KL, first city night","tag":"City night","stay":"Kampung Baru (or Tengkat Tong Shin / KL Sentral), 5 nights","g":[["ipohstation","Through the countryside"],["bukitbintang","Bukit Bintang"],["jalanalor2","Jalan Alor"]],"p":[["09:00","Ferry or Grab to Butterworth","The ETS station is right next to the ferry terminal."],["10:00","ETS train to KL Sentral","About 4 hours through palm plantations and limestone hills."],["15:00","Check in & Touch 'n Go card","Buy the card at a station counter (and the Rapid Kembara pass if you want it)."],["Evening","Bukit Bintang & Jalan Alor","KL's bright shopping street, then Jalan Alor food street: satay, grilled seafood, chicken wings."]],"go":"ETS from Butterworth to KL Sentral, then MRT or Grab.","alt":"Tired? Pavilion mall food court and an early night.","tip":"Get the 3-day Rapid Kembara pass if you'll ride trains a lot.","c":[["ETS train Butterworth → KL",59,1],["Rapid Kembara 3-day pass",55]]}},{"n":11,"date":"Sun 6 Dec","mal":{"day":{"label":"Malacca","s":"malacca","t":"Malacca day trip","tag":"Optional","g":[["dutchsquare","Dutch Square"],["christchurch","Christ Church"],["melakariver","Melaka River"],["f_riceballs","Chicken rice balls"],["jonker","Jonker Street night market"]],"p":[["08:00","Leave KL","Komuter to Bandar Tasik Selatan, walk to TBS bus terminal, bus to Melaka Sentral (~2.5 hrs), then Grab to the old town."],["11:30","Dutch Square","The red Stadthuys and Christ Church from the 1700s, a clock tower and trishaws covered in flowers and lights."],["12:30","Chicken rice balls lunch","Malacca's own way of serving chicken rice, rolled into balls."],["14:00","St Paul's Hill & A Famosa","Climb to the ruined hilltop church for views, then the old Portuguese fort gate."],["16:00","Melaka River cruise","A 45-minute boat ride past murals, old warehouses and riverside cafes."],["18:00","Jonker Street night market","Only on Friday to Sunday: street food, sweets, souvenirs and live music. Leave in time for the bus back."]],"go":"~4 hrs each way door to door. Book the return bus ahead.","alt":"Stay one night in Malacca and come back Monday morning.","tip":"Sunday is the busiest day; book bus seats in advance.","c":[["Komuter + bus return",35,1]]},"night":{"label":"Malacca","s":"malacca","t":"Malacca, staying overnight","tag":"1 night","g":[["dutchsquare","Dutch Square"],["christchurch","Christ Church"],["melakariver","Melaka River"],["f_riceballs","Chicken rice balls"],["jonker","Jonker Street night market"]],"p":[["08:30","Leave KL with an overnight bag","Leave the big bags at the KL hotel. Komuter to Bandar Tasik Selatan, bus from TBS to Melaka Sentral (~2.5 hrs), Grab to the old town and check in."],["12:00","Dutch Square","The red Stadthuys and Christ Church from the 1700s, a clock tower and trishaws covered in flowers and lights."],["13:00","Chicken rice balls lunch","Malacca's own way of serving chicken rice, rolled into balls."],["15:00","St Paul's Hill & A Famosa","Climb to the ruined hilltop church for views, then the old Portuguese fort gate."],["17:00","Melaka River cruise","A 45-minute boat ride past murals and riverside cafes; the river lights up after dark."],["19:00","Jonker Street night market","Only on Friday to Sunday: street food, sweets, souvenirs and live music. No bus to catch tonight."]],"go":"~4 hrs each way door to door. Book the bus back for Monday late morning.","alt":"Short on time? Do it as a day trip instead (switch the plan above).","tip":"Sunday is the busiest day; book bus seats in advance.","c":[["Komuter + bus return",35,1]],"stay":"Jonker Street / Heeren Street (or Kampung Morten), 1 night"},"no":{"options":[{"label":"Genting","s":"kl","t":"Genting Highlands theme park","tag":"Adventure","g":[["skyway","Awana SkyWay"],["skyworlds","Genting SkyWorlds"],["carousel","SkyWorlds carousel"],["gentingnight","Cable car at night"]],"p":[["08:30","Bus to Awana","From KL Sentral or TBS, about an hour up into the hills."],["09:45","Awana SkyWay","A long cable car ride over the rainforest canopy, often through the clouds."],["10:30","Genting SkyWorlds","An outdoor theme park with 26 rides across 9 themed zones: roller coasters, drop towers and family rides."],["Afternoon","More rides & the indoor park","Cooler mountain air all day. The indoor zone is good if it rains."],["Evening","Back to KL","Dinner in Bukit Bintang."]],"go":"Bus + cable car (~1.5 hrs), or Grab all the way up.","alt":"Skip the rides: SkyWay views, the outlet mall and the indoor park.","tip":"It's cool up top; bring a jacket.","c":[["SkyWorlds + SkyWay combo",161,1]]},{"label":"Easy KL day","s":"kl","t":"A slow day in KL","tag":"Rest day","g":[["islamicarts","Islamic Arts Museum"],["birdpark","KL Bird Park"],["klccpark","KLCC Park"],["saloma","Saloma Link bridge"]],"p":[["10:30","Islamic Arts Museum","Calm, cool and beautiful: domes, calligraphy, textiles and architecture models."],["13:00","KL Bird Park","A huge free-flight aviary next door, with hornbills, flamingos and parrots flying around you."],["16:00","Rest at the hotel","Pool or nap."],["20:00","KLCC Park fountain show","Music and light fountain shows in the lake below the Petronas Towers."],["21:00","Saloma Link bridge","A pedestrian bridge that glows in shifting colours, with skyline views."]],"go":"Grab or MRT; the museum and Bird Park are side by side.","alt":"Rain: Aquaria KLCC and Suria KLCC mall.","tip":"Pick this and Day 14 afternoon becomes free.","c":[["KL Bird Park",90],["Islamic Arts Museum",20,1]]}]}}},{"n":12,"date":"Mon 7 Dec","s":"kl","t":"Old KL: Merdeka Square to Chinatown","g":[["abdulsamad","Merdeka Square"],["petaling","Petaling Street"],["f_claypot","Claypot chicken rice"],["theanhou","Thean Hou Temple"],["jamek","Masjid Jamek at night"]],"p":[["09:30","Merdeka Square","Where Malaysia declared independence. The copper-domed Sultan Abdul Samad Building faces a huge field and a giant flagpole."],["10:30","Central Market","An art-deco market full of batik, crafts and souvenirs, with air-conditioning."],["11:30","Chinatown","Petaling Street's market, Kwai Chai Hong's painted lane, and Sri Mahamariamman, KL's oldest Hindu temple with its colourful tower."],["13:00","Heun Kee Claypot Chicken Rice","Smoky chicken rice cooked in clay pots over charcoal. One of the meals from your list."],["18:00","Thean Hou Temple at sunset","A six-tier Chinese temple on a hill, with red lanterns and views over the city."],["20:00","River of Life","The river behind Masjid Jamek glows blue after dark, with misty fountains and lights."]],"go":"Walk the old city, LRT to Masjid Jamek, Grab to Thean Hou.","alt":"Rain: the Textile Museum and Central Market are indoors.","tip":"Thean Hou is on a hill without a train: Grab both ways.","c":[],"malNight":{"n":12,"date":"Mon 7 Dec","s":"kl","t":"Malacca morning, old KL by night","g":[["melakariver","Melaka River"],["abdulsamad","Merdeka Square"],["petaling","Petaling Street"],["theanhou","Thean Hou Temple"],["jamek","Masjid Jamek at night"]],"p":[["08:00","Malacca riverside breakfast","A slow morning walk along the river before the crowds. Try a Nyonya breakfast or kaya toast."],["11:00","Bus back to KL","Grab to Melaka Sentral, bus to TBS (~2.5 hrs), then the train to your hotel."],["15:00","Merdeka Square & Central Market","Where Malaysia declared independence, then the art-deco market for crafts and batik."],["16:30","Chinatown","Petaling Street, Kwai Chai Hong's painted lane and Sri Mahamariamman temple."],["18:30","Thean Hou Temple at sunset","A six-tier Chinese temple on a hill, with red lanterns and city views."],["20:00","River of Life & Heun Kee dinner","The river behind Masjid Jamek glows blue after dark. Claypot chicken rice at Heun Kee for dinner."]],"go":"Bus back from Malacca, then LRT and Grab around the old city.","alt":"Too tired? Save Chinatown for Day 14 afternoon.","tip":"Thean Hou is on a hill without a train: Grab both ways.","c":[],"stay":"Back in Kuala Lumpur (second KL booking), 3 nights"}},{"n":13,"date":"Tue 8 Dec","s":"kl","t":"Batu Caves & the twin towers at night","tag":"City night","g":[["batucaves","Batu Caves"],["murugan","Murugan statue"],["menara","Menara KL"],["klskyline","KL skyline at night"],["petronas","Petronas Towers"],["saloma","Saloma Link bridge"]],"p":[["08:00","Batu Caves","272 rainbow steps up to a huge cave temple, guarded by a giant golden Murugan statue. Go before 9 to beat the heat and crowds."],["11:00","Back to the hotel","Shower and rest."],["15:00","Menara KL","The city's TV tower, with an observation deck and sky box high above the green Bukit Nanas forest."],["17:30","KLCC Park","Walk the park under the Petronas Towers as the lights come on."],["20:00","Fountain show & Saloma bridge","The lake fountain show, then the glowing Saloma Link bridge."],["21:30","Rooftop bar","A drink with the twin towers lit up in front of you. The city-night moment of the trip."]],"go":"KTM Komuter from KL Sentral to Batu Caves (~30 min), Grab back.","alt":"Petronas skybridge tour (~RM98) instead of Menara.","tip":"Knees covered at Batu Caves (sarongs to rent). Keep snacks hidden from the monkeys.","c":[["Menara KL observation deck",60,1]]},{"n":14,"date":"Wed 9 Dec","s":"kl","t":"Putrajaya & Lake Gardens","g":[["putra","Putra Mosque"],["putracomplex","Putrajaya lakeside"],["negara","National Mosque"],["birdpark","KL Bird Park"],["f_bananaleaf","Banana leaf rice"]],"p":[["09:00","Putra Mosque","A rose-pink granite mosque on the edge of a lake. Visitors get robes at the entrance."],["10:30","Putrajaya lakeside","Walk to the bridges and boulevard, or take a lake cruise."],["13:00","National Mosque","A modern mosque with a star-shaped roof, near the Lake Gardens."],["14:30","KL Bird Park & Botanical Gardens","The free-flight aviary (skip if you went on Day 11) and shady gardens next door."],["Evening","Brickfields","KL's Little India: banana leaf rice, sweets and bright shops. Then last shopping."]],"go":"Grab to Putrajaya (~40 min each way).","alt":"Free afternoon: spa, or shopping at Pavilion.","tip":"Mosques are closed to visitors at prayer times; avoid Friday midday.","c":[["KL Bird Park (skip if done Day 11)",90]]},{"n":15,"date":"Thu 10 Dec","s":"kl","t":"Last breakfast, fly home","g":[["f_nasilemak","Nasi lemak"],["f_roti","Roti canai & teh tarik"],["klia","KLIA Ekspres"],["klia1","KLIA"]],"p":[["Morning","Mamak breakfast","A last nasi lemak or roti canai with teh tarik."],["Before the flight","KLIA Ekspres","From KL Sentral to the airport in about 30 minutes."]],"go":"KLIA Ekspres or Grab (~1 hr).","alt":"Late flight? Leave bags at the hotel and fit in one more market.","tip":"Spend leftover ringgit; it's hard to change back in Egypt.","c":[["KLIA Ekspres",55]]}];
+  var COLORS = {langkawi:'#176A57', penang:'#CB793A', ipoh:'#F1A50C', kl:'#291711', malacca:'#FFB7C3'};
+  var FG = {langkawi:'#fff', penang:'#fff', ipoh:'#291711', kl:'#fff', malacca:'#291711'};
+  var WD = {Mon:'Monday', Tue:'Tuesday', Wed:'Wednesday', Thu:'Thursday', Fri:'Friday', Sat:'Saturday', Sun:'Sunday'};
 
   function gallery(g){ return '<div class="gallery">' + g.map(function(x){ return '<figure class="ph" data-k="'+x[0]+'"><figcaption>'+x[1]+'</figcaption></figure>'; }).join('') + '</div>'; }
   function fact(icon, label, txt){ return txt ? '<div class="fact">'+I[icon]+'<p><b>'+label+'</b> '+txt+'</p></div>' : ''; }
@@ -500,49 +585,156 @@
       '<ol class="plan">' + d.p.map(function(x){ return '<li class="stop"><span class="when">'+x[0]+'</span><div><h4>'+x[1]+'</h4><p>'+x[2]+'</p></div></li>'; }).join('') + '</ol>' +
       '<div class="facts">'+fact('cost','Cost:',costText(d.c))+fact('go','Getting there:',d.go)+fact('alt','Option:',d.alt)+fact('tip','Tip:',d.tip)+'</div>';
   }
-  var list = document.getElementById('dayList');
-  list.innerHTML = days.map(function(d){
-    var head = function(o){ return '<div class="day-head"><div class="num" aria-hidden="true">'+d.n+'</div><div class="day-title"><h3>'+(o.t)+'</h3><p>Day '+d.n+' · '+d.date+'</p></div><span class="place">'+PLACE[o.s]+'</span>'+(o.tag?'<span class="tag">'+o.tag+'</span>':'')+'</div>'; };
-    if (d.options){
-      var o = d.options[0];
-      return '<li class="day" data-s="kl" data-choice>'+'<div class="head-wrap">'+head(o)+'</div>'+
-        '<div class="tabs" role="tablist" aria-label="Day '+d.n+' plans">'+d.options.map(function(op,i){ return '<button type="button" role="tab" aria-selected="'+(i===0)+'" data-i="'+i+'">'+op.label+'</button>'; }).join('')+'</div>'+
-        '<div class="body" role="tabpanel">'+inner(o)+'</div></li>';
-    }
-    return '<li class="day" data-s="'+d.s+'">'+head(d)+inner(d)+'</li>';
-  }).join('');
-  watch(document);
+  function short(date){ return date.split(' ').slice(1).join(' '); }
+  function cal(date, s){
+    var p = date.split(' ');
+    return '<div class="cal" style="--c:'+COLORS[s]+';--fg:'+FG[s]+'" aria-hidden="true"><span class="cal-m">'+p[2]+'</span><b>'+p[1]+'</b><span class="cal-d">'+p[0]+'</span></div>';
+  }
 
-  /* Day 11 choice */
-  var choiceDay = days.filter(function(d){ return d.options; })[0];
-  var choiceLi = list.querySelector('[data-choice]');
   var pick = 0;
   try { pick = parseInt(localStorage.getItem('trip26-day11') || '0', 10) || 0; } catch(e) {}
-  function setPick(i){
-    pick = i;
-    var o = choiceDay.options[i];
-    choiceLi.querySelectorAll('.tabs button').forEach(function(b){ b.setAttribute('aria-selected', String(+b.dataset.i === i)); });
-    var h = document.createElement('div');
-    h.innerHTML = '<div class="day-head"><div class="num" aria-hidden="true">'+choiceDay.n+'</div><div class="day-title"><h3>'+o.t+'</h3><p>Day '+choiceDay.n+' · '+choiceDay.date+'</p></div><span class="place">'+PLACE[o.s]+'</span><span class="tag">'+o.tag+'</span></div>';
-    choiceLi.querySelector('.head-wrap').innerHTML = h.innerHTML;
-    var body = choiceLi.querySelector('.body');
-    body.innerHTML = inner(o);
-    body.querySelectorAll('.ph[data-k]').forEach(fill);
-    try { localStorage.setItem('trip26-day11', String(i)); } catch(e) {}
-    renderActivities();
+  function resolve(d){
+    var o = d;
+    if (d.noIpoh && !plan.ipoh) o = d.noIpoh;
+    if (d.malNight && plan.mal === 'night') o = d.malNight;
+    if (d.mal) o = d.mal[plan.mal];
+    var r = Object.assign({}, o, {n:d.n, date:d.date});
+    if (r.options) { r.choice = true; r.cur = r.options[Math.min(pick, r.options.length - 1)]; }
+    return r;
   }
-  choiceLi.querySelector('.tabs').addEventListener('click', function(e){ var b = e.target.closest('button'); if (b) setPick(+b.dataset.i); });
+  function body(r){ return r.choice ? r.cur : r; }
+  function dayHTML(r){
+    var o = body(r);
+    var head = '<div class="day-head">'+cal(r.date, o.s)+'<div class="day-title"><p class="day-no">Day '+r.n+' · '+WD[r.date.split(' ')[0]]+'</p><h3>'+o.t+'</h3></div>'+(o.tag?'<span class="tag">'+o.tag+'</span>':'')+'</div>';
+    var tabs = r.choice ? '<div class="tabs" role="tablist" aria-label="Day '+r.n+' plans">'+r.options.map(function(op,i){ return '<button type="button" role="tab" aria-selected="'+(op===r.cur)+'" data-i="'+i+'">'+op.label+'</button>'; }).join('')+'</div>' : '';
+    return '<li class="day">'+head+tabs+inner(o)+'</li>';
+  }
+  var filter = 'all';
+  function renderDays(){
+    var groups = [];
+    days.map(resolve).forEach(function(r){
+      var s = body(r).s, g = groups[groups.length - 1];
+      if (!g || g.s !== s) groups.push(g = {s:s, days:[]});
+      g.days.push(r);
+    });
+    var seen = {}, cities = [];
+    document.getElementById('dayGroups').innerHTML = groups.map(function(g){
+      var first = g.days[0], last = g.days[g.days.length - 1], cont = seen[g.s];
+      seen[g.s] = true; if (cities.indexOf(g.s) < 0) cities.push(g.s);
+      return '<details class="city" data-s="'+g.s+'" open style="--c:'+COLORS[g.s]+';--fg:'+FG[g.s]+'"><summary>'+
+        '<span class="city-name">'+PLACE[g.s]+(cont ? ' <small>continued</small>' : '')+'</span>'+
+        '<span class="city-dates">'+short(first.date)+(g.days.length > 1 ? ' – '+short(last.date) : '')+'</span>'+
+        '<span class="city-count">Day '+first.n+(g.days.length > 1 ? '–'+last.n : '')+'</span><span class="chev" aria-hidden="true"></span></summary>'+
+        '<ol class="days">'+g.days.map(dayHTML).join('')+'</ol></details>';
+    }).join('');
+    if (filter !== 'all' && cities.indexOf(filter) < 0) filter = 'all';
+    document.getElementById('filters').innerHTML = '<button type="button" data-f="all">All days</button>' +
+      cities.map(function(c){ return '<button type="button" data-f="'+c+'" style="--c:'+COLORS[c]+';--fg:'+FG[c]+'">'+PLACE[c]+'</button>'; }).join('');
+    applyFilter();
+    watch(document.getElementById('dayGroups'));
+  }
+  function applyFilter(){
+    document.querySelectorAll('#filters button').forEach(function(x){ x.setAttribute('aria-pressed', String(x.dataset.f === filter)); });
+    document.querySelectorAll('#dayGroups details.city').forEach(function(d){ var show = filter === 'all' || d.dataset.s === filter; d.hidden = !show; if (show) d.open = true; });
+  }
+  document.getElementById('filters').addEventListener('click', function(e){ var b = e.target.closest('button'); if (!b) return; filter = b.dataset.f; applyFilter(); });
+  document.getElementById('dayGroups').addEventListener('click', function(e){
+    var b = e.target.closest('.tabs button'); if (!b) return;
+    pick = +b.dataset.i;
+    try { localStorage.setItem('trip26-day11', String(pick)); } catch(err) {}
+    renderDays(); renderActivities();
+  });
 
-  /* filters */
-  var fbtn = document.querySelectorAll('.filters button');
-  fbtn.forEach(function(b){ b.addEventListener('click', function(){
-    var f = b.dataset.f;
-    fbtn.forEach(function(x){ x.setAttribute('aria-pressed', String(x === b)); });
-    list.querySelectorAll('.day').forEach(function(li){ li.hidden = !(f === 'all' || li.dataset.s === f); });
-  }); });
+  /* ---------- where to stay planner ---------- */
+  var AREAS = {
+    langkawi:{name:'Langkawi', k:'cenang', opts:[
+      ['Pantai Tengah','Top pick','Quiet sunset beach, 5 min to the Cenang strip, 10 min to the airport.'],
+      ['Pantai Cenang','Lively','Restaurants, shops and nightlife on your doorstep. Busier and more touristy.']]},
+    penang:{name:'Penang (George Town)', k:'armenian', opts:[
+      ['Muntri Street / Stewart Lane','Top pick','Quiet end of the heritage zone. Walk to the murals, Chulia Street hawkers, Little India.'],
+      ['Penang Road / Campbell Street','More local','Near the famous cendol and shopping streets, still walkable to everything.']]},
+    ipoh:{name:'Ipoh', k:'concubine', opts:[
+      ['Old Town','Top pick','Walk to Concubine Lane, the murals, white coffee and the train station.'],
+      ['New Town','Foodie','Across the river near the bean-sprout chicken spots. Short Grab to the station.']]},
+    kl:{name:'Kuala Lumpur', k:'petronas', opts:[
+      ['Kampung Baru','Top pick','Local Malay village under the towers. Walk over Saloma bridge to KLCC; LRT to the old city. Mostly halal food.'],
+      ['Tengkat Tong Shin (Bukit Bintang)','Lively','Quiet streets behind Bukit Bintang. Walk to Jalan Alor and Pavilion.'],
+      ['KL Sentral / Brickfields','Easiest transport','Trains to Batu Caves and the airport leave from here. Little India food.']]},
+    malacca:{name:'Malacca', k:'dutchsquare', opts:[
+      ['Jonker Street / Heeren Street','Top pick','Walk to the night market, the river and Dutch Square.'],
+      ['Kampung Morten','Quieter','Traditional Malay village on the river, a short walk to the old town.']]}
+  };
+  var MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var DOW = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  function dt(iso){ var p = iso.split('-'); var d = new Date(Date.UTC(+p[0], +p[1]-1, +p[2])); return {d:d, t:DOW[d.getUTCDay()]+' '+d.getUTCDate()+' '+MON[d.getUTCMonth()]}; }
+  function nights(a,b){ return Math.round((dt(b).d - dt(a).d)/864e5); }
+  var plan = {ipoh:true, mal:'day'};
+  try { var sv = JSON.parse(localStorage.getItem('trip26-plan') || 'null'); if (sv) plan = sv; } catch(e) {}
+  function legs(){
+    var L = [['langkawi','2026-11-26','2026-11-30']];
+    if (plan.ipoh) { L.push(['penang','2026-11-30','2026-12-04']); L.push(['ipoh','2026-12-04','2026-12-05']); }
+    else L.push(['penang','2026-11-30','2026-12-05']);
+    if (plan.mal === 'night') { L.push(['kl','2026-12-05','2026-12-06']); L.push(['malacca','2026-12-06','2026-12-07']); L.push(['kl','2026-12-07','2026-12-10']); }
+    else L.push(['kl','2026-12-05','2026-12-10']);
+    return L;
+  }
+  function renderStays(){
+    var total = 0;
+    document.getElementById('bookings').innerHTML = legs().map(function(l){
+      var a = AREAS[l[0]], n = nights(l[1], l[2]); total += n;
+      return '<li class="bk"><figure class="ph" data-k="'+a.k+'"><figcaption></figcaption></figure><div class="bk-body">'+
+        '<div class="bk-top"><h3>'+a.name+'</h3><span class="bk-dates">'+dt(l[1]).t.replace(/^\w+ /,'')+' – '+dt(l[2]).t.replace(/^\w+ /,'')+'</span><span class="bk-nights">'+n+' night'+(n>1?'s':'')+'</span>'+
+        '<span class="bk-io">Check in '+dt(l[1]).t+' · check out '+dt(l[2]).t+'</span></div>'+
+        '<div class="areas">'+a.opts.map(function(o,i){ return '<div class="area'+(i?'':' top')+'"><em>'+o[1]+'</em><b>'+o[0]+'</b><p>'+o[2]+'</p></div>'; }).join('')+'</div></div></li>';
+    }).join('');
+    var notes = [];
+    notes.push('Total: ' + total + ' nights, 26 Nov to 10 Dec.');
+    if (!plan.ipoh) notes.push('Without Ipoh you take the train straight from Penang to KL on 5 Dec (~4 hrs).');
+    if (plan.mal === 'day') notes.push('A Malacca day trip doesn’t change your bookings.');
+    if (plan.mal === 'night') notes.push('Staying in Malacca splits KL into two bookings; ask your KL hotel to keep your bags.');
+    if (plan.mal === 'no') notes.push('Skipping Malacca: use Sun 6 Dec for Genting or an easy KL day.');
+    document.getElementById('planNote').textContent = notes.join(' ');
+    watch(document.getElementById('bookings'));
+    try { localStorage.setItem('trip26-plan', JSON.stringify(plan)); } catch(e) {}
+  }
+
+
+  /* ---------- the plan drives the whole page ---------- */
+  function renderHero(){
+    var order = [], by = {};
+    legs().forEach(function(l){
+      var c = l[0];
+      if (!by[c]) { by[c] = {a:l[1], b:l[2], n:0}; order.push(c); }
+      by[c].n += nights(l[1], l[2]);
+      if (l[2] > by[c].b) by[c].b = l[2];
+    });
+    var host = document.getElementById('route');
+    host.style.setProperty('--n', order.length);
+    host.innerHTML = order.map(function(c){
+      var x = by[c];
+      return '<figure class="ph" data-k="'+AREAS[c].k+'"><figcaption><b>'+PLACE[c]+'</b><span>'+short(dt(x.a).t)+' – '+short(dt(x.b).t)+' · '+x.n+' night'+(x.n>1?'s':'')+'</span></figcaption></figure>';
+    }).join('');
+    watch(host);
+    document.getElementById('heroStops').textContent = order.length + ' stops';
+    document.getElementById('planSummary').innerHTML = order.map(function(c){ return '<span class="ps" style="--c:'+COLORS[c]+';--fg:'+FG[c]+'">'+PLACE[c]+' <b>'+by[c].n+'</b></span>'; }).join('') + '<span class="ps-total">14 nights in total</span>';
+  }
+  function renderNeeds(){
+    var has = {ipoh: plan.ipoh, malacca: plan.mal !== 'no'};
+    document.querySelectorAll('[data-need]').forEach(function(el){ el.hidden = !has[el.dataset.need]; });
+    document.getElementById('wxPenang').textContent = plan.ipoh ? 'Penang & Ipoh · 30 Nov–5 Dec' : 'Penang · 30 Nov–5 Dec';
+    count();
+  }
+  function renderAll(){
+    document.querySelectorAll('[data-ipoh]').forEach(function(b){ b.setAttribute('aria-pressed', String((b.dataset.ipoh === '1') === plan.ipoh)); });
+    document.querySelectorAll('[data-mal]').forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.mal === plan.mal)); });
+    renderHero(); renderStays(); renderDays(); renderActivities(); renderNeeds();
+    try { localStorage.setItem('trip26-plan', JSON.stringify(plan)); } catch(e) {}
+  }
+  document.querySelectorAll('[data-ipoh]').forEach(function(b){ b.addEventListener('click', function(){ plan.ipoh = b.dataset.ipoh === '1'; renderAll(); }); });
+  document.querySelectorAll('[data-mal]').forEach(function(b){ b.addEventListener('click', function(){ plan.mal = b.dataset.mal; renderAll(); }); });
 
   /* ---------- food ---------- */
-  var food = [{"city":"Penang","dishes":[["Char kway teow","f_ckt","Smoky stir-fried flat noodles with prawns · Gurney Drive, Chulia St","char kway teow Penang"],["Assam laksa","f_laksa","Sour, spicy fish noodle soup · Air Itam, Gurney Drive","assam laksa Penang"],["Nasi kandar","f_kandar","Rice with mixed curries poured over · halal","nasi kandar Penang"],["Hokkien mee","f_hokkien","Rich prawn noodle soup · morning stalls","Hokkien mee Penang"],["Oyster omelette","f_oyster","Crispy egg with oysters · Gurney Drive","oyster omelette Penang"]]},{"city":"Ipoh & Malacca","dishes":[["Chicken with bean sprouts","f_chickenrice","Ipoh's signature plate (photo: chicken rice)","bean sprout chicken Ipoh"],["Dim sum","f_dimsum","Ipoh breakfast tradition","dim sum Ipoh"],["Chicken rice balls","f_riceballs","Malacca's twist on chicken rice · Jonker St","chicken rice ball Melaka"]]},{"city":"Kuala Lumpur","dishes":[["Nasi lemak","f_nasilemak","Coconut rice, sambal, egg, peanuts · breakfast","nasi lemak Kuala Lumpur"],["Roti canai","f_roti","Flaky flatbread with curry · any mamak","roti canai Kuala Lumpur"],["Satay","f_satay","Grilled skewers with peanut sauce · Jalan Alor","satay Jalan Alor Kuala Lumpur"],["Claypot chicken rice","f_claypot","Heun Kee on Jalan Pudu","Heun Kee Claypot Chicken Rice"],["Banana leaf rice","f_bananaleaf","South Indian rice meal · Brickfields","banana leaf rice Brickfields"]]},{"city":"Desserts & sweet snacks","dishes":[["Cendol","f_cendol","Shaved ice, coconut milk, palm sugar · Penang Road","cendol Penang Road"],["Ais kacang (ABC)","f_abc","Rainbow shaved ice with syrup, corn and jelly","ais kacang"],["Apam balik","f_apam","Crispy peanut pancake · night markets","apam balik"],["Pisang goreng","f_pisang","Hot banana fritters · roadside stalls","pisang goreng"],["Kaya toast","f_kaya","Coconut jam toast with soft eggs · kopitiams","kaya toast"],["Curry puff","f_karipap","Flaky pastry with spiced potato · snack stalls","curry puff karipap"],["Egg tarts","f_eggtart","Flaky Ipoh egg tarts","egg tart Ipoh"],["Nyonya kuih","f_kuih","Colourful Peranakan sweets · Malacca, Penang","nyonya kuih"]]},{"city":"Drinks","dishes":[["Teh tarik","f_tehtarik","\"Pulled\" frothy milk tea · every mamak","teh tarik"],["Ipoh white coffee","f_coffee","Creamy, sweet coffee · Ipoh old town","white coffee Ipoh old town"],["Milo dinosaur","f_milo","Iced Milo topped with a mountain of Milo powder","milo dinosaur"],["Sugarcane juice","f_tebu","Fresh-pressed, ice cold · street carts","sugarcane juice"]]}];
+  var food = [{"city":"Penang","dishes":[["Char kway teow","f_ckt","Smoky stir-fried flat noodles with prawns · Gurney Drive, Chulia St","char kway teow Penang"],["Assam laksa","f_laksa","Sour, spicy fish noodle soup · Air Itam, Gurney Drive","assam laksa Penang"],["Nasi kandar","f_kandar","Rice with mixed curries poured over · halal","nasi kandar Penang"],["Hokkien mee","f_hokkien","Rich prawn noodle soup · morning stalls","Hokkien mee Penang"],["Oyster omelette","f_oyster","Crispy egg with oysters · Gurney Drive","oyster omelette Penang"]]},{"city":"Ipoh & Malacca","dishes":[["Chicken with bean sprouts","f_chickenrice","Ipoh's signature plate (photo: chicken rice)","bean sprout chicken Ipoh","ipoh"],["Dim sum","f_dimsum","Ipoh breakfast tradition","dim sum Ipoh","ipoh"],["Chicken rice balls","f_riceballs","Malacca's twist on chicken rice · Jonker St","chicken rice ball Melaka","malacca"]]},{"city":"Kuala Lumpur","dishes":[["Nasi lemak","f_nasilemak","Coconut rice, sambal, egg, peanuts · breakfast","nasi lemak Kuala Lumpur"],["Roti canai","f_roti","Flaky flatbread with curry · any mamak","roti canai Kuala Lumpur"],["Satay","f_satay","Grilled skewers with peanut sauce · Jalan Alor","satay Jalan Alor Kuala Lumpur"],["Claypot chicken rice","f_claypot","Heun Kee on Jalan Pudu","Heun Kee Claypot Chicken Rice"],["Banana leaf rice","f_bananaleaf","South Indian rice meal · Brickfields","banana leaf rice Brickfields"]]},{"city":"Desserts & sweet snacks","dishes":[["Cendol","f_cendol","Shaved ice, coconut milk, palm sugar · Penang Road","cendol Penang Road"],["Ais kacang (ABC)","f_abc","Rainbow shaved ice with syrup, corn and jelly","ais kacang"],["Apam balik","f_apam","Crispy peanut pancake · night markets","apam balik"],["Pisang goreng","f_pisang","Hot banana fritters · roadside stalls","pisang goreng"],["Kaya toast","f_kaya","Coconut jam toast with soft eggs · kopitiams","kaya toast"],["Curry puff","f_karipap","Flaky pastry with spiced potato · snack stalls","curry puff karipap"],["Egg tarts","f_eggtart","Flaky Ipoh egg tarts","egg tart Ipoh"],["Nyonya kuih","f_kuih","Colourful Peranakan sweets · Malacca, Penang","nyonya kuih"]]},{"city":"Drinks","dishes":[["Teh tarik","f_tehtarik","\"Pulled\" frothy milk tea · every mamak","teh tarik"],["Ipoh white coffee","f_coffee","Creamy, sweet coffee · Ipoh old town","white coffee Ipoh old town"],["Milo dinosaur","f_milo","Iced Milo topped with a mountain of Milo powder","milo dinosaur"],["Sugarcane juice","f_tebu","Fresh-pressed, ice cold · street carts","sugarcane juice"]]}];
   var eaten = {};
   try { eaten = JSON.parse(localStorage.getItem('trip26-food') || '{}') || {}; } catch(e) {}
   var board = document.getElementById('board');
@@ -550,7 +742,7 @@
     return '<p class="city-label">'+c.city+'</p><div class="dishes">' + c.dishes.map(function(d){
       var key = c.city+'|'+d[0];
       var q = encodeURIComponent(d[3] + ' Malaysia');
-      return '<div class="dish"><figure class="ph" data-k="'+d[1]+'"><figcaption></figcaption></figure><div class="dish-body">'+
+      return '<div class="dish"'+(d[4] ? ' data-need="'+d[4]+'"' : '')+'><figure class="ph" data-k="'+d[1]+'"><figcaption></figcaption></figure><div class="dish-body">'+
         '<div class="dish-row"><label><input type="checkbox" data-key="'+key+'"'+(eaten[key]?' checked':'')+'><span>'+d[0]+'</span></label>'+
         '<a href="https://www.google.com/maps/search/?api=1&query='+q+'" target="_blank" rel="noopener">Find it</a></div>'+
         '<p class="where">'+d[2]+'</p></div></div>';
@@ -561,14 +753,16 @@
   });
   watch(board);
   var tally = document.getElementById('tally');
-  function count(){ tally.textContent = board.querySelectorAll('input:checked').length + ' / ' + board.querySelectorAll('input').length + ' eaten'; }
+  function count(){
+    var vis = [].filter.call(board.querySelectorAll('.dish'), function(d){ return !d.hidden; });
+    tally.textContent = vis.filter(function(d){ return d.querySelector('input').checked; }).length + ' / ' + vis.length + ' eaten';
+  }
   board.addEventListener('change', function(e){
     var k = e.target.dataset.key; if (!k) return;
     if (e.target.checked) eaten[k] = 1; else delete eaten[k];
     try { localStorage.setItem('trip26-food', JSON.stringify(eaten)); } catch(err) {}
     count();
   });
-  count();
 
   /* ---------- money ---------- */
   function fmt(n, cur){
@@ -614,14 +808,22 @@
 
   function renderActivities(){
     var rows = [], total = 0;
-    days.forEach(function(d){
-      var src = d.options ? d.options[pick] : d;
-      (src.c || []).forEach(function(c){ total += c[1]; rows.push('<tr><td>'+d.n+'</td><td>'+c[0]+'</td><td class="n">'+(c[2]?'~':'')+c[1]+'</td></tr>'); });
+    days.map(resolve).forEach(function(r){
+      (body(r).c || []).forEach(function(c){ total += c[1]; rows.push('<tr><td>'+r.n+'</td><td>'+c[0]+'</td><td class="n">'+(c[2]?'~':'')+c[1]+'</td></tr>'); });
     });
     document.getElementById('actRows').innerHTML = rows.join('');
     document.getElementById('actTotal').textContent = '~' + total;
   }
-  if (pick > 0 && pick < choiceDay.options.length) setPick(pick); else renderActivities();
+  /* mini converter in the header */
+  var mA = document.getElementById('mAmt'), mC = document.getElementById('mCur'), mO = document.getElementById('mOut');
+  function miniConvert(){
+    var v = parseFloat(mA.value); if (isNaN(v) || v < 0) v = 0;
+    var rm = v / RATES[mC.value];
+    mO.textContent = '= ' + ['MYR','EGP','GBP','USD'].filter(function(c){ return c !== mC.value; }).map(function(c){ return fmt(rm*RATES[c], c); }).join(' · ');
+  }
+  mA.addEventListener('input', miniConvert); mC.addEventListener('change', miniConvert); miniConvert();
+
+  renderAll();
 })();
 </script>
 </body>
