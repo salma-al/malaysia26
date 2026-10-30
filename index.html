@@ -4,47 +4,49 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Malaysia Trip 2026</title>
+<meta name="description" content="Our Malaysia trip, 26 Nov to 10 Dec 2026: Langkawi, Penang, Ipoh and Kuala Lumpur, with daily plans, transport and money guides.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#EEF5F0;
-    --paper:#FFFFFF;
-    --ink:#12211B;
-    --ink-soft:#4A5E55;
-    --line:#CFE0D6;
-    --forest:#0F3B2E;
-    --langkawi:#1C8585;
-    --penang:#C8243B;
-    --ipoh:#B8730F;
-    --kl:#2B3580;
-    --malacca:#9C3B22;
+    --bg:#EEF5F0; --paper:#FFFFFF; --ink:#12211B; --ink-soft:#4A5E55; --line:#CFE0D6;
+    --forest:#0F3B2E; --mint:#BFE3D3;
+    --langkawi:#1C8585; --penang:#C8243B; --ipoh:#B8730F; --kl:#2B3580; --malacca:#9C3B22;
     --turmeric:#E9A21B;
-    --radius-lg:22px;
-    --radius-sm:10px;
+    --radius-lg:22px; --radius-sm:12px;
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
   body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 "Figtree",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
-  h1,h2,h3{font-family:"Bricolage Grotesque",system-ui,sans-serif;line-height:1.05;margin:0;letter-spacing:-0.01em}
+  h1,h2,h3,h4{font-family:"Bricolage Grotesque",system-ui,sans-serif;line-height:1.08;margin:0;letter-spacing:-0.01em}
   h2{font-size:clamp(30px,4.4vw,48px);font-weight:800;margin-bottom:10px}
   h3{font-size:22px;font-weight:600}
+  h4{font-size:17px;font-weight:600}
   p{margin:0}
-  a{color:inherit}
+  a{color:inherit;text-underline-offset:3px}
+  button{font-family:inherit}
   :focus-visible{outline:3px solid var(--turmeric);outline-offset:3px;border-radius:6px}
   .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
   section{padding:72px 0}
-  .lede{color:var(--ink-soft);max-width:62ch;font-size:18px}
+  section[id]{scroll-margin-top:56px}
+  .lede{color:var(--ink-soft);max-width:64ch;font-size:18px}
+  .muted{color:var(--ink-soft)}
 
-  /* ---------- hero ---------- */
+  /* nav */
+  .jump{position:sticky;top:0;z-index:20;background:rgba(15,59,46,.96);backdrop-filter:blur(6px)}
+  .jump ul{list-style:none;margin:0 auto;padding:10px 20px;display:flex;gap:6px;overflow-x:auto;max-width:1120px;scrollbar-width:none}
+  .jump a{display:block;white-space:nowrap;color:#F4FBF7;text-decoration:none;font-weight:600;font-size:15px;padding:6px 12px;border-radius:999px}
+  .jump a:hover{background:rgba(255,255,255,.12)}
+
+  /* hero */
   .hero{padding:40px 0 0;background:var(--forest);color:#F4FBF7}
   .hero-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:24px;padding-bottom:28px}
   .hero h1{font-size:clamp(52px,10vw,124px);font-weight:800;letter-spacing:-0.035em;line-height:.9}
-  .hero h1 small{display:block;font-size:.32em;font-weight:600;letter-spacing:0;margin-top:14px;color:#BFE3D3}
+  .hero h1 small{display:block;font-size:.32em;font-weight:600;letter-spacing:0;margin-top:14px;color:var(--mint)}
   .facts{display:flex;gap:28px;flex-wrap:wrap}
   .fact b{display:block;font-family:"Bricolage Grotesque";font-size:40px;font-weight:800;line-height:1;color:var(--turmeric)}
-  .fact span{font-size:14px;color:#BFE3D3}
+  .fact span{font-size:14px;color:var(--mint)}
   .panorama{display:block;width:100%;height:auto}
   .route-line{stroke-dasharray:var(--len);stroke-dashoffset:var(--len);animation:draw 2.6s .3s cubic-bezier(.6,.1,.3,1) forwards}
   .pin{opacity:0;animation:pop .4s forwards}
@@ -52,19 +54,26 @@
   @keyframes pop{to{opacity:1}}
   @media (prefers-reduced-motion:reduce){.route-line{animation:none;stroke-dashoffset:0}.pin{animation:none;opacity:1}}
 
-  /* ---------- wishlist ---------- */
+  /* photos */
+  .photo-slot{position:relative;overflow:hidden;background:var(--c,#2E5E48)}
+  .photo-slot > svg{position:absolute;inset:0;width:100%;height:100%}
+  .photo-slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s}
+  .photo-slot img.on{opacity:1}
+  .credit{position:absolute;right:8px;bottom:8px;font-size:11.5px;background:rgba(0,0,0,.55);color:#fff;padding:2px 8px;border-radius:999px;text-decoration:none;opacity:0;transition:opacity .5s}
+  .credit.on{opacity:1}
+  @media (prefers-reduced-motion:reduce){.photo-slot img,.credit{transition:none}}
+
+  /* wishlist */
   .wish{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:28px}
   .wish div{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-sm);padding:18px}
   .wish svg{width:34px;height:34px;margin-bottom:10px}
   .wish h3{font-size:19px;margin-bottom:4px}
   .wish p{font-size:15px;color:var(--ink-soft)}
 
-  /* ---------- stops ---------- */
+  /* stops */
   .stops{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:30px}
   .stop{background:var(--paper);border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--line);display:flex;flex-direction:column}
-  .scene{position:relative;aspect-ratio:5/3;background:#ddd}
-  .scene svg,.scene img{position:absolute;inset:0;width:100%;height:100%}
-  .scene img{object-fit:cover}
+  .stop .photo-slot{aspect-ratio:5/3}
   .stop-body{padding:20px 22px 22px;border-top:6px solid var(--c)}
   .stop-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:6px}
   .stop h3{font-size:28px;font-weight:800;color:var(--c)}
@@ -73,83 +82,133 @@
   .stop ul{margin:0;padding-left:18px}
   .stop li{margin:2px 0}
 
-  /* ---------- itinerary ---------- */
+  /* itinerary */
   .itin{background:var(--paper)}
+  .callout{margin-top:22px;background:#FFF6E0;border:2px solid var(--turmeric);border-radius:var(--radius-sm);padding:14px 18px;max-width:780px}
   .filters{display:flex;flex-wrap:wrap;gap:8px;margin:24px 0 8px}
-  .filters button{font:600 15px "Figtree";border:2px solid var(--c,var(--ink));color:var(--c,var(--ink));background:transparent;padding:7px 14px;border-radius:999px;cursor:pointer}
+  .filters button{font-weight:600;font-size:15px;border:2px solid var(--c,var(--ink));color:var(--c,var(--ink));background:transparent;padding:7px 14px;border-radius:999px;cursor:pointer}
   .filters button[aria-pressed="true"]{background:var(--c,var(--ink));color:#fff}
-  .days{list-style:none;margin:20px 0 0;padding:0;position:relative}
-  .day{display:grid;grid-template-columns:86px 1fr;gap:0 20px;position:relative;padding-bottom:22px}
+  .days{list-style:none;margin:20px 0 0;padding:0}
+  .day{display:grid;grid-template-columns:86px 1fr;gap:0 20px;position:relative;padding-bottom:26px}
   .day::before{content:"";position:absolute;left:42px;top:52px;bottom:0;width:3px;background:var(--line)}
   .day:last-child::before{display:none}
+  .day[hidden]{display:none}
   .badge{width:86px;height:86px;border-radius:50%;background:var(--c);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:"Bricolage Grotesque";position:relative;z-index:1}
   .badge b{font-size:30px;font-weight:800;line-height:1}
-  .badge span{font-size:12px;font-weight:600;opacity:.9}
-  .card{background:var(--bg);border-radius:var(--radius-sm);padding:16px 18px;border-left:5px solid var(--c)}
-  .card-top{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px;margin-bottom:8px}
-  .card h3{font-size:21px}
+  .badge span{font-size:12px;font-weight:600;opacity:.92}
+  .card{background:var(--bg);border-radius:var(--radius-sm);overflow:hidden;border-left:5px solid var(--c)}
+  .card-body{padding:16px 20px 18px}
+  .card-top{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px;margin-bottom:10px}
+  .card h3{font-size:22px}
   .date{color:var(--ink-soft);font-weight:600;font-size:15px}
   .tag{font-size:13px;font-weight:700;padding:3px 10px;border-radius:999px;background:var(--turmeric);color:var(--ink)}
-  .card .row{display:grid;grid-template-columns:24px 1fr;gap:8px;font-size:16px;margin-top:4px}
-  .card .row svg{width:20px;height:20px;margin-top:3px}
-  .day[hidden]{display:none}
+  .slots{display:grid;gap:8px}
+  .slot{display:grid;grid-template-columns:116px 1fr;gap:12px;font-size:16px}
+  .slot dt{font-weight:700;display:flex;gap:6px;align-items:flex-start}
+  .slot dt svg{width:18px;height:18px;margin-top:4px;flex:none}
+  .slot dd{margin:0}
+  .extras{margin-top:12px;display:grid;gap:8px}
+  .extra{font-size:15px;padding:9px 12px;border-radius:8px;background:var(--paper);display:grid;grid-template-columns:22px 1fr;gap:8px}
+  .extra svg{width:18px;height:18px;margin-top:3px}
+  .extra b{font-weight:700}
+  .tabs{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 12px}
+  .tabs button{border:2px solid var(--c);background:transparent;color:var(--c);font-weight:700;font-size:14.5px;padding:6px 12px;border-radius:999px;cursor:pointer}
+  .tabs button[aria-selected="true"]{background:var(--c);color:#fff}
 
-  /* ---------- food board ---------- */
+  /* guides */
+  .guide-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:28px}
+  .leg{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-sm);padding:18px 20px}
+  .leg-head{display:flex;gap:12px;align-items:center;margin-bottom:8px}
+  .leg-head svg{width:34px;height:34px;flex:none}
+  .leg-head h3{font-size:20px}
+  .leg-head p{font-size:14px;color:var(--ink-soft)}
+  .leg ul{margin:6px 0 0;padding-left:18px;font-size:15.5px}
+  .leg li{margin:4px 0}
+  .apps{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:20px}
+  .app{background:var(--forest);color:#F4FBF7;border-radius:var(--radius-sm);padding:16px}
+  .app h4{color:var(--turmeric);margin-bottom:4px;font-size:18px}
+  .app p{font-size:14.5px;color:var(--mint)}
+  table.prices{width:100%;border-collapse:collapse;margin-top:16px;background:var(--paper);border-radius:var(--radius-sm);overflow:hidden;font-size:15.5px}
+  .prices th,.prices td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+  .prices th{background:var(--forest);color:#F4FBF7;font-weight:600}
+  .prices td:last-child{white-space:nowrap;font-weight:600}
+  .table-scroll{overflow-x:auto}
+
+  /* money */
+  .money{background:var(--paper)}
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:28px}
+  .pay{border-radius:var(--radius-sm);padding:20px 22px;border:2px solid var(--line)}
+  .pay h3{margin-bottom:8px;display:flex;gap:10px;align-items:center}
+  .pay h3 svg{width:30px;height:30px}
+  .pay ul{margin:0;padding-left:18px}
+  .pay li{margin:5px 0}
+  .pay.card-side{border-color:var(--kl)}
+  .pay.cash-side{border-color:var(--ipoh)}
+  .verdict{margin-top:18px;background:var(--forest);color:#F4FBF7;border-radius:var(--radius-sm);padding:22px 24px}
+  .verdict h3{color:var(--turmeric);margin-bottom:8px}
+  .verdict ol{margin:0;padding-left:20px}
+  .verdict li{margin:6px 0}
+  .egypt{margin-top:18px;border:2px solid var(--penang);border-radius:var(--radius-sm);padding:18px 22px;background:#FFF2F3}
+  .egypt h3{color:var(--penang);margin-bottom:6px}
+  .egypt ul{margin:6px 0 0;padding-left:18px}
+  .egypt li{margin:4px 0}
+
+  /* food */
   .food{background:var(--forest);color:#F4FBF7}
-  .food .lede{color:#BFE3D3}
+  .food .lede{color:var(--mint)}
   .board{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:30px}
   .stall{border:2px solid rgba(233,162,27,.55);border-radius:var(--radius-sm);padding:18px 18px 12px;background:rgba(255,255,255,.04)}
   .stall h3{color:var(--turmeric);font-size:24px;font-weight:800;margin-bottom:4px}
-  .stall .where{font-size:14px;color:#BFE3D3;margin-bottom:10px}
+  .stall .where{font-size:14px;color:var(--mint);margin-bottom:10px}
   .stall label{display:flex;gap:10px;align-items:center;padding:6px 0;border-top:1px dashed rgba(191,227,211,.25);cursor:pointer}
   .stall input{width:18px;height:18px;accent-color:var(--turmeric)}
   .stall input:checked + span{text-decoration:line-through;opacity:.6}
   .tally{margin-top:20px;font-weight:600;color:var(--turmeric)}
-  .halal{margin-top:10px;font-size:15px;color:#BFE3D3;max-width:70ch}
+  .halal{margin-top:10px;font-size:15px;color:var(--mint);max-width:70ch}
 
-  /* ---------- know + swaps ---------- */
+  /* know + swaps */
   .know{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:28px}
   .tip{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-sm);padding:18px 20px;display:grid;grid-template-columns:40px 1fr;gap:14px}
   .tip svg{width:36px;height:36px}
   .tip h3{font-size:19px;margin-bottom:4px}
   .tip p{font-size:15.5px;color:var(--ink-soft)}
   .tip.warn{border-color:var(--penang);border-width:2px}
-  .swaps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px}
-  .swap{border-radius:var(--radius-sm);padding:20px;background:var(--paper);border:1px solid var(--line)}
-  .swap .for{font-size:14px;font-weight:600;color:var(--penang);margin-bottom:6px}
-  .swap h3{margin-bottom:6px}
-  .swap p{font-size:15.5px;color:var(--ink-soft)}
-  .notes{margin-top:22px;padding-left:20px;color:var(--ink-soft)}
+  .notes{margin-top:18px;padding-left:20px;color:var(--ink-soft)}
   .notes li{margin:4px 0}
+  .sources{columns:2;column-gap:28px;padding-left:18px;font-size:14.5px;color:var(--ink-soft)}
+  .sources li{margin:4px 0;break-inside:avoid}
   footer{padding:36px 0 56px;font-size:14px;color:var(--ink-soft);border-top:1px solid var(--line)}
-  footer code{background:var(--paper);padding:1px 6px;border-radius:4px}
 
+  @media (max-width:900px){
+    .apps{grid-template-columns:repeat(2,1fr)}
+  }
   @media (max-width:820px){
     .wish{grid-template-columns:repeat(2,1fr)}
-    .stops,.know,.swaps{grid-template-columns:1fr}
+    .stops,.know,.guide-grid,.split{grid-template-columns:1fr}
+    .sources{columns:1}
     section{padding:52px 0}
   }
   @media (max-width:520px){
-    .day{grid-template-columns:58px 1fr;gap:0 12px}
-    .badge{width:58px;height:58px}
-    .badge b{font-size:22px}
-    .badge span{font-size:10px}
-    .day::before{left:28px;top:40px}
-    .wish{grid-template-columns:1fr}
+    .day{grid-template-columns:52px 1fr;gap:0 12px}
+    .badge{width:52px;height:52px}
+    .badge b{font-size:20px}
+    .badge span{display:none}
+    .day::before{left:25px;top:40px}
+    .wish,.apps{grid-template-columns:1fr}
+    .slot{grid-template-columns:1fr;gap:0}
   }
-  @media print{.filters{display:none}.route-line{animation:none;stroke-dashoffset:0}.pin{opacity:1;animation:none}}
+  @media print{.jump,.filters,.tabs{display:none}.route-line{animation:none;stroke-dashoffset:0}.pin{opacity:1;animation:none}}
 </style>
 </head>
 <body>
 
-<!-- ================= HERO ================= -->
 <header class="hero">
   <div class="wrap hero-top">
     <h1>Malaysia<small>26 November to 10 December 2026</small></h1>
     <div class="facts" aria-label="Trip facts">
       <div class="fact"><b>15</b><span>days</span></div>
       <div class="fact"><b>4</b><span>stops</span></div>
-      <div class="fact"><b>1</b><span>day trip</span></div>
+      <div class="fact"><b>1</b><span>optional day trip</span></div>
     </div>
   </div>
   <svg class="panorama" viewBox="0 0 1200 430" role="img" aria-label="Route from Langkawi's beaches through Penang's shophouses and Ipoh's limestone hills to the Kuala Lumpur skyline at night">
@@ -243,8 +302,18 @@
   </svg>
 </header>
 
+<nav class="jump" aria-label="Sections">
+  <ul>
+    <li><a href="#stops">Stops</a></li>
+    <li><a href="#days">Day by day</a></li>
+    <li><a href="#getting-around">Getting around</a></li>
+    <li><a href="#money">Cash or card</a></li>
+    <li><a href="#food">Food</a></li>
+    <li><a href="#before">Before you go</a></li>
+  </ul>
+</nav>
+
 <main>
-<!-- ================= WISHLIST ================= -->
 <section>
   <div class="wrap">
     <h2>Everything on the wishlist</h2>
@@ -252,7 +321,7 @@
     <div class="wish">
       <div>
         <svg viewBox="0 0 36 36" aria-hidden="true"><path d="M4 30 L18 8 L32 30" fill="none" stroke="#C8243B" stroke-width="3"/><path d="M4 10 L32 22" stroke="#12211B" stroke-width="2"/><circle cx="16" cy="15" r="3" fill="#E9A21B"/></svg>
-        <h3>Adventure day</h3><p>ESCAPE Penang on 1 Dec: ziplines, zip coaster and the world's longest tube waterslide.</p>
+        <h3>Adventure day</h3><p>ESCAPE Penang on 1 Dec: ziplines, a zip coaster and the world's longest tube waterslide.</p>
       </div>
       <div>
         <svg viewBox="0 0 36 36" aria-hidden="true"><circle cx="26" cy="10" r="5" fill="#E9A21B"/><path d="M2 26q6 -4 12 0t12 0t10 0" fill="none" stroke="#1C8585" stroke-width="3"/><path d="M2 32q6 -4 12 0t12 0t10 0" fill="none" stroke="#1C8585" stroke-width="3"/></svg>
@@ -270,15 +339,12 @@
   </div>
 </section>
 
-<!-- ================= STOPS ================= -->
-<section style="padding-top:0">
+<section id="stops" style="padding-top:0">
   <div class="wrap">
     <h2>The four stops</h2>
     <div class="stops">
-
       <article class="stop" style="--c:var(--langkawi)">
-        <div class="scene">
-          <svg viewBox="0 0 500 300" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+        <div class="photo-slot" data-file="Langkawi_Pantai_Cenang.jpg"><svg viewBox="0 0 500 300" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
             <rect width="500" height="300" fill="#F7C17A"/><rect width="500" height="120" fill="#F59E6B"/>
             <circle cx="330" cy="150" r="46" fill="#FFE3A8"/>
             <path d="M0 180 Q90 90 190 140 T420 180Z" fill="#2E6B4E"/>
@@ -286,19 +352,15 @@
             <path d="M0 240 Q200 220 500 236 V300 H0Z" fill="#F4DDB2"/>
             <g stroke="#BFF0E6" stroke-width="3" fill="none" stroke-linecap="round" opacity=".7"><path d="M40 200q15 -8 30 0t30 0"/><path d="M260 214q15 -8 30 0t30 0"/><path d="M380 196q15 -8 30 0t30 0"/></g>
             <g transform="translate(70 120)"><path d="M10 130 Q4 60 24 6" stroke="#5B3A1E" stroke-width="7" fill="none"/><g fill="#1F5C3F"><path d="M24 6 Q-18 -4 -38 28 Q-2 6 24 6z"/><path d="M24 6 Q62 -12 86 20 Q52 2 24 6z"/><path d="M24 6 Q12 -38 -18 -36 Q16 -24 24 6z"/></g></g>
-          </svg>
-          <img src="photos/langkawi.jpg" alt="Langkawi" onerror="this.remove()">
-        </div>
+          </svg></div>
         <div class="stop-body">
           <div class="stop-head"><h3>Langkawi</h3><span class="nights">4 nights</span></div>
           <p class="when">Thu 26 Nov to Mon 30 Nov</p>
           <ul><li>Resort beach days at Pantai Cenang and Tanjung Rhu</li><li>SkyCab cable car and Sky Bridge</li><li>Island hopping and Kilim mangroves</li></ul>
         </div>
       </article>
-
       <article class="stop" style="--c:var(--penang)">
-        <div class="scene">
-          <svg viewBox="0 0 500 300" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+        <div class="photo-slot" data-file="Lebuh_Armenian_in_central_George_Town,_Penang.jpg"><svg viewBox="0 0 500 300" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
             <rect width="500" height="300" fill="#FBE7D0"/>
             <rect x="0" y="70" width="125" height="230" fill="#F2C1C8"/><rect x="125" y="50" width="125" height="250" fill="#F7E2A6"/><rect x="250" y="70" width="125" height="230" fill="#A9D7D0"/><rect x="375" y="60" width="125" height="240" fill="#F3B79C"/>
             <g fill="#C8243B"><path d="M-10 72h145l-16 -24h-113z"/><path d="M115 52h145l-16 -24h-113z"/><path d="M240 72h145l-16 -24h-113z"/><path d="M365 62h145l-16 -24h-113z"/></g>
@@ -306,135 +368,275 @@
               <rect x="30" y="100" width="28" height="50"/><rect x="66" y="100" width="28" height="50"/><rect x="155" y="84" width="28" height="50"/><rect x="191" y="84" width="28" height="50"/><rect x="280" y="100" width="28" height="50"/><rect x="316" y="100" width="28" height="50"/><rect x="405" y="92" width="28" height="50"/><rect x="441" y="92" width="28" height="50"/></g>
             <g fill="#E33A4C"><ellipse cx="125" cy="185" rx="12" ry="15"/><ellipse cx="250" cy="185" rx="12" ry="15"/><ellipse cx="375" cy="185" rx="12" ry="15"/></g>
             <path d="M0 178 H500" stroke="#7A2F14" stroke-width="2"/>
-          </svg>
-          <img src="photos/penang.jpg" alt="George Town, Penang" onerror="this.remove()">
-        </div>
+          </svg></div>
         <div class="stop-body">
           <div class="stop-head"><h3>Penang</h3><span class="nights">4 nights</span></div>
           <p class="when">Mon 30 Nov to Fri 4 Dec, staying in George Town</p>
           <ul><li>The food capital: hawker streets every night</li><li>Street art, clan jetties, Penang Hill, Kek Lok Si</li><li>ESCAPE adventure park</li></ul>
         </div>
       </article>
-
       <article class="stop" style="--c:var(--ipoh)">
-        <div class="scene">
-          <svg viewBox="0 0 500 300" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+        <div class="photo-slot" data-file="Concubine_Lane_1.jpg"><svg viewBox="0 0 500 300" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
             <rect width="500" height="300" fill="#DDEFD9"/>
             <path d="M-20 300 C0 140 80 70 140 130 C170 40 260 20 300 120 C330 70 400 60 430 140 C460 110 520 130 520 300Z" fill="#2E5E48"/>
             <path d="M40 300 C70 200 140 190 180 220 C220 150 300 160 340 300Z" fill="#3E7A5C"/>
             <g transform="translate(300 180)"><rect x="0" y="40" width="110" height="80" fill="#F3D27A"/><path d="M-20 44h150l-18 -26h-114z" fill="#B8730F"/><path d="M-6 18h122l-61 -34z" fill="#C9831F"/><rect x="40" y="70" width="30" height="50" fill="#7A2F14"/><circle cx="20" cy="66" r="7" fill="#C8243B"/><circle cx="90" cy="66" r="7" fill="#C8243B"/></g>
             <rect y="290" width="500" height="10" fill="#0F3B2E"/>
-          </svg>
-          <img src="photos/ipoh.jpg" alt="Ipoh" onerror="this.remove()">
-        </div>
+          </svg></div>
         <div class="stop-body">
           <div class="stop-head"><h3>Ipoh</h3><span class="nights">1 night</span></div>
           <p class="when">Fri 4 Dec to Sat 5 Dec, on the train from Penang to KL</p>
           <ul><li>White coffee, bean sprout chicken, egg tarts</li><li>Cave temples in the limestone cliffs</li><li>Old town, Concubine Lane, murals</li></ul>
         </div>
       </article>
-
       <article class="stop" style="--c:var(--kl)">
-        <div class="scene">
-          <svg viewBox="0 0 500 300" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+        <div class="photo-slot" data-file="Petronas_Twin_Towers_at_night_(2018).jpg"><svg viewBox="0 0 500 300" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
             <rect width="500" height="300" fill="#1C2257"/>
             <g fill="#FFF6D8"><circle cx="60" cy="40" r="2"/><circle cx="140" cy="70" r="1.6"/><circle cx="420" cy="50" r="2"/><circle cx="460" cy="110" r="1.6"/><circle cx="90" cy="120" r="1.4"/></g>
             <path d="M400 70a26 26 0 1 0 20 40a21 21 0 1 1 -20 -40z" fill="#FFF1CF"/>
             <g fill="#141A45"><rect x="10" y="170" width="60" height="130"/><rect x="74" y="140" width="50" height="160"/><rect x="370" y="160" width="56" height="140"/><rect x="430" y="190" width="70" height="110"/><rect x="340" y="60" width="9" height="240"/><ellipse cx="344" cy="104" rx="20" ry="13"/></g>
             <g fill="#0E1336"><path d="M168 300V96l9 -20 9 -16 8 -14 6 -54 6 54 8 14 9 16 9 20V300z"/><path d="M256 300V96l9 -20 9 -16 8 -14 6 -54 6 54 8 14 9 16 9 20V300z"/><rect x="226" y="180" width="32" height="10"/></g>
             <g fill="#FFD983" opacity=".85"><rect x="180" y="120" width="6" height="6"/><rect x="196" y="160" width="6" height="6"/><rect x="186" y="210" width="6" height="6"/><rect x="200" y="250" width="6" height="6"/><rect x="268" y="130" width="6" height="6"/><rect x="284" y="180" width="6" height="6"/><rect x="272" y="230" width="6" height="6"/><rect x="24" y="200" width="6" height="6"/><rect x="90" y="180" width="6" height="6"/><rect x="384" y="200" width="6" height="6"/><rect x="450" y="230" width="6" height="6"/></g>
-          </svg>
-          <img src="photos/kuala-lumpur.jpg" alt="Kuala Lumpur" onerror="this.remove()">
-        </div>
+          </svg></div>
         <div class="stop-body">
           <div class="stop-head"><h3>Kuala Lumpur</h3><span class="nights">5 nights</span></div>
           <p class="when">Sat 5 Dec to Thu 10 Dec, flying home from KLIA</p>
-          <ul><li>Old city, Chinatown, temples, Batu Caves</li><li>City nights: Petronas Towers, Saloma bridge, Jalan Alor</li><li>Malacca day trip on Sun 6 Dec</li></ul>
+          <ul><li>Old city, Chinatown, temples, Batu Caves</li><li>City nights: Petronas Towers, Saloma bridge, Jalan Alor</li><li>Optional Malacca day trip on Sun 6 Dec</li></ul>
         </div>
       </article>
-
     </div>
   </div>
 </section>
 
-<!-- ================= ITINERARY ================= -->
 <section class="itin" id="days">
   <div class="wrap">
     <h2>Day by day</h2>
-    <p class="lede">Includes the Ipoh overnight and a Malacca day trip on Sunday 6 Dec, so you catch the Jonker Street night market (Friday to Sunday only).</p>
+    <p class="lede">Each day has a morning, afternoon and evening plan, how to get around, and a backup option for rain or tired legs.</p>
+    <div class="callout"><b>Malacca is optional.</b> Day 11 (Sun 6 Dec) has three plans: the Malacca day trip, Genting theme park, or an easy KL day. Pick one on the day's card; the rest of the trip stays the same.</div>
     <div class="filters" role="group" aria-label="Show days for">
       <button type="button" data-f="all" aria-pressed="true">All 15 days</button>
       <button type="button" data-f="langkawi" style="--c:var(--langkawi)" aria-pressed="false">Langkawi</button>
       <button type="button" data-f="penang" style="--c:var(--penang)" aria-pressed="false">Penang</button>
       <button type="button" data-f="ipoh" style="--c:var(--ipoh)" aria-pressed="false">Ipoh</button>
       <button type="button" data-f="kl" style="--c:var(--kl)" aria-pressed="false">Kuala Lumpur</button>
-      <button type="button" data-f="malacca" style="--c:var(--malacca)" aria-pressed="false">Malacca</button>
     </div>
     <ol class="days" id="dayList"></ol>
   </div>
 </section>
 
-<!-- ================= FOOD ================= -->
-<section class="food">
+<section id="getting-around">
+  <div class="wrap">
+    <h2>Getting around</h2>
+    <p class="lede">There's no Uber in Malaysia. Grab is the main ride app everywhere, trains link Penang, Ipoh and KL, and in KL you'll use a Touch 'n Go card.</p>
+
+    <div class="apps">
+      <div class="app"><h4>Grab</h4><p>Rides, food delivery and airport pickups in every stop. See the price before you book; pay by card in the app or cash.</p></div>
+      <div class="app"><h4>inDrive</h4><p>Alternative ride app in KL where you can offer a price. Handy when Grab surges.</p></div>
+      <div class="app"><h4>KTMB</h4><p>Official app and website for ETS train tickets (Penang, Ipoh, KL). Book ahead in December.</p></div>
+      <div class="app"><h4>Google Maps</h4><p>Train, bus and walking directions in KL and Penang, plus bus times.</p></div>
+    </div>
+
+    <div class="guide-grid">
+      <div class="leg" style="--c:var(--langkawi)">
+        <div class="leg-head"><svg viewBox="0 0 36 36" aria-hidden="true"><path d="M4 20l28-10-6 14-8-2-4 8-2-9z" fill="#1C8585"/></svg><div><h3>Arrival: KLIA to Langkawi</h3><p>Thu 26 Nov</p></div></div>
+        <ul>
+          <li>Domestic flight, about 1 hour. Check which terminal your Langkawi flight leaves from: AirAsia uses KLIA Terminal 2, most other airlines Terminal 1.</li>
+          <li>Separate tickets: clear immigration, collect bags, check in again. Leave about 3 hours.</li>
+          <li>Langkawi airport to Pantai Cenang: Grab, about 10 to 15 minutes.</li>
+        </ul>
+      </div>
+      <div class="leg">
+        <div class="leg-head"><svg viewBox="0 0 36 36" aria-hidden="true"><rect x="4" y="12" width="28" height="14" rx="5" fill="#1C8585"/><circle cx="11" cy="28" r="4" fill="#12211B"/><circle cx="25" cy="28" r="4" fill="#12211B"/></svg><div><h3>On Langkawi</h3><p>26 to 30 Nov</p></div></div>
+        <ul>
+          <li>Public transport is very limited. Use Grab, or rent a car for the day if you're doing several places.</li>
+          <li>Grab waits can be longer than in cities and prices jump at peak times. Book the airport and tour pickups early.</li>
+          <li>Renting a car: bring your licence (and an International Driving Permit to be safe), and check the rental company's rules.</li>
+          <li>Island hopping and mangrove tours usually include hotel or jetty pickup.</li>
+        </ul>
+      </div>
+      <div class="leg" style="--c:var(--penang)">
+        <div class="leg-head"><svg viewBox="0 0 36 36" aria-hidden="true"><path d="M4 20l28-10-6 14-8-2-4 8-2-9z" fill="#C8243B"/></svg><div><h3>Langkawi to Penang</h3><p>Mon 30 Nov</p></div></div>
+        <ul>
+          <li>Short flight. The direct ferry is cancelled.</li>
+          <li>Backup: ferry to Kuala Kedah or Kuala Perlis, then bus or train. It takes most of a day.</li>
+          <li>Penang airport to George Town: Grab, about 30 to 40 minutes.</li>
+        </ul>
+      </div>
+      <div class="leg">
+        <div class="leg-head"><svg viewBox="0 0 36 36" aria-hidden="true"><rect x="5" y="8" width="26" height="18" rx="4" fill="#C8243B"/><rect x="9" y="12" width="8" height="6" fill="#fff"/><rect x="19" y="12" width="8" height="6" fill="#fff"/><circle cx="11" cy="29" r="3" fill="#12211B"/><circle cx="25" cy="29" r="3" fill="#12211B"/></svg><div><h3>In Penang</h3><p>30 Nov to 4 Dec</p></div></div>
+        <ul>
+          <li>Grab is cheap and quick around George Town. The heritage core is walkable.</li>
+          <li>ESCAPE: Rapid Penang bus 101 from George Town to Teluk Bahang, or Grab.</li>
+          <li>Penang Hill and Kek Lok Si: Rapid Penang bus 204 goes to both, or Grab.</li>
+        </ul>
+      </div>
+      <div class="leg" style="--c:var(--ipoh)">
+        <div class="leg-head"><svg viewBox="0 0 36 36" aria-hidden="true"><rect x="6" y="6" width="24" height="22" rx="5" fill="#B8730F"/><rect x="10" y="10" width="16" height="7" fill="#fff"/><path d="M10 34l4-5M26 34l-4-5" stroke="#12211B" stroke-width="2.5"/></svg><div><h3>Penang to Ipoh to KL</h3><p>4 and 5 Dec, ETS train</p></div></div>
+        <ul>
+          <li>Get to Butterworth station from George Town by the ferry (the station is next to the terminal) or Grab across the bridge.</li>
+          <li>Butterworth to Ipoh is about 1.5 to 2 hours. Ipoh to KL Sentral about 2.5 hours, with many departures a day.</li>
+          <li>Book on the KTMB app or website. Gold class is fine; Platinum is roomier. Fares change with demand, so book early.</li>
+          <li>Ipoh old town is small: walk, or Grab to the cave temples.</li>
+        </ul>
+      </div>
+      <div class="leg" style="--c:var(--kl)">
+        <div class="leg-head"><svg viewBox="0 0 36 36" aria-hidden="true"><rect x="5" y="10" width="26" height="16" rx="3" fill="#2B3580"/><rect x="9" y="14" width="10" height="6" rx="1" fill="#E9A21B"/></svg><div><h3>In Kuala Lumpur</h3><p>5 to 10 Dec</p></div></div>
+        <ul>
+          <li>Buy a Touch 'n Go card at any Rapid KL station counter and top it up there. It works on MRT, LRT, Monorail and buses. Bank cards can't be tapped at the gates yet.</li>
+          <li>Riding a lot? The Rapid Kembara pass gives unlimited trains and buses: RM25 for 1 day or RM55 for 3 days, loaded on a Touch 'n Go card.</li>
+          <li>Batu Caves: KTM Komuter from KL Sentral, about 30 minutes, or Grab.</li>
+          <li>Thean Hou Temple and Putrajaya: easiest by Grab.</li>
+          <li>To the airport on 10 Dec: KLIA Ekspres from KL Sentral, about 30 minutes, RM55 (it goes up to RM65 in January 2027).</li>
+        </ul>
+      </div>
+      <div class="leg" style="--c:var(--malacca)">
+        <div class="leg-head"><svg viewBox="0 0 36 36" aria-hidden="true"><rect x="4" y="9" width="28" height="18" rx="4" fill="#9C3B22"/><rect x="8" y="13" width="20" height="6" fill="#fff"/><circle cx="11" cy="30" r="3" fill="#12211B"/><circle cx="25" cy="30" r="3" fill="#12211B"/></svg><div><h3>Optional: KL to Malacca</h3><p>Sun 6 Dec</p></div></div>
+        <ul>
+          <li>KTM Komuter from KL Sentral to Bandar Tasik Selatan (about 20 minutes), then walk to the TBS bus terminal.</li>
+          <li>Bus to Melaka Sentral: about 2.5 hours, every 15 to 30 minutes, from about RM12. Buy the return ticket ahead because Sunday buses fill up.</li>
+          <li>Melaka Sentral is a few km from the old town: take a Grab.</li>
+          <li>Door to door it's about 4 hours each way, so leave by 8:00.</li>
+        </ul>
+      </div>
+      <div class="leg" style="--c:var(--kl)">
+        <div class="leg-head"><svg viewBox="0 0 36 36" aria-hidden="true"><path d="M4 30L32 6" stroke="#2B3580" stroke-width="2"/><rect x="14" y="16" width="10" height="8" rx="2" fill="#E9A21B"/></svg><div><h3>Optional: KL to Genting</h3><p>Alternative for Sun 6 Dec</p></div></div>
+        <ul>
+          <li>Bus from KL Sentral or TBS to Awana, then the Awana SkyWay cable car up the mountain. About 1.5 hours total.</li>
+          <li>Or Grab all the way up for a group.</li>
+          <li>It's cool at the top. Bring a light jacket.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="margin-top:44px">Internet</h3>
+    <p class="muted" style="max-width:70ch;margin-top:6px">You need data for Grab and maps. Either buy a Malaysia eSIM before you fly and switch it on when you land, or buy a tourist SIM at the KLIA arrivals hall. Check your phone supports eSIM first.</p>
+  </div>
+</section>
+
+<section class="money" id="money">
+  <div class="wrap">
+    <h2>Cash or card?</h2>
+    <p class="lede">Both. Cards work in hotels, malls and restaurants; street food and night markets are mostly cash. The currency is the ringgit (RM). About RM4.06 to 1 US dollar (29 Oct 2026, mid-market rate).</p>
+    <div class="split">
+      <div class="pay card-side">
+        <h3><svg viewBox="0 0 30 30" aria-hidden="true"><rect x="2" y="6" width="26" height="18" rx="3" fill="#2B3580"/><rect x="2" y="10" width="26" height="4" fill="#12211B"/><rect x="6" y="18" width="8" height="3" fill="#E9A21B"/></svg>Card works for</h3>
+        <ul>
+          <li>Hotels, flights, train tickets and attraction tickets</li>
+          <li>Malls, supermarkets, chain cafes and sit-down restaurants</li>
+          <li>Grab, if you add your card in the app</li>
+          <li>Visa and Mastercard are widely accepted, contactless too. Above RM250 you'll usually need your PIN. Amex is less common.</li>
+          <li>Apple Pay or Google Wallet work where there's a contactless terminal, if your bank supports it.</li>
+        </ul>
+      </div>
+      <div class="pay cash-side">
+        <h3><svg viewBox="0 0 30 30" aria-hidden="true"><rect x="2" y="7" width="26" height="16" rx="2" fill="#B8730F"/><circle cx="15" cy="15" r="4" fill="#FFF6E0"/></svg>Bring cash for</h3>
+        <ul>
+          <li>Hawker stalls, night markets and Jonker Street</li>
+          <li>Small shops, street snacks, drinks</li>
+          <li>Topping up the Touch 'n Go card (counters take cards too)</li>
+          <li>Sarong rental at temples, small toilet fees, tips for guides</li>
+          <li>Many small places use QR codes (DuitNow) instead, which mostly need a Malaysian bank app. Cash is the easy fallback.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="egypt">
+      <h3>Egyptian bank cards: check before you fly</h3>
+      <p>Egyptian banks limit foreign-currency spending, and the rules differ by bank.</p>
+      <ul>
+        <li><b>Debit cards</b> on Egyptian-pound accounts often don't work abroad at all. Cards linked to a USD account usually do.</li>
+        <li><b>Credit cards</b> have a monthly foreign-spending cap. Many banks raise it if you activate a travel limit a few days before you leave, then ask for passport stamps afterwards.</li>
+        <li><b>ATM cash withdrawals</b> abroad are capped low or blocked on many Egyptian cards.</li>
+        <li>Call your bank: ask your monthly foreign limit, how to activate travel mode, and whether ATM withdrawals in Malaysia are allowed.</li>
+      </ul>
+    </div>
+
+    <div class="verdict">
+      <h3>The money plan</h3>
+      <ol>
+        <li>Activate the travel limit on your credit card before 26 Nov, and use it for hotels, flights and bigger bills.</li>
+        <li>Bring US dollars in cash (clean, newer notes) as the main cash supply. Change them at licensed money changers in KL or Penang malls, which usually beat airport rates.</li>
+        <li>Change a small amount at KLIA on arrival for the first day.</li>
+        <li>Keep small notes on you every day for food stalls and markets.</li>
+      </ol>
+    </div>
+
+    <h3 style="margin-top:44px">Prices to expect</h3>
+    <div class="table-scroll">
+      <table class="prices">
+        <thead><tr><th>What</th><th>Notes</th><th>Price</th></tr></thead>
+        <tbody>
+          <tr><td>Langkawi SkyCab + SkyBridge</td><td>Foreign adult combo, as of March 2026. Buy online to skip the ticket queue.</td><td>RM89</td></tr>
+          <tr><td>Penang Hill funicular</td><td>Foreign adult return. Fast Lane is RM80.</td><td>RM40</td></tr>
+          <tr><td>ETS Butterworth to Ipoh</td><td>Gold class, rough guide. Fares change with demand.</td><td>~RM33</td></tr>
+          <tr><td>Rapid Kembara pass</td><td>Unlimited KL trains and buses, 1 day / 3 days</td><td>RM25 / RM55</td></tr>
+          <tr><td>Bus KL to Malacca</td><td>One way, from TBS</td><td>from RM12</td></tr>
+          <tr><td>KLIA Ekspres</td><td>KL Sentral to the airport, adult one way</td><td>RM55</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="food" id="food">
   <div class="wrap">
     <h2>The eating list</h2>
     <p class="lede">Tick dishes off as you go. Your ticks are saved in this browser.</p>
     <div class="board" id="board"></div>
     <p class="tally" id="tally"></p>
-    <p class="halal">If you eat halal: Malay and mamak (Indian-Muslim) places are halal. Many Chinese hawker stalls are not, but halal versions of most dishes are easy to find, especially in Penang.</p>
+    <p class="halal">If you eat halal: Malay and mamak (Indian-Muslim) places are halal. Many Chinese hawker stalls are not, but halal versions of most dishes are easy to find, especially in Penang. ESCAPE Penang has halal-certified food and prayer rooms.</p>
   </div>
 </section>
 
-<!-- ================= KNOW ================= -->
-<section>
+<section id="before">
   <div class="wrap">
-    <h2>Before you book</h2>
+    <h2>Before you go</h2>
     <div class="know">
-      <div class="tip warn">
-        <svg viewBox="0 0 36 36" aria-hidden="true"><path d="M4 22h28l-4 8H8z" fill="#C8243B"/><path d="M14 22V10h8l4 12" fill="none" stroke="#12211B" stroke-width="2"/><path d="M6 6l24 24" stroke="#C8243B" stroke-width="3"/></svg>
-        <div><h3>No ferry from Langkawi to Penang</h3><p>The direct ferry is cancelled. Take the short flight on 30 Nov, or a ferry to Kuala Perlis or Kuala Kedah plus a bus or train.</p></div>
-      </div>
       <div class="tip">
         <svg viewBox="0 0 36 36" aria-hidden="true"><rect x="7" y="4" width="22" height="28" rx="3" fill="#1C8585"/><circle cx="18" cy="15" r="5" fill="#fff"/><rect x="12" y="24" width="12" height="2" fill="#fff"/></svg>
-        <div><h3>Entry</h3><p>Most current sources say Egyptian passports are visa-free for tourism, up to 90 days. One still says a visa is needed, so confirm on the official immigration site. Passport valid 6 months past the trip, proof of the return flight, and the Malaysia Digital Arrival Card filled online in the 3 days before landing.</p></div>
+        <div><h3>Entry</h3><p>Most current sources say Egyptian passports are visa-free for tourism, up to 90 days. One still says a visa is needed, so confirm on the official immigration site. Bring a passport valid 6 months past the trip and proof of your return flight. Fill in the Malaysia Digital Arrival Card online in the 3 days before landing.</p></div>
       </div>
-      <div class="tip">
-        <svg viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="14" fill="none" stroke="#B8730F" stroke-width="3"/><path d="M18 10v9l6 4" stroke="#12211B" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>
-        <div><h3>Arrival-day buffer</h3><p>If the international flight and the Langkawi flight are separate tickets, allow about 3 hours at KLIA for immigration, bags and checking in again.</p></div>
+      <div class="tip warn">
+        <svg viewBox="0 0 36 36" aria-hidden="true"><path d="M4 22h28l-4 8H8z" fill="#C8243B"/><path d="M6 6l24 24" stroke="#C8243B" stroke-width="3"/></svg>
+        <div><h3>Book early</h3><p>Langkawi to Penang flight, ETS trains, and the Malacca return bus if you go. December school holidays make trains busy.</p></div>
       </div>
       <div class="tip">
         <svg viewBox="0 0 36 36" aria-hidden="true"><path d="M8 18a10 8 0 0 1 20 -2a6 6 0 0 1 0 12H10a6 6 0 0 1 -2 -10z" fill="#2B3580"/><path d="M12 30l-2 4M18 30l-2 4M24 30l-2 4" stroke="#1C8585" stroke-width="2.5" stroke-linecap="round"/></svg>
-        <div><h3>Weather</h3><p>Expect afternoon showers, so plan outdoor things for mornings. Skip the east coast islands (Perhentian, Redang, Tioman): they close for the monsoon from November to February.</p></div>
+        <div><h3>Weather</h3><p>Hot and humid with afternoon showers. Do outdoor things in the morning, carry a small umbrella. The east coast islands (Perhentian, Redang, Tioman) are closed for the monsoon.</p></div>
       </div>
       <div class="tip">
-        <svg viewBox="0 0 36 36" aria-hidden="true"><rect x="4" y="12" width="28" height="14" rx="5" fill="#0F3B2E"/><circle cx="11" cy="28" r="4" fill="#12211B"/><circle cx="25" cy="28" r="4" fill="#12211B"/><rect x="9" y="15" width="18" height="5" rx="2" fill="#A9DCCB"/></svg>
-        <div><h3>Getting around</h3><p>Grab (ride-hailing app) in every city. ETS train from Butterworth (Penang) to Ipoh to KL Sentral. Bus to Malacca, about 2 hours each way.</p></div>
-      </div>
-      <div class="tip">
-        <svg viewBox="0 0 36 36" aria-hidden="true"><path d="M18 4l4 9 10 1-7 7 2 10-9-5-9 5 2-10-7-7 10-1z" fill="#E9A21B"/></svg>
-        <div><h3>ESCAPE Penang tips</h3><p>Open 10:00 to 18:00, last entry 16:00. Go at opening and plan 4 to 6 hours. Register your face for check-in before the visit. Halal food and prayer rooms on site.</p></div>
+        <svg viewBox="0 0 36 36" aria-hidden="true"><path d="M18 4c-6 6-10 10-10 16a10 10 0 0 0 20 0c0-6-4-10-10-16z" fill="#B8730F"/></svg>
+        <div><h3>What to wear</h3><p>Mosques and temples (Batu Caves, Putra Mosque, National Mosque) need shoulders and knees covered. Mosques lend robes. Pack light layers for air-conditioned malls and Genting or Penang Hill.</p></div>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- ================= SWAPS ================= -->
-<section style="padding-top:0">
-  <div class="wrap">
-    <h2>Swaps if you change your mind</h2>
-    <div class="swaps">
-      <div class="swap"><p class="for">Instead of the Malacca day</p><h3>Genting Highlands</h3><p>A second adventure day at Genting SkyWorlds theme park, 26 rides across 9 themed zones, cooler mountain air. About 1 hour from KL plus a cable car up. Weekdays are less crowded.</p></div>
-      <div class="swap"><p class="for">Instead of Ipoh or a KL day</p><h3>Cameron Highlands</h3><p>Tea plantations, cool weather and strawberry farms. A long, winding 3 to 4 hour drive from KL.</p></div>
-      <div class="swap"><p class="for">Any Langkawi afternoon</p><h3>More Langkawi adventure</h3><p>Mangrove kayaking or a jungle zipline, booked locally.</p></div>
-    </div>
     <h3 style="margin-top:44px">Original notes, corrected</h3>
     <ul class="notes">
       <li>"Balu caves" is Batu Caves, a Hindu temple in limestone caves.</li>
-      <li>Thean Hou is a Chinese temple mixing Buddhist, Taoist and Confucian traditions. It's out of the way, so take a Grab at sunset.</li>
+      <li>Thean Hou is a Chinese temple mixing Buddhist, Taoist and Confucian traditions. Take a Grab there at sunset.</li>
       <li>ESCAPE is in Penang, not KL.</li>
       <li>Putrajaya (Putra Mosque) is about 40 minutes from KL and needs half a day. The National Mosque is in central KL by the Bird Park.</li>
-      <li>River of Life is best after dark, when it's lit up.</li>
       <li>Still open: what was "Jalan nanaler"? Possibly Petaling Street in Chinatown.</li>
+    </ul>
+
+    <h3 style="margin-top:44px">Sources</h3>
+    <ul class="sources">
+      <li><a href="https://www.malaymail.com/news/malaysia/2026/05/22/first-time-using-kuala-lumpurs-trains-here-are-some-tips-including-how-to-pay-tap-in-and-out/220875">Malay Mail: paying for KL trains (May 2026)</a></li>
+      <li><a href="https://soyacincau.com/2026/05/22/prasarana-mrt-lrt-bus-tap-in-tap-out-credit-debit-card-open-payment-soon/">SoyaCincau: card tap-in not yet live</a></li>
+      <li><a href="https://soyacincau.com/2026/10/01/klia-ekspres-and-transit-adult-fares-to-hit-rm65-starting-1st-january-2027/">SoyaCincau: KLIA Ekspres fare change</a></li>
+      <li><a href="https://says.com/my/lifestyle/visiting-malaysia-soon-here-are-5-cashless-payment-options-you-can-use">SAYS: cashless payments for visitors</a></li>
+      <li><a href="https://www.egypt.hsbc.com/credit-cards/foreign-usage-limits">HSBC Egypt: foreign usage limits (example bank)</a></li>
+      <li><a href="https://www.madamasr.com/en/?p=354383">Mada Masr: Egyptian banks' card limits</a></li>
+      <li><a href="https://www.train36.com/butterworth-ets-fares.html">Train36: ETS fares from Butterworth</a></li>
+      <li><a href="https://www.train36.com/ets-ipoh-to-kl-sentral.html">Train36: ETS Ipoh to KL Sentral timetable</a></li>
+      <li><a href="https://malaysiauncovered.com/kuala-lumpur-to-melaka/">Malaysia Uncovered: KL to Melaka</a></li>
+      <li><a href="https://www.langkawibook.my/blogs/how-to-get-around-langkawi-car-rental-scooters-or-ehailing">Langkawi Book: getting around Langkawi</a></li>
+      <li><a href="https://www.travel-penang-malaysia.com/penang-hill-train.html">Penang Hill train tickets and bus 204</a></li>
+      <li><a href="https://www.travel-penang-malaysia.com/penang-langkawi-ferry.html">Penang–Langkawi ferry cancelled</a></li>
+      <li><a href="https://nashaplaneta.net/vopros-otvet/6555-skolko-stoit-bilet-na-kanatnuyu-dorogu-i-nebesnyy-most-na-langkavi-v-2026-godu">SkyCab + SkyBridge prices 2026</a></li>
+      <li><a href="https://www.klook.com/en-SG/activity/8391-escape-adventureplay-theme-park-penang/">ESCAPE Penang tickets and hours</a></li>
+      <li><a href="https://currencyconvert.online/usd/myr">USD to MYR rate</a></li>
+      <li><a href="https://visarequirements.info/countries/egypt/malaysia/">Entry rules for Egyptian citizens</a></li>
     </ul>
   </div>
 </section>
@@ -442,45 +644,227 @@
 
 <footer>
   <div class="wrap">
-    <p>Want real photos on the stop cards? Put a folder named <code>photos</code> next to this file with <code>langkawi.jpg</code>, <code>penang.jpg</code>, <code>ipoh.jpg</code> and <code>kuala-lumpur.jpg</code>. They replace the illustrations automatically. Plan as of 30 Oct 2026.</p>
+    <p>Photos are from Wikimedia Commons (tap a photo's credit to see who took it and its licence). They need an internet connection; offline, the drawings show instead. Prices and schedules change, so check before booking. Plan as of 30 Oct 2026.</p>
   </div>
 </footer>
 
 <script>
 (function(){
-  var icons = {
-    sun:'<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="4.5" fill="#E9A21B"/><g stroke="#E9A21B" stroke-width="2" stroke-linecap="round"><path d="M10 1v2.5M10 16.5V19M1 10h2.5M16.5 10H19M3.6 3.6l1.8 1.8M14.6 14.6l1.8 1.8M3.6 16.4l1.8-1.8M14.6 5.4l1.8-1.8"/></g></svg>',
-    moon:'<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M13 2a8 8 0 1 0 5 12A7 7 0 0 1 13 2z" fill="#2B3580"/></svg>'
+  /* ---------- photos from Wikimedia Commons (plain image links) ---------- */
+  function loadPhoto(slot){
+    if (slot.dataset.loaded || !slot.dataset.file) return;
+    slot.dataset.loaded = '1';
+    var file = slot.dataset.file;
+    var img = new Image();
+    img.alt = '';
+    img.decoding = 'async';
+    img.referrerPolicy = 'no-referrer';
+    img.onload = function(){
+      slot.appendChild(img);
+      var a = document.createElement('a');
+      a.className = 'credit';
+      a.href = 'https://commons.wikimedia.org/wiki/File:' + encodeURIComponent(file);
+      a.target = '_blank'; a.rel = 'noopener';
+      a.textContent = 'Photo: Wikimedia Commons';
+      slot.appendChild(a);
+      requestAnimationFrame(function(){ img.classList.add('on'); a.classList.add('on'); });
+    };
+    img.src = 'https://commons.wikimedia.org/wiki/Special:FilePath/' + encodeURIComponent(file) + '?width=1000';
+  }
+  function watchPhotos(root){
+    var slots = root.querySelectorAll('.photo-slot[data-file]');
+    if (!('IntersectionObserver' in window)) { slots.forEach(loadPhoto); return; }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if (e.isIntersecting) { loadPhoto(e.target); io.unobserve(e.target); } });
+    }, {rootMargin:'600px'});
+    slots.forEach(function(s){ io.observe(s); });
+  }
+
+  /* ---------- small icons ---------- */
+  var I = {
+    morning:'<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 14a7 7 0 0 1 14 0z" fill="#E9A21B"/><path d="M1 16h18" stroke="#12211B" stroke-width="1.6"/></svg>',
+    afternoon:'<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="4.5" fill="#E9A21B"/><g stroke="#E9A21B" stroke-width="2" stroke-linecap="round"><path d="M10 1v2.5M10 16.5V19M1 10h2.5M16.5 10H19M3.6 3.6l1.8 1.8M14.6 14.6l1.8 1.8M3.6 16.4l1.8-1.8M14.6 5.4l1.8-1.8"/></g></svg>',
+    evening:'<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M13 2a8 8 0 1 0 5 12A7 7 0 0 1 13 2z" fill="#2B3580"/></svg>',
+    go:'<svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2" y="5" width="16" height="9" rx="3" fill="#0F3B2E"/><circle cx="6" cy="16" r="2" fill="#0F3B2E"/><circle cx="14" cy="16" r="2" fill="#0F3B2E"/></svg>',
+    alt:'<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 7h12l-3-3M17 13H5l3 3" fill="none" stroke="#C8243B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    tip:'<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2a6 6 0 0 0-3 11v2h6v-2a6 6 0 0 0-3-11z" fill="#E9A21B"/><rect x="7" y="16" width="6" height="2" rx="1" fill="#12211B"/></svg>'
   };
-  var days = [
-    {n:1,date:'Thu 26 Nov',s:'langkawi',t:'KLIA to Langkawi',day:'Land at KLIA, connect to Langkawi, check in.',eve:'Pantai Cenang sunset, beachfront seafood.'},
-    {n:2,date:'Fri 27 Nov',s:'langkawi',t:'Langkawi',day:'SkyCab cable car and Sky Bridge (go early), Seven Wells waterfall.',eve:'Night market, Malay food.'},
-    {n:3,date:'Sat 28 Nov',s:'langkawi',t:'Langkawi',day:'Island-hopping half day: Pregnant Maiden Lake, eagle feeding, a beach stop.',eve:'Cenang strip and cafes.'},
-    {n:4,date:'Sun 29 Nov',s:'langkawi',t:'Langkawi',day:'Kilim mangrove boat tour, then the resort pool or Tanjung Rhu beach.',eve:'Resort dinner.',tag:'Beach day'},
-    {n:5,date:'Mon 30 Nov',s:'penang',t:'Langkawi to Penang',day:'Morning flight to Penang. George Town street art walk, Armenian Street, clan jetties.',eve:'Chulia Street hawker food.'},
-    {n:6,date:'Tue 1 Dec',s:'penang',t:'ESCAPE Penang',day:'Ziplines, the zip coaster and the longest tube waterslide. Arrive at 10:00 opening.',eve:'Batu Ferringhi beach and night market.',tag:'Adventure day'},
-    {n:7,date:'Wed 2 Dec',s:'penang',t:'Penang Hill and Kek Lok Si',day:'Penang Hill by funicular, then Kek Lok Si temple.',eve:'Gurney Drive hawker centre.'},
-    {n:8,date:'Thu 3 Dec',s:'penang',t:'Heritage and food crawl',day:'Peranakan Mansion, Blue Mansion, Kapitan Keling Mosque, Little India.',eve:'Nasi kandar, cendol, char kway teow.',tag:'Food day'},
-    {n:9,date:'Fri 4 Dec',s:'ipoh',t:'Penang to Ipoh',day:'ETS train from Butterworth, about 2 hours. Ipoh old town, Concubine Lane, murals.',eve:'Bean sprout chicken, white coffee.'},
-    {n:10,date:'Sat 5 Dec',s:'kl',t:'Ipoh to Kuala Lumpur',day:'Morning cave temple (Sam Poh Tong or Kek Lok Tong), dim sum breakfast, ETS to KL Sentral.',eve:'Bukit Bintang and Jalan Alor street food.',tag:'City night'},
-    {n:11,date:'Sun 6 Dec',s:'malacca',t:'Malacca day trip',day:'Dutch Square, river walk or cruise, old town. About 2 hours each way by bus.',eve:'Jonker Street night market, Nyonya food, chicken rice balls.',tag:'Day trip'},
-    {n:12,date:'Mon 7 Dec',s:'kl',t:'KL old city',day:'Merdeka Square, Central Market, Chinatown and Kwai Chai Hong, Sri Mahamariamman. Lunch at Heun Kee Claypot.',eve:'Thean Hou Temple at sunset, River of Life after dark.'},
-    {n:13,date:'Tue 8 Dec',s:'kl',t:'Batu Caves and the towers',day:'Batu Caves early, Menara KL tower, KLCC Park.',eve:'Petronas Towers lit up, Saloma Link bridge, rooftop bar.',tag:'City night'},
-    {n:14,date:'Wed 9 Dec',s:'kl',t:'Putrajaya and Lake Gardens',day:'Putra Mosque in the morning. Botanical Gardens, Bird Park and National Mosque in the afternoon.',eve:'Brickfields (Little India) dinner, last shopping.'},
-    {n:15,date:'Thu 10 Dec',s:'kl',t:'Fly home',day:'Depends on flight time: nasi lemak breakfast, then KL Sentral to KLIA.',eve:''}
-  ];
   var colors = {langkawi:'var(--langkawi)',penang:'var(--penang)',ipoh:'var(--ipoh)',kl:'var(--kl)',malacca:'var(--malacca)'};
+
+  /* ---------- the plan ---------- */
+  var days = [
+    {n:1,date:'Thu 26 Nov',s:'langkawi',file:'Cenang_Beach_view,_Langkawi.jpg',t:'Arrive, fly on to Langkawi',
+      m:'Land at KLIA. Clear immigration, change a little cash, get a SIM or switch on your eSIM.',
+      a:'Connecting flight to Langkawi (about 1 hour). Grab to your hotel in Pantai Cenang, check in, nap or pool.',
+      e:'Sunset on Pantai Cenang beach, then beachfront seafood dinner.',
+      go:'KLIA to Langkawi by plane; Grab from Langkawi airport (10 to 15 min).',
+      alt:'Arriving late? Skip dinner out and order Grab Food to the hotel.',
+      tip:'With separate tickets, leave about 3 hours between flights.'},
+    {n:2,date:'Fri 27 Nov',s:'langkawi',file:'Langkawi_sky_bridge.jpg',t:'Cable car and Sky Bridge',
+      m:'SkyCab cable car up Gunung Mat Cincang right at opening, then walk the curved Sky Bridge before clouds roll in.',
+      a:'Seven Wells waterfall nearby (short steep climb, swim in the pools). Lunch at Oriental Village.',
+      e:'Night market (the location rotates by day, so ask your hotel), Malay street food.',
+      go:'Grab to Oriental Village (about 20 min from Cenang), or rent a car for the day.',
+      alt:'Cloudy or windy (the cable car can pause): go to Underwater World Langkawi and Cenang beach instead, and try SkyCab tomorrow.',
+      tip:'Buy the SkyCab + SkyBridge combo online (about RM89) to skip the ticket queue.'},
+    {n:3,date:'Sat 28 Nov',s:'langkawi',file:'Langkawi.JPG',t:'Island hopping',
+      m:'Half-day island-hopping boat: Pregnant Maiden Lake (swim with a life vest), eagle feeding, Beras Basah beach.',
+      a:'Back at the hotel by lunch. Pool and nap through the hottest hours.',
+      e:'Walk the Cenang strip, cafes, dessert, maybe a beach bar with fire show.',
+      go:'Tours pick you up from the hotel or leave from Cenang jetty.',
+      alt:'Prefer adventure: swap for a jungle zipline or jet-ski tour.',
+      tip:'Bring reef-safe sunscreen, a dry bag, and small cash for snacks on the islands.'},
+    {n:4,date:'Sun 29 Nov',s:'langkawi',file:'Kilim_geoforest_park,_langkawi.jpg',t:'Mangroves and beach day',tag:'Beach day',
+      m:'Kilim Geoforest mangrove boat tour: limestone cliffs, bat cave, eagles.',
+      a:'Tanjung Rhu beach (quieter, clear water) or a long afternoon at your resort pool.',
+      e:'Resort dinner or a sunset spot, and pack for Penang.',
+      go:'Grab to Kilim jetty (about 40 min from Cenang). Tanjung Rhu is close to Kilim.',
+      alt:'Mangrove kayaking instead of the motorboat if you want to be active.',
+      tip:'Mangrove tours run morning to early afternoon; book the day before.'},
+    {n:5,date:'Mon 30 Nov',s:'penang',file:'Penang_-_Little_Children_on_a_Bicycle.JPG',t:'Fly to Penang, first walk',
+      m:'Morning flight Langkawi to Penang. Grab to George Town, drop bags.',
+      a:'Street art walk: Armenian Street, Lebuh Cannon, the "Kids on a Bicycle" mural. Then the clan jetties on the water.',
+      e:'Chulia Street hawker stalls at night (cash).',
+      go:'Flight, then Grab from Penang airport (30 to 40 min). George Town core is walkable.',
+      alt:'Too hot: do the walk at 17:00 and start with a cafe and Penang Peranakan Mansion.',
+      tip:'Save a "George Town street art map" offline before you go.'},
+    {n:6,date:'Tue 1 Dec',s:'penang',file:'34_Sunset_at_Batu_Ferringhi_beach,_Penang,_Malaysia.jpg',t:'Adventure day at ESCAPE',tag:'Adventure day',
+      m:'Be at ESCAPE Penang for the 10:00 opening. Do the zip coaster and high ropes first, while queues are short.',
+      a:'Waterplay: the world\'s longest tube waterslide (you take a chairlift up). Lunch in the park (halal food, prayer rooms).',
+      e:'Batu Ferringhi beach for sunset and its night market, on the way back.',
+      go:'Rapid Penang bus 101 from George Town to Teluk Bahang, or Grab (about 40 min).',
+      alt:'Rain: swap with Day 8 (heritage day). ESCAPE is outdoors.',
+      tip:'Register your face for check-in before you go. Bring swimwear, a towel and a waterproof phone pouch. Last entry 16:00.'},
+    {n:7,date:'Wed 2 Dec',s:'penang',file:'Kek_Lok_Si,_A_Grand_Temple_located_Penang.jpg',t:'Penang Hill and Kek Lok Si',
+      m:'Penang Hill funicular early (from 06:30) for clear views. Walk The Habitat canopy trail at the top.',
+      a:'Kek Lok Si temple nearby: the big pagoda and the Kuan Yin statue (take the inclined lift up).',
+      e:'Gurney Drive hawker centre: char kway teow, laksa, oyster omelette (cash).',
+      go:'Rapid Penang bus 204 goes to both, or Grab.',
+      alt:'Skip the hill if it\'s cloudy and do Entopia butterfly park instead.',
+      tip:'Funicular return is RM40 for foreign adults; buy online. Fast Lane is RM80 if the queue is long.'},
+    {n:8,date:'Thu 3 Dec',s:'penang',file:'Cheong_Fatt_Tze_-_The_Blue_Mansion_-_George_Town_-_Penang_-_Malaysia_-_06_(35075685980).jpg',t:'Heritage and food crawl',tag:'Food day',
+      m:'Blue Mansion (Cheong Fatt Tze) guided tour, then Pinang Peranakan Mansion.',
+      a:'Kapitan Keling Mosque and Little India. Food crawl: nasi kandar, then cendol on Penang Road.',
+      e:'New Lane hawker street or a rooftop bar over George Town.',
+      go:'Everything is walkable in the heritage zone; Grab between food stops.',
+      alt:'Want shopping instead: Gurney Plaza, or a cooking class to learn Nyonya dishes.',
+      tip:'The Blue Mansion runs guided tours at set times; check before going.'},
+    {n:9,date:'Fri 4 Dec',s:'ipoh',file:'Ipoh_railway_station_2024,_Perak_Malaysia_02.jpg',t:'Train to Ipoh',
+      m:'Check out. Ferry or Grab to Butterworth station, ETS train to Ipoh (about 1.5 to 2 hours).',
+      a:'Ipoh old town: Concubine Lane, the murals, the colonial railway station.',
+      e:'Bean sprout chicken dinner, then Ipoh white coffee.',
+      go:'ETS from Butterworth (book on the KTMB app). Walk or Grab in Ipoh.',
+      alt:'Want to skip Ipoh: stay in Penang one more night and take the train straight to KL on 5 Dec (about 4 hours).',
+      tip:'Keep bags light; Ipoh is a one-night stop.'},
+    {n:10,date:'Sat 5 Dec',s:'kl',file:'Sam_Poh_Tong_cave_entrance.jpg',t:'Cave temple, then KL',tag:'City night',
+      m:'Dim sum breakfast, then a cave temple in the limestone (Sam Poh Tong or Kek Lok Tong).',
+      a:'ETS train to KL Sentral (about 2.5 hours). Check in, buy a Touch \'n Go card at the station.',
+      e:'Bukit Bintang lights, then Jalan Alor street food.',
+      go:'Grab to the cave temple; ETS to KL Sentral; MRT or Grab to your hotel.',
+      alt:'Tired after travelling: Pavilion mall food court and an early night.',
+      tip:'Get the 3-day Rapid Kembara pass (RM55) if you\'ll ride trains a lot.'},
+    {n:11,date:'Sun 6 Dec',s:'kl',choice:true,tag:'Your choice',
+      options:[
+        {label:'A: Malacca day trip',s:'malacca',file:'Dutch_Square_-_Malacca.jpg',t:'Malacca day trip',
+          m:'Leave by 08:00. Komuter to Bandar Tasik Selatan, bus from TBS to Melaka Sentral, Grab to the old town.',
+          a:'Dutch Square and Christ Church, St Paul\'s Hill, river walk or river cruise. Nyonya lunch, chicken rice balls.',
+          e:'Jonker Street night market (Friday to Sunday only), then the bus back to KL.',
+          go:'About 4 hours each way door to door. Buy the return bus ticket ahead.',
+          alt:'Want more time: stay one night in Malacca and come back Monday morning.',
+          tip:'Sunday is the busiest day; book seats on the KL buses in advance.'},
+        {label:'B: Genting theme park',s:'kl',file:'2024_Genting_Highlands_kereta_gantung_skyway.jpg',t:'Genting Highlands',
+          m:'Bus to Awana, then the Awana SkyWay cable car up the mountain.',
+          a:'Genting SkyWorlds theme park: 26 rides across 9 themed zones. Cooler air up top.',
+          e:'Back to KL for dinner around Bukit Bintang.',
+          go:'Bus from KL Sentral or TBS plus cable car, about 1.5 hours; or Grab.',
+          alt:'Skip the rides: SkyWay views, the outlet mall and the indoor park.',
+          tip:'Bring a light jacket. Weekdays are quieter, but Sunday is still fine if you start early.'},
+        {label:'C: Easy KL day',s:'kl',file:'Kuala_Lumpur_Malaysia_Islamic-Arts-Museum-01.jpg',t:'Slow day in KL',
+          m:'Sleep in. Islamic Arts Museum (calm and air-conditioned).',
+          a:'Bird Park and Botanical Gardens next door (this frees up Day 14 afternoon).',
+          e:'KLCC Park fountain show, then Saloma Link bridge at night.',
+          go:'Grab or MRT; the museum, Bird Park and gardens are next to each other.',
+          alt:'Rain: Aquaria KLCC and Suria KLCC mall.',
+          tip:'If you pick this, Day 14 afternoon becomes free for shopping or a spa.'}
+      ]},
+    {n:12,date:'Mon 7 Dec',s:'kl',file:'Thean_Hou_Temple_Kuala_Lumpur.jpg',t:'KL old city',
+      m:'Merdeka Square and the Sultan Abdul Samad Building, then Central Market for crafts.',
+      a:'Chinatown: Petaling Street, Kwai Chai Hong lane, Sri Mahamariamman temple. Lunch at Heun Kee Claypot Chicken Rice.',
+      e:'Thean Hou Temple at sunset, then River of Life (Masjid Jamek) lit up after dark.',
+      go:'Walk the old city; LRT to Masjid Jamek; Grab to Thean Hou.',
+      alt:'Rain: National Textile Museum and Central Market are indoors.',
+      tip:'Thean Hou is on a hill with no easy train; take Grab both ways.'},
+    {n:13,date:'Tue 8 Dec',s:'kl',file:'Batu_Caves_Stairs_2019.jpg',t:'Batu Caves and the towers',tag:'City night',
+      m:'Batu Caves early (before 09:00) for the 272 rainbow steps, before heat and crowds.',
+      a:'Menara KL tower observation deck, then KLCC Park.',
+      e:'Petronas Towers lit up, Saloma Link bridge, rooftop bar with a tower view.',
+      go:'KTM Komuter from KL Sentral to Batu Caves (about 30 min); Grab or MRT back to KLCC.',
+      alt:'Want the twin towers from inside: book the Petronas skybridge tour instead of Menara.',
+      tip:'Batu Caves needs knees covered; sarongs can be rented at the bottom. Watch your snacks around the monkeys.'},
+    {n:14,date:'Wed 9 Dec',s:'kl',file:'Putra_Mosque,_Putrajaya,_Malaysia.jpg',t:'Putrajaya and Lake Gardens',
+      m:'Putrajaya: the pink Putra Mosque and the lakeside boulevard.',
+      a:'National Mosque, Bird Park and Botanical Gardens (if you didn\'t do them on Day 11).',
+      e:'Brickfields (Little India) dinner, last shopping in Bukit Bintang.',
+      go:'Grab to Putrajaya (about 40 min each way).',
+      alt:'Free afternoon instead: spa, or shopping at Pavilion or Mid Valley.',
+      tip:'Mosques lend robes to visitors; avoid Friday midday prayer times.'},
+    {n:15,date:'Thu 10 Dec',s:'kl',file:'KLIA_Ekspres_Siemens_Desiro_@_Bangsar_20230710_(53332466670).jpg',t:'Fly home',
+      m:'Nasi lemak or roti canai breakfast at a mamak.',
+      a:'Depends on your flight. KLIA Ekspres from KL Sentral to the airport (about 30 min).',
+      e:'',
+      go:'KLIA Ekspres (RM55) or Grab (about 1 hour, more with traffic).',
+      alt:'Late flight: leave bags at the hotel and do a last market or museum.',
+      tip:'Spend leftover ringgit at the airport or change it back in KL; it\'s hard to exchange in Egypt.'}
+  ];
+
+  function slotRow(icon,label,txt){ return txt ? '<div class="slot"><dt>'+I[icon]+label+'</dt><dd>'+txt+'</dd></div>' : ''; }
+  function extraRow(icon,label,txt){ return txt ? '<div class="extra">'+I[icon]+'<p><b>'+label+'</b> '+txt+'</p></div>' : ''; }
+  function body(d){
+    return '<dl class="slots">'+slotRow('morning','Morning',d.m)+slotRow('afternoon','Afternoon',d.a)+slotRow('evening','Evening',d.e)+'</dl>'+
+      '<div class="extras">'+extraRow('go','Getting there:',d.go)+extraRow('alt','Option:',d.alt)+extraRow('tip','Tip:',d.tip)+'</div>';
+  }
+
   var list = document.getElementById('dayList');
   list.innerHTML = days.map(function(d){
-    var month = d.date.split(' ').pop();
-    return '<li class="day" data-s="'+d.s+'" style="--c:'+colors[d.s]+'">'+
-      '<div class="badge" aria-hidden="true"><b>'+d.n+'</b><span>'+d.date.split(' ')[1]+' '+month+'</span></div>'+
-      '<div class="card"><div class="card-top"><h3>Day '+d.n+': '+d.t+'</h3><span class="date">'+d.date+'</span>'+(d.tag?'<span class="tag">'+d.tag+'</span>':'')+'</div>'+
-      '<div class="row">'+icons.sun+'<p>'+d.day+'</p></div>'+
-      (d.eve?'<div class="row">'+icons.moon+'<p>'+d.eve+'</p></div>':'')+
-      '</div></li>';
+    var parts = d.date.split(' ');
+    var badge = '<div class="badge" aria-hidden="true"><b>'+d.n+'</b><span>'+parts[1]+' '+parts[2]+'</span></div>';
+    if (d.choice){
+      var o = d.options[0];
+      var tabs = d.options.map(function(op, i){
+        return '<button type="button" role="tab" aria-selected="'+(i===0)+'" data-i="'+i+'">'+op.label+'</button>';
+      }).join('');
+      return '<li class="day" data-s="kl" style="--c:var(--malacca)">'+badge+
+        '<article class="card" data-choice>'+
+        '<div class="card-body"><div class="card-top"><h3>Day '+d.n+': <span class="choice-title">'+o.t+'</span></h3><span class="date">'+d.date+'</span><span class="tag">Pick one</span></div>'+
+        '<div class="tabs" role="tablist" aria-label="Day 11 plans">'+tabs+'</div><div class="choice-body" role="tabpanel">'+body(o)+'</div></div></article></li>';
+    }
+    return '<li class="day" data-s="'+d.s+'" style="--c:'+colors[d.s]+'">'+badge+
+      '<article class="card">'+
+      '<div class="card-body"><div class="card-top"><h3>Day '+d.n+': '+d.t+'</h3><span class="date">'+d.date+'</span>'+(d.tag?'<span class="tag">'+d.tag+'</span>':'')+'</div>'+
+      body(d)+'</div></article></li>';
   }).join('');
 
+  /* day 11 tabs */
+  var choiceDay = days.filter(function(d){ return d.choice; })[0];
+  var choiceCard = list.querySelector('[data-choice]');
+  var savedChoice = 0;
+  try { savedChoice = parseInt(localStorage.getItem('my-trip-day11') || '0', 10) || 0; } catch(e) {}
+  function showChoice(i){
+    var o = choiceDay.options[i];
+    choiceCard.querySelectorAll('.tabs button').forEach(function(b){ b.setAttribute('aria-selected', String(+b.dataset.i === i)); });
+    choiceCard.querySelector('.choice-title').textContent = o.t;
+    choiceCard.querySelector('.choice-body').innerHTML = body(o);
+    var li = choiceCard.closest('.day');
+    li.style.setProperty('--c', colors[o.s]);
+    try { localStorage.setItem('my-trip-day11', String(i)); } catch(e) {}
+  }
+  choiceCard.querySelector('.tabs').addEventListener('click', function(e){
+    var b = e.target.closest('button'); if (!b) return;
+    showChoice(+b.dataset.i);
+  });
+  if (savedChoice > 0 && savedChoice < choiceDay.options.length) showChoice(savedChoice);
+
+  /* filters */
   var buttons = document.querySelectorAll('.filters button');
   buttons.forEach(function(b){
     b.addEventListener('click', function(){
@@ -490,37 +874,37 @@
     });
   });
 
+  /* food board */
   var food = [
-    {city:'Penang',where:'Chulia Street, Gurney Drive, Little India',dishes:['Char kway teow','Assam laksa','Nasi kandar','Hokkien mee','Cendol']},
+    {city:'Penang',where:'Chulia Street, Gurney Drive, New Lane, Little India',dishes:['Char kway teow','Assam laksa','Nasi kandar','Hokkien mee','Oyster omelette','Cendol']},
     {city:'Ipoh',where:'Old town',dishes:['White coffee','Bean sprout chicken','Egg tarts','Dim sum']},
-    {city:'Malacca',where:'Jonker Street',dishes:['Nyonya dishes','Chicken rice balls','Cendol']},
-    {city:'Kuala Lumpur',where:'Jalan Alor, Heun Kee on Jalan Pudu, Brickfields',dishes:['Nasi lemak','Roti canai at a mamak','Satay','Claypot chicken rice']},
-    {city:'Langkawi',where:'Pantai Cenang, night markets',dishes:['Fresh seafood','Night-market snacks']}
+    {city:'Malacca',where:'Jonker Street (if you go)',dishes:['Nyonya dishes','Chicken rice balls','Cendol with gula melaka']},
+    {city:'Kuala Lumpur',where:'Jalan Alor, Heun Kee on Jalan Pudu, Brickfields',dishes:['Nasi lemak','Roti canai at a mamak','Satay','Claypot chicken rice','Banana leaf rice']},
+    {city:'Langkawi',where:'Pantai Cenang, night markets',dishes:['Grilled seafood','Night-market snacks']}
   ];
   var saved = {};
   try { saved = JSON.parse(localStorage.getItem('my-trip-food') || '{}') || {}; } catch(e) { saved = {}; }
   var board = document.getElementById('board');
-  board.innerHTML = food.map(function(st, i){
+  board.innerHTML = food.map(function(st){
     return '<div class="stall"><h3>'+st.city+'</h3><p class="where">'+st.where+'</p>'+
-      st.dishes.map(function(d, j){
-        var id = 'f'+i+'-'+j;
-        return '<label><input type="checkbox" data-k="'+st.city+'|'+d+'"'+(saved[st.city+'|'+d]?' checked':'')+'><span>'+d+'</span></label>';
+      st.dishes.map(function(d){
+        var k = st.city+'|'+d;
+        return '<label><input type="checkbox" data-k="'+k+'"'+(saved[k]?' checked':'')+'><span>'+d+'</span></label>';
       }).join('')+'</div>';
   }).join('');
   var tally = document.getElementById('tally');
   function update(){
-    var boxes = board.querySelectorAll('input');
-    var done = board.querySelectorAll('input:checked').length;
-    tally.textContent = done + ' of ' + boxes.length + ' dishes eaten';
+    tally.textContent = board.querySelectorAll('input:checked').length + ' of ' + board.querySelectorAll('input').length + ' dishes eaten';
   }
   board.addEventListener('change', function(e){
-    var k = e.target.getAttribute('data-k');
-    if(!k) return;
-    if(e.target.checked) saved[k] = 1; else delete saved[k];
+    var k = e.target.getAttribute('data-k'); if (!k) return;
+    if (e.target.checked) saved[k] = 1; else delete saved[k];
     try { localStorage.setItem('my-trip-food', JSON.stringify(saved)); } catch(err) {}
     update();
   });
   update();
+
+  watchPhotos(document);
 })();
 </script>
 </body>
