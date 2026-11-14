@@ -84,8 +84,32 @@ function doPost(e) {
 }
 
 /* ---------- storage ---------- */
+// Works whether this script is attached to the sheet (Extensions > Apps Script) or not:
+// if it isn't, it finds the Google Sheet named "Malaysia 26" in your Drive (or creates one).
+function ss_() {
+  var ss = null;
+  try { ss = SpreadsheetApp.getActiveSpreadsheet(); } catch (err) {}
+  if (ss) return ss;
+  var props = PropertiesService.getScriptProperties(), id = props.getProperty('SHEET_ID');
+  if (id) { try { return SpreadsheetApp.openById(id); } catch (err) {} }
+  var it = DriveApp.getFilesByName('Malaysia 26');
+  while (it.hasNext()) {
+    var f = it.next();
+    if (!f.isTrashed() && f.getMimeType() === MimeType.GOOGLE_SHEETS) { ss = SpreadsheetApp.openById(f.getId()); break; }
+  }
+  if (!ss) ss = SpreadsheetApp.create('Malaysia 26');
+  props.setProperty('SHEET_ID', ss.getId());
+  return ss;
+}
+// Run this once from the editor (select "setup", click Run) to give the script access and check it works.
+function setup() {
+  var ss = ss_();
+  Logger.log('Using sheet: ' + ss.getName() + ' (' + ss.getUrl() + ')');
+  Logger.log('Album folder: ' + albumFolder_().getName() + ', bookings folder: ' + bkFolder_().getName());
+}
+
 function sheet_(name, headers) {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = ss_();
   var sh = ss.getSheetByName(name);
   if (!sh) {
     sh = ss.insertSheet(name);
