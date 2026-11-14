@@ -1047,6 +1047,57 @@
   .h3-title{font-size:clamp(46px,6.6vw,90px)!important}
   .h3-sub p{font-size:clamp(20px,2.3vw,28px)!important}
   .weather .wx{background:var(--rose-l)}
+  /* ---------- day by day: date strip + one day ---------- */
+  .dstrip{position:sticky;top:52px;z-index:5;display:flex;gap:14px;overflow-x:auto;scrollbar-width:none;padding:10px 2px 12px;margin:0 -2px 16px;background:#FCF8F4;border-bottom:1.5px solid var(--rose-l)}
+  .dstrip::-webkit-scrollbar{display:none}
+  .dgrp{display:flex;flex-direction:column;gap:6px;flex:none}
+  .dgrp-name{font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--soft);display:flex;align-items:center;gap:6px}
+  .dgrp-name::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c)}
+  .dgrp-days{display:flex;gap:6px}
+  .dchip{display:flex;flex-direction:column;align-items:center;justify-content:center;width:52px;height:58px;border-radius:14px;border:1.5px solid var(--rose-l);background:#fff;color:var(--ink);cursor:pointer;padding:0;transition:background .2s,border-color .2s,transform .2s}
+  .dchip:hover{border-color:var(--c)}
+  .dchip .dc-n{font:800 19px/1 "Plus Jakarta Sans",sans-serif}
+  .dchip .dc-w{font-size:11.5px;font-weight:700;color:var(--soft);margin-top:3px}
+  .dchip[aria-selected="true"]{background:var(--c);border-color:var(--c);color:var(--fg)}
+  .dchip[aria-selected="true"] .dc-w{color:var(--fg);opacity:.85}
+  .dchip.is-today:not([aria-selected="true"]){border-color:var(--hib)}
+  .dchip.is-today .dc-w{color:var(--hib);font-weight:800}
+  .dchip:focus-visible{outline:3px solid rgba(212,141,145,.45);outline-offset:2px}
+  .dview{background:#fff;border:1.5px solid var(--rose-l);border-radius:20px;padding:18px 22px 20px;border-top:6px solid var(--c)}
+  .dv-top{display:grid;grid-template-columns:40px 1fr 40px;gap:12px;align-items:center}
+  .dv-head{text-align:center}
+  .dv-head .day-no{font-size:13px;font-weight:700;color:var(--soft)}
+  .dv-head h3{font-size:clamp(19px,2.2vw,24px);margin-top:2px;text-wrap:balance}
+  .dv-arrow{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--rose-l);background:#fff;color:var(--ink);display:grid;place-items:center;cursor:pointer}
+  .dv-arrow svg{width:16px;height:16px}
+  .dv-arrow:hover:not(:disabled){border-color:var(--c);background:#FBF1E8}
+  .dv-arrow:disabled{opacity:.3;cursor:default}
+  .dv-tags{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .dv-tags .mal-sw{margin:0!important}
+  .dview .tabs{justify-content:center;margin-top:12px}
+  .dv-photo{margin:16px 0 14px}
+  .dv-photo .ph{flex:1 1 100%!important;aspect-ratio:auto!important;height:clamp(180px,24vw,260px);border-radius:14px}
+  .day-notes.dv-more > summary{display:flex!important;justify-content:space-between;width:auto!important;font-family:"Plus Jakarta Sans",sans-serif!important;font-style:normal!important;font-size:14.5px!important;font-weight:700!important}
+  .dview .stay{margin:0 0 6px}
+  .dv-foot{margin-top:14px;padding-top:12px;border-top:1px dashed var(--rose-l);display:flex;flex-wrap:wrap;align-items:flex-start;gap:8px 14px}
+  .dv-cost{display:flex;align-items:center;gap:8px;font-size:14px;flex:1 1 100%;margin:0}
+  .dv-cost svg{width:18px;height:18px;flex:none}
+  .dv-more{flex:1 1 260px;border:1.5px solid var(--rose-l);border-radius:12px;padding:0 12px;background:#FCF8F4}
+  .dv-more > summary{cursor:pointer;list-style:none;padding:10px 0;font-weight:700;font-size:14.5px;color:var(--rasp);display:flex;justify-content:space-between;align-items:center}
+  .dv-more > summary::-webkit-details-marker{display:none}
+  .dv-more > summary::after{content:"";width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translateY(-2px);transition:transform .2s}
+  .dv-more[open] > summary::after{transform:rotate(-135deg)}
+  .dv-more .facts{grid-template-columns:1fr;margin:0 0 12px}
+  .dv-more textarea{margin-bottom:10px}
+  .day-notes.dv-more{margin-top:0;border-top:1.5px solid var(--rose-l)}
+  @media (max-width:640px){
+    .dstrip{top:48px;gap:10px}
+    .dchip{width:46px;height:54px}
+    .dview{padding:14px 14px 16px}
+    .dv-top{grid-template-columns:34px 1fr 34px;gap:8px}
+    .dv-arrow{width:34px;height:34px}
+    .dv-photo .ph{height:190px}
+  }
   @media print{.nav,.filters,.tabs{display:none}}
 </style>
 </head>
@@ -1125,10 +1176,10 @@
   <div class="wrap">
     <div class="eyebrow-row"><div><h2 class="sp">Day by day</h2><p class="sub">Times are a guide. Optional stops can be skipped.</p></div></div>
     <div class="days-bar">
-      <div class="filters" id="filters" role="group" aria-label="Show days for"></div>
       <label class="mal-sw mal-top"><input type="checkbox" id="malTop"><span class="knob" aria-hidden="true"></span>Add a Malacca day trip <small>Sun 6 Dec</small></label>
     </div>
-    <div id="dayGroups"></div>
+    <div class="dstrip" id="dstrip" role="tablist" aria-label="Pick a day"></div>
+    <div id="dayGroups" aria-live="polite"></div>
   </div>
 </section>
 
@@ -1545,40 +1596,100 @@
     var tabs = r.choice ? '<div class="tabs" role="tablist" aria-label="Day '+r.n+' plans">'+r.options.map(function(op,i){ return '<button type="button" role="tab" aria-selected="'+(op===r.cur)+'" data-i="'+i+'">'+op.label+'</button>'; }).join('')+'</div>' : '';
     return '<li class="day">'+head+tabs+inner(o, r.date)+'</li>';
   }
-  var filter = 'all', openCities = {};
+  /* ---------- day by day: one day at a time, picked from a date strip ---------- */
+  var MONI = {Nov:10, Dec:11}, curDay = -1;
+  function dayISO(date){ var p = date.split(' '); return '2026-' + String(MONI[p[2]] + 1).padStart(2, '0') + '-' + String(+p[1]).padStart(2, '0'); }
+  function todayISO(){ var d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+  function startDay(rs){
+    var t = todayISO(), k = rs.map(function(r){ return dayISO(r.date); }).indexOf(t);
+    if (k >= 0) return k;
+    try { var v = parseInt(sessionStorage.getItem('trip26-dayview'), 10); if (v >= 0 && v < rs.length) return v; } catch(e) {}
+    return 0;
+  }
+  function dayOne(r){
+    var o = body(r), date = r.date;
+    var p = date.split(' ');
+    var sw = r.malSwitch ? '<label class="mal-sw"><input type="checkbox" data-malday'+(plan.mal === 'day' ? ' checked' : '')+'><span class="knob" aria-hidden="true"></span>Malacca day trip</label>' : '';
+    var tabs = r.choice ? '<div class="tabs" role="tablist" aria-label="Day '+r.n+' plans">'+r.options.map(function(op,i){ return '<button type="button" role="tab" aria-selected="'+(op===r.cur)+'" data-i="'+i+'">'+op.label+'</button>'; }).join('')+'</div>' : '';
+    var plan_ = '<ol class="plan">' + o.p.map(function(x, i){
+      var opt = x[3] === 'o' ? '<span class="opt-tag">Optional</span>' : '';
+      var hop = (o.hops && i < o.p.length - 1) ? '<li class="hop"><span class="hop-ico" aria-hidden="true"></span>'+o.hops[i]+'</li>' : '';
+      var map = x[4] ? '<a class="map-link" href="https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(x[4])+'" target="_blank" rel="noopener" aria-label="Open '+x[1].replace(/"/g,'&quot;')+' in Google Maps">'+PIN+'Map</a>' : '';
+      var tk = 'stop:' + date + '|' + x[1];
+      var done = '<label class="done"><input type="checkbox" data-tick="'+esc(tk)+'"'+(isTicked(tk) ? ' checked' : '')+'><span class="sr">Done: '+esc(x[1])+'</span></label>';
+      return '<li class="stop'+(x[3] === 'o' ? ' optional' : '')+(isTicked(tk) ? ' is-done' : '')+'"><span class="when">'+x[0]+'</span><div><h4>'+done+x[1]+opt+map+'</h4><p>'+x[2]+'</p></div></li>' + hop;
+    }).join('') + '</ol>';
+    var more = fact('go','Getting there:',o.go)+fact('alt','Option:',o.alt)+fact('tip','Tip:',o.tip);
+    return '<article class="dview" style="--c:'+COLORS[o.s]+';--fg:'+FG[o.s]+'">'+
+      '<div class="dv-top">'+
+        '<button type="button" class="dv-arrow" data-step="-1" aria-label="Previous day"'+(curDay <= 0 ? ' disabled' : '')+'><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>'+
+        '<div class="dv-head"><p class="day-no">Day '+r.n+' · '+WD[p[0]]+' '+p[1]+' '+p[2]+' · '+PLACE[o.s]+'</p><h3>'+o.t+'</h3></div>'+
+        '<button type="button" class="dv-arrow" data-step="1" aria-label="Next day"'+(curDay >= days.length - 1 ? ' disabled' : '')+'><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7.5 4l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>'+
+      '</div>'+
+      ((o.tag || sw) ? '<div class="dv-tags">'+(o.tag ? '<span class="tag">'+o.tag+'</span>' : '')+sw+'</div>' : '')+
+      tabs+
+      (o.g && o.g.length ? '<div class="gallery dv-photo">'+o.g.slice(0, 1).map(function(x){ return '<figure class="ph" data-k="'+x[0]+'"><figcaption>'+x[1]+'</figcaption></figure>'; }).join('')+'</div>' : '')+
+      (o.stay ? '<p class="stay"><b>Stay:</b> '+o.stay+'</p>' : '')+
+      plan_+
+      '<div class="dv-foot">'+
+        '<p class="dv-cost">'+I.cost+'<span>'+costText(o.c)+'</span></p>'+
+        (more ? '<details class="dv-more"><summary>Getting there &amp; tips</summary><div class="facts">'+more+'</div></details>' : '')+
+        '<details class="day-notes dv-more"'+(S.notes['day:'+date] ? ' open' : '')+'><summary>Our notes</summary><textarea data-note="day:'+esc(date)+'" rows="3" maxlength="4000" placeholder="Bookings, tips, what we loved…"></textarea><p class="note-meta"></p></details>'+
+      '</div></article>';
+  }
   function renderDays(){
-    var groups = [];
-    days.map(resolve).forEach(function(r){
-      var s = body(r).s, g = groups[groups.length - 1];
-      if (!g || g.s !== s) groups.push(g = {s:s, days:[]});
-      g.days.push(r);
+    var rs = days.map(resolve);
+    if (curDay < 0 || curDay >= rs.length) curDay = startDay(rs);
+    var t = todayISO(), groups = [];
+    rs.forEach(function(r, i){
+      var sc = body(r).s, g = groups[groups.length - 1];
+      if (!g || g.s !== sc) groups.push(g = {s:sc, items:[]});
+      g.items.push({r:r, i:i});
     });
-    var seen = {}, cities = [];
-    document.getElementById('dayGroups').innerHTML = groups.map(function(g){
-      var first = g.days[0], last = g.days[g.days.length - 1], cont = seen[g.s];
-      seen[g.s] = true; if (cities.indexOf(g.s) < 0) cities.push(g.s);
-      var key = g.s + (cont ? '2' : '');
-      return '<details class="city" data-s="'+g.s+'" data-key="'+key+'"'+(openCities[key] ? ' open' : '')+' style="--c:'+COLORS[g.s]+';--fg:'+FG[g.s]+'"><summary>'+
-        '<span class="city-name">'+PLACE[g.s]+(cont ? ' <small>continued</small>' : '')+'</span>'+
-        '<span class="city-dates">'+short(first.date)+(g.days.length > 1 ? ' – '+short(last.date) : '')+'</span>'+
-        '<span class="city-count">Day '+first.n+(g.days.length > 1 ? '–'+last.n : '')+'</span><span class="chev" aria-hidden="true"></span></summary>'+
-        '<ol class="days">'+g.days.map(dayHTML).join('')+'</ol></details>';
+    var strip = document.getElementById('dstrip');
+    var keep = strip.scrollLeft;
+    strip.innerHTML = groups.map(function(g){
+      return '<div class="dgrp" style="--c:'+COLORS[g.s]+';--fg:'+FG[g.s]+'"><span class="dgrp-name">'+PLACE[g.s]+'</span><div class="dgrp-days">'+
+        g.items.map(function(x){
+          var p = x.r.date.split(' '), today = dayISO(x.r.date) === t;
+          return '<button type="button" role="tab" class="dchip'+(today ? ' is-today' : '')+'" data-i="'+x.i+'" aria-selected="'+(x.i === curDay)+'" tabindex="'+(x.i === curDay ? 0 : -1)+'" aria-label="Day '+x.r.n+', '+WD[p[0]]+' '+p[1]+' '+p[2]+(today ? ', today' : '')+'"><span class="dc-n">'+p[1]+'</span><span class="dc-w">'+(today ? 'Today' : p[0])+'</span></button>';
+        }).join('')+'</div></div>';
     }).join('');
-    if (filter !== 'all' && cities.indexOf(filter) < 0) filter = 'all';
-    document.getElementById('filters').innerHTML = '<button type="button" data-f="all">All days</button>' +
-      cities.map(function(c){ return '<button type="button" data-f="'+c+'" style="--c:'+COLORS[c]+';--fg:'+FG[c]+'">'+PLACE[c]+'</button>'; }).join('');
-    applyFilter();
+    strip.scrollLeft = keep;
+    document.getElementById('dayGroups').innerHTML = dayOne(rs[curDay]);
+    document.getElementById('dayGroups').querySelectorAll('.gallery').forEach(fillGroup);
     watch(document.getElementById('dayGroups'));
     if (typeof paintShared === 'function') paintShared();
   }
-  function applyFilter(){
-    document.querySelectorAll('#filters button').forEach(function(x){ x.setAttribute('aria-pressed', String(x.dataset.f === filter)); });
-    document.querySelectorAll('#dayGroups details.city').forEach(function(d){ var show = filter === 'all' || d.dataset.s === filter; d.hidden = !show; if (show && filter !== 'all') { d.open = true; openCities[d.dataset.key] = true; } if (d.open) d.querySelectorAll('.gallery').forEach(fillGroup); });
+  function showDay(i, focusChip){
+    if (i < 0 || i >= days.length || i === curDay) return;
+    curDay = i;
+    try { sessionStorage.setItem('trip26-dayview', String(i)); } catch(e) {}
+    renderDays();
+    var strip = document.getElementById('dstrip'), chip = strip.querySelector('[data-i="'+i+'"]');
+    if (chip) {
+      var l = chip.offsetLeft - strip.clientWidth / 2 + chip.offsetWidth / 2;
+      strip.scrollTo({left:Math.max(0, l), behavior:'smooth'});
+      if (focusChip) chip.focus({preventScroll:true});
+    }
+    var top = strip.getBoundingClientRect().top;
+    if (top < 0 || top > window.innerHeight * 0.6) strip.scrollIntoView({block:'start', behavior:'smooth'});
   }
-  document.getElementById('dayGroups').addEventListener('toggle', function(e){
-    var d = e.target; if (d.matches && d.matches('details.city')) { openCities[d.dataset.key] = d.open; if (d.open) d.querySelectorAll('.gallery').forEach(fillGroup); }
-  }, true);
-  document.getElementById('filters').addEventListener('click', function(e){ var b = e.target.closest('button'); if (!b) return; filter = b.dataset.f; applyFilter(); });
+  document.getElementById('dstrip').addEventListener('click', function(e){ var b = e.target.closest('.dchip'); if (b) showDay(+b.dataset.i); });
+  document.getElementById('dstrip').addEventListener('keydown', function(e){
+    var k = {ArrowRight:1, ArrowLeft:-1}[e.key]; if (!k) return;
+    e.preventDefault(); showDay(curDay + k, true);
+  });
+  document.getElementById('dayGroups').addEventListener('click', function(e){ var b = e.target.closest('.dv-arrow'); if (b) showDay(curDay + (+b.dataset.step)); });
+  (function(){
+    var x0 = null, y0 = 0, el = document.getElementById('dayGroups');
+    el.addEventListener('touchstart', function(e){ if (e.target.closest('textarea,.tabs,.gallery')) { x0 = null; return; } x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, {passive:true});
+    el.addEventListener('touchend', function(e){
+      if (x0 === null) return;
+      var dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0; x0 = null;
+      if (Math.abs(dx) > 70 && Math.abs(dy) < 45) showDay(curDay + (dx < 0 ? 1 : -1));
+    }, {passive:true});
+  })();
   document.getElementById('malTop').addEventListener('change', function(e){ setMal(e.target.checked); });
   document.getElementById('dayGroups').addEventListener('change', function(e){
     if (!e.target.matches('[data-malday]')) return;
