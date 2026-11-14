@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>if (/\/malaysia26$/.test(location.pathname)) location.replace(location.pathname + '/' + location.search + location.hash);</script>
 <title>Malaysia 2026</title>
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
 <link rel="icon" type="image/png" sizes="32x32" href="img/logo-32.png">
@@ -959,7 +960,7 @@
      Works on this device with no setup. Paste the Google Apps Script web-app
      link (see sync/trip-sync.gs) into SYNC_URL to share it between devices. */
   var SYNC_URL = 'https://script.google.com/macros/s/AKfycby0eoDqVqiTvDKJAlWXqm5UtC2fSDLO7ESo2k8Bwhv6YW-677Wq2XQOw51A3nqto7whRg/exec';
-  var S = {ticks:{}, notes:{}, spend:[], shop:[], people:['Me','Sister']};
+  var S = {ticks:{}, notes:{}, spend:[], shop:[], settings:{}, people:['Me','Sister']};
   var queue = [], tripCode = '', me = '', syncState = 'local', listeners = [];
   try {
     var saved = JSON.parse(localStorage.getItem('trip26-store') || 'null');
@@ -982,6 +983,7 @@
     else if (o.a === 'spend.del') { S.spend = S.spend.filter(function(x){ return x.id !== o.id; }); }
     else if (o.a === 'shop.add') { if (!S.shop.some(function(x){ return x.id === o.item.id; })) S.shop.push(o.item); }
     else if (o.a === 'shop.toggle') { S.shop.forEach(function(x){ if (x.id === o.id) x.got = o.on ? 1 : 0; }); }
+    else if (o.a === 'set') { S.settings = S.settings || {}; S.settings[o.key] = o.val; }
     else if (o.a === 'shop.del') { S.shop = S.shop.filter(function(x){ return x.id !== o.id; }); }
   }
   function changed(){ listeners.forEach(function(f){ try { f(); } catch(e) {} }); }
@@ -1014,7 +1016,7 @@
     fetch(SYNC_URL + '?code=' + encodeURIComponent(tripCode)).then(function(r){ return r.json(); }).then(function(d){
       if (d && d.error === 'code') { askCode('That trip code didn’t work.'); return; }
       if (!d || !d.ticks) throw new Error('bad');
-      S.ticks = d.ticks; S.notes = d.notes || {}; S.spend = d.spend || []; S.shop = d.shop || []; if (d.people && d.people.length) S.people = d.people;
+      S.ticks = d.ticks; S.notes = d.notes || {}; S.spend = d.spend || []; S.shop = d.shop || []; S.settings = d.settings || {}; if (d.people && d.people.length) S.people = d.people;
       queue.forEach(applyOp);
       persist(); changed(); setSync('ok', 'Shared · synced' + (me ? ' · ' + me : ''));
       fillMe();
@@ -1167,16 +1169,10 @@
     document.querySelectorAll('#dayGroups details.city').forEach(function(d){ var show = filter === 'all' || d.dataset.s === filter; d.hidden = !show; if (show) d.open = true; });
   }
   document.getElementById('filters').addEventListener('click', function(e){ var b = e.target.closest('button'); if (!b) return; filter = b.dataset.f; applyFilter(); });
-  document.getElementById('malTop').addEventListener('change', function(e){
-    plan.mal = e.target.checked ? 'day' : 'no';
-    try { localStorage.setItem('trip26-malday', plan.mal === 'day' ? '1' : '0'); } catch(err) {}
-    renderAll();
-  });
+  document.getElementById('malTop').addEventListener('change', function(e){ setMal(e.target.checked); });
   document.getElementById('dayGroups').addEventListener('change', function(e){
     if (!e.target.matches('[data-malday]')) return;
-    plan.mal = e.target.checked ? 'day' : 'no';
-    try { localStorage.setItem('trip26-malday', plan.mal === 'day' ? '1' : '0'); } catch(err) {}
-    renderAll();
+    setMal(e.target.checked);
     var t = document.querySelector('[data-malday]'); if (t) t.focus();
   });
   document.getElementById('dayGroups').addEventListener('click', function(e){
@@ -1222,6 +1218,18 @@
   var plan = {ipoh:false, mal:'day'};
   plan.mal = 'no';
   try { if (localStorage.getItem('trip26-malday') === '1') plan.mal = 'day'; } catch(e) {}
+  if (S.settings && S.settings.malday != null) plan.mal = S.settings.malday === '1' ? 'day' : 'no';
+  function setMal(on){
+    plan.mal = on ? 'day' : 'no';
+    try { localStorage.setItem('trip26-malday', on ? '1' : '0'); } catch(err) {}
+    op({a:'set', key:'malday', val:on ? '1' : '0'});
+    renderAll();
+  }
+  listeners.push(function(){
+    var v = S.settings && S.settings.malday; if (v == null) return;
+    var want = v === '1' ? 'day' : 'no';
+    if (want !== plan.mal) { plan.mal = want; renderAll(); }
+  });
   function legs(){
     var L = [['langkawi','2026-11-27','2026-12-01'], ['penang','2026-12-01','2026-12-05']];
     if (plan.mal === 'night') { L.push(['kl','2026-12-05','2026-12-06']); L.push(['malacca','2026-12-06','2026-12-07']); L.push(['kl','2026-12-07','2026-12-10']); }

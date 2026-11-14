@@ -1,7 +1,7 @@
 /**
  * Malaysia 26 · shared trip data
- * Stores eating-list ticks, itinerary "done" ticks, day notes, the spending log and the
- * shopping list in this Google Sheet (shopping-list photos go to a Google Drive folder), and reads the photo list from your shared Google Photos album.
+ * Stores eating-list ticks, itinerary "done" ticks, day notes, the spending log, the
+ * Malacca day-trip choice and the shopping list in this Google Sheet (shopping-list photos go to a Google Drive folder), and reads the photo list from your shared Google Photos album.
  *
  * ---------------------------------------------------------------------------
  * SETUP (about 5 minutes, free)
@@ -53,6 +53,7 @@ function doPost(e) {
     if (b.a === 'note') return reply_(note_(b.key, b.text, by));
     if (b.a === 'spend.add') return reply_(spendAdd_(b.item));
     if (b.a === 'spend.del') return reply_(spendDel_(b.id));
+    if (b.a === 'set') return reply_(set_(b.key, b.val, by));
     if (b.a === 'shop.add') return reply_(shopAdd_(b.item, by));
     if (b.a === 'shop.toggle') return reply_(shopToggle_(b.id, !!b.on));
     if (b.a === 'shop.del') return reply_(shopDel_(b.id));
@@ -80,6 +81,7 @@ function sheet_(name, headers) {
 function ticksSheet_() { return sheet_('ticks', ['key', 'by', 'updated']); }
 function notesSheet_() { return sheet_('notes', ['key', 'text', 'by', 'updated']); }
 function spendSheet_() { return sheet_('spending', ['id', 'date', 'paid by', 'what', 'amount', 'currency', 'for']); }
+function settingsSheet_() { return sheet_('settings', ['setting', 'value', 'by', 'updated']); }
 function shopSheet_() { return sheet_('shopping', ['id', 'added', 'by', 'item', 'link', 'photo (Drive file id)', 'bought']); }
 
 function rows_(sh) {
@@ -110,7 +112,9 @@ function state_() {
     if (!r[0]) return;
     shop.push({ id: String(r[0]), at: String(r[1]), by: String(r[2]), text: String(r[3]), link: String(r[4]), img: String(r[5]), got: String(r[6]) === '1' ? 1 : 0 });
   });
-  return { ticks: ticks, notes: notes, spend: spend, shop: shop, people: PEOPLE };
+  var settings = {};
+  rows_(settingsSheet_()).forEach(function (r) { if (r[0]) settings[String(r[0])] = String(r[1]); });
+  return { ticks: ticks, notes: notes, spend: spend, shop: shop, settings: settings, people: PEOPLE };
 }
 
 function tick_(key, on, by) {
@@ -153,6 +157,16 @@ function spendDel_(id) {
   if (typeof id !== 'string') return { error: 'bad id' };
   var sh = spendSheet_(), row = rowOf_(sh, id);
   if (row) sh.deleteRow(row);
+  return { ok: true };
+}
+
+/* ---------- shared settings (e.g. Malacca day trip on/off) ---------- */
+var SETTINGS = { malday: ['0', '1'] };
+function set_(key, val, by) {
+  if (!SETTINGS.hasOwnProperty(key) || SETTINGS[key].indexOf(String(val)) < 0) return { error: 'bad setting' };
+  var sh = settingsSheet_(), row = rowOf_(sh, key);
+  var vals = [[key, String(val), by, now_()]];
+  if (row) sh.getRange(row, 1, 1, 4).setValues(vals); else sh.appendRow(vals[0]);
   return { ok: true };
 }
 
