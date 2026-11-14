@@ -637,6 +637,17 @@
   .w-msg{grid-column:1 / -1;font-size:13px;color:var(--hib)}
   .w-msg:empty{display:none}
   .wish-list{list-style:none;margin:12px 0 0;padding:0}
+  .act-total{font-weight:800;color:var(--hib)}
+  .act-form{display:grid;grid-template-columns:1fr 96px auto;gap:8px;align-items:center}
+  .act-form input{width:100%;font-size:14.5px;padding:6px 10px;border:1.5px solid var(--rose-l);border-radius:8px;background:#fff;color:var(--ink)}
+  .act-form button{font-weight:800;font-size:14.5px;padding:7px 16px;border:0;border-radius:8px;background:var(--hib);color:#fff;cursor:pointer}
+  .act-list{list-style:none;margin:12px 0 0;padding:0}
+  .act-list li{display:flex;align-items:center;gap:12px;padding:9px 0;border-top:1px solid var(--line)}
+  .act-list .a-body{flex:1;min-width:0}
+  .act-list .a-body b{display:block;font-size:15px}
+  .act-list .a-body span{font-size:12.5px;color:var(--soft)}
+  .act-list .a-amt{font-weight:800;white-space:nowrap}
+  .act-list .a-empty{display:block;color:var(--soft);font-size:14px}
   .wish-list li{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--line)}
   .wish-list .done{margin:0}
   .w-thumb{flex:none;width:64px;height:64px;padding:0;border:0;border-radius:8px;overflow:hidden;background:var(--rose-l);cursor:zoom-in}
@@ -692,6 +703,11 @@
   .f-lab{font-size:15px}
   .dish a.find{display:inline-grid;place-items:center;width:24px;height:24px;flex:none;border-radius:50%;border:1.5px solid rgba(242,206,174,.45);color:var(--hib-l)}
   .dish a.find svg{width:11px;height:11px}
+  .dishes{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+  .dish .ph{aspect-ratio:3/2}
+  .dish-body{padding:8px 10px 10px;gap:3px}
+  .dish label{font-weight:800;font-size:14.5px;line-height:1.25}
+  .dish .where{font-size:12px;line-height:1.35}
   .dish a.find:hover{background:rgba(242,206,174,.14);text-decoration:none}
 
   .spend-form input,.spend-form select,.wish-form input[name=text],.wish-form input[name=link],.w-editf input:not([type=checkbox]){padding:6px 10px;font-size:14.5px}
@@ -836,6 +852,14 @@
   /* ---------- album: light section after the food, clearer controls ---------- */
   #photos{background:#FBF1E8;position:relative;padding-top:72px}
   #photos .album-empty{color:var(--soft);border-color:var(--rose)}
+  #photos .album{height:clamp(240px,34vw,370px)}
+  #photos .acard{width:min(420px,66%)}
+  #photos .acard.is-booth{width:auto}
+  #photos .album.is-empty{height:auto;margin-top:4px}
+  #photos .album.is-empty .album-empty{position:static;inset:auto;flex-direction:row;justify-content:flex-start;gap:12px;width:min(380px,100%);margin:0 auto;padding:14px 18px;border-width:1.5px;border-radius:12px;text-align:left;background:#fff}
+  #photos .album.is-empty .album-empty svg{width:28px;height:28px;flex:none}
+  #photos .album.is-empty .album-empty p{font-size:16px;max-width:none}
+  @media (max-width:640px){#photos .acard{width:76%}#photos .acard.is-booth{width:auto}}
   .album-nav{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:6px}
   .album-nav .album-count{margin:0;min-width:16ch;color:var(--ink);font-size:13.5px}
   .an{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--rose-l);background:#fff;color:var(--jade-dd);display:grid;place-items:center;cursor:pointer}
@@ -957,11 +981,11 @@
 <nav class="nav" aria-label="Sections">
   <ul>
     <li class="nav-logo"><a href="#top" aria-label="Malaysia 2026, back to top"><img src="img/logo.webp" alt="" width="28" height="28"><span>Malaysia</span></a></li>
-    <li><a href="#stay">Where to stay</a></li>
-        <li><a href="#days">Day by day</a></li>
-    <li><a href="#weather">Weather</a></li>
-    <li><a href="#food">Food</a></li>
+    <li><a href="#days">Day by day</a></li>
     <li><a href="#photos">Album</a></li>
+    <li><a href="#food">Food</a></li>
+    <li><a href="#stay">Where to stay</a></li>
+    <li><a href="#weather">Weather</a></li>
     <li><a href="#shop">Shopping</a></li>
     <li><a href="#money">Money &amp; costs</a></li>
     <li><a href="#around">Getting around</a></li>
@@ -971,14 +995,7 @@
 
 <main>
 
-<section id="stay">
-  <div class="wrap">
-    <div class="eyebrow-row"><div><h2 class="sp">Where to stay</h2><p class="sub">All three stays are booked.</p></div></div>
-    <ol class="bookings" id="bookings"></ol>
-  </div>
-</section>
-
-<section id="days" style="padding-top:0">
+<section id="days">
   <div class="wrap">
     <div class="eyebrow-row"><div><h2 class="sp">Day by day</h2><p class="sub">Times are a guide. Stops marked Optional are extras you can add or skip. Each day stays in one area, with the commute between stops.</p></div></div>
     <div class="days-bar">
@@ -986,6 +1003,56 @@
       <label class="mal-sw mal-top"><input type="checkbox" id="malTop"><span class="knob" aria-hidden="true"></span>Add a Malacca day trip <small>Sun 6 Dec</small></label>
     </div>
     <div id="dayGroups"></div>
+  </div>
+</section>
+
+<section id="photos">
+  <div class="wrap">
+    <div class="eyebrow-row"><div><h2 class="sp">Album</h2><p class="sub" id="albumSub">Our trip photos. Switch to Photobooth for a ticket strip, or Mix for a shuffle of three.</p></div></div>
+    <div class="album" id="album" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Photo album">
+      <div class="album-stage" id="albumStage"></div>
+      <div class="album-empty" id="albumEmpty"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="11" width="36" height="28" rx="4" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="24" cy="25" r="7" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M17 11l3-4h8l3 4" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/></svg><p></p></div>
+    </div>
+    <div class="album-nav">
+      <button type="button" class="an" id="albumPrev" aria-label="Previous photo"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <p class="album-count" id="albumCount" aria-live="polite"></p>
+      <button type="button" class="an" id="albumNext" aria-label="Next photo"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7.5 4l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
+    <div class="album-bar" role="toolbar" aria-label="Album actions">
+      <label class="ab ab-add" id="albumAdd"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><span>Add photos</span><input type="file" accept="image/*" multiple class="sr" id="albumFile"></label>
+      <span class="ab-sep" aria-hidden="true"></span>
+      <div class="seg" role="group" aria-label="View"><button type="button" class="seg-b" data-view="photo" aria-pressed="true"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="4" width="15" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5 13l3.5-3.5 2.5 2.5 2-2 2 2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>Photo</span></button><button type="button" class="seg-b" data-view="single" aria-pressed="false" id="albumBooth"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="6" y="1.5" width="8" height="17" rx="1" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M6 7h8M6 13h8" stroke="currentColor" stroke-width="1.4"/></svg><span>Photobooth</span></button><button type="button" class="seg-b" data-view="mix" aria-pressed="false" id="albumShuffle"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 6h3.5c2 0 3 1 4.2 3l1.6 2.4c1.1 1.6 2 2.6 4 2.6H17M14.5 11.6L17 14l-2.5 2.4M3 14h3.5c1.4 0 2.3-.6 3-1.5M12 7.6c.8-1 1.7-1.6 3.3-1.6H17M14.5 3.6L17 6l-2.5 2.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Mix</span></button></div>
+      <button type="button" class="ab ab-again" id="albumAgain" aria-label="Shuffle again" title="Shuffle again" hidden><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M15.5 6.5A6.5 6.5 0 1 0 16.5 11" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><path d="M16 2.8v4h-4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button type="button" class="ab ab-grid" id="albumGrid" aria-label="Open the gallery" title="Gallery"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="3" width="6" height="6" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="11" y="3" width="6" height="6" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="3" y="11" width="6" height="6" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="11" y="11" width="6" height="6" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.7"/></svg><span>Gallery</span></button>
+      <div class="dl-wrap">
+        <button type="button" class="ab ab-dl" id="albumDl" aria-haspopup="menu" aria-expanded="false" aria-controls="dlMenu"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v10M5.5 9l4.5 4.5L14.5 9M4 17h12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Download</span><svg class="caret" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="dl-menu" id="dlMenu" role="menu" hidden>
+          <button type="button" role="menuitem" data-dl="photo"><b>This photo</b><small>Full size</small></button>
+          <button type="button" role="menuitem" data-dl="strip"><b>Photobooth strip</b><small id="dlStripNote">Of this photo</small></button>
+          <button type="button" role="menuitem" data-dl="all"><b>All photos</b><small id="dlAllNote">As a .zip file</small></button>
+        </div>
+      </div>
+      <button type="button" class="ab ab-del" id="albumDel" aria-label="Delete this photo"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 6h12M8 6V4h4v2M6 6l1 10h6l1-10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Delete</span></button>
+    </div>
+    <p class="album-msg" id="albumMsg" role="status"></p>
+  </div>
+</section>
+
+<section class="food" id="food">
+  <div class="wrap">
+    <div class="eyebrow-row">
+      <div><h2 class="sp">The eating list</h2><p class="sub">Tick what you've eaten. The magnifying glass finds it nearby in Google Maps.</p></div>
+      <div class="tally-box"><p class="tally" id="tally"></p><p class="sync-note" id="syncNote"></p></div>
+    </div>
+    <div id="board"></div>
+    <p class="halal">Halal: Malay and mamak (Indian-Muslim) places are halal. Many Chinese hawker stalls aren't, but halal versions of most dishes are easy to find, especially in Penang.</p>
+  </div>
+</section>
+
+<section id="stay">
+  <div class="wrap">
+    <div class="eyebrow-row"><div><h2 class="sp">Where to stay</h2><p class="sub">All three stays are booked.</p></div></div>
+    <ol class="bookings" id="bookings"></ol>
   </div>
 </section>
 
@@ -1015,49 +1082,6 @@
     <div class="pack">
       <span class="chip">☂ Small umbrella</span><span class="chip">Light rain jacket</span><span class="chip">Sandals that can get wet</span><span class="chip">Sunscreen &amp; hat</span><span class="chip">Cardigan for the cold AC</span><span class="chip">Swimwear for ESCAPE</span>
     </div>
-  </div>
-</section>
-
-<section class="food" id="food">
-  <div class="wrap">
-    <div class="eyebrow-row">
-      <div><h2 class="sp">The eating list</h2><p class="sub">Tick what you've eaten. The magnifying glass finds it nearby in Google Maps.</p></div>
-      <div class="tally-box"><p class="tally" id="tally"></p><p class="sync-note" id="syncNote"></p></div>
-    </div>
-    <div id="board"></div>
-    <p class="halal">Halal: Malay and mamak (Indian-Muslim) places are halal. Many Chinese hawker stalls aren't, but halal versions of most dishes are easy to find, especially in Penang.</p>
-  </div>
-</section>
-
-<section id="photos">
-  <div class="wrap">
-    <div class="eyebrow-row"><div><h2 class="sp">Our album</h2><p class="sub" id="albumSub">Our trip photos. Switch to Photobooth for a ticket strip, or Mix for a shuffle of three.</p></div></div>
-    <div class="album" id="album" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Photo album">
-      <div class="album-stage" id="albumStage"></div>
-      <div class="album-empty" id="albumEmpty"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="11" width="36" height="28" rx="4" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="24" cy="25" r="7" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M17 11l3-4h8l3 4" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/></svg><p></p></div>
-    </div>
-    <div class="album-nav">
-      <button type="button" class="an" id="albumPrev" aria-label="Previous photo"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-      <p class="album-count" id="albumCount" aria-live="polite"></p>
-      <button type="button" class="an" id="albumNext" aria-label="Next photo"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7.5 4l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    </div>
-    <div class="album-bar" role="toolbar" aria-label="Album actions">
-      <label class="ab ab-add" id="albumAdd"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><span>Add photos</span><input type="file" accept="image/*" multiple class="sr" id="albumFile"></label>
-      <span class="ab-sep" aria-hidden="true"></span>
-      <div class="seg" role="group" aria-label="View"><button type="button" class="seg-b" data-view="photo" aria-pressed="true"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="4" width="15" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5 13l3.5-3.5 2.5 2.5 2-2 2 2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>Photo</span></button><button type="button" class="seg-b" data-view="single" aria-pressed="false" id="albumBooth"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="6" y="1.5" width="8" height="17" rx="1" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M6 7h8M6 13h8" stroke="currentColor" stroke-width="1.4"/></svg><span>Photobooth</span></button><button type="button" class="seg-b" data-view="mix" aria-pressed="false" id="albumShuffle"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 6h3.5c2 0 3 1 4.2 3l1.6 2.4c1.1 1.6 2 2.6 4 2.6H17M14.5 11.6L17 14l-2.5 2.4M3 14h3.5c1.4 0 2.3-.6 3-1.5M12 7.6c.8-1 1.7-1.6 3.3-1.6H17M14.5 3.6L17 6l-2.5 2.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Mix</span></button></div>
-      <button type="button" class="ab ab-again" id="albumAgain" aria-label="Shuffle again" title="Shuffle again" hidden><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M15.5 6.5A6.5 6.5 0 1 0 16.5 11" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><path d="M16 2.8v4h-4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-      <button type="button" class="ab ab-grid" id="albumGrid" aria-label="Open the gallery" title="Gallery"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="3" width="6" height="6" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="11" y="3" width="6" height="6" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="3" y="11" width="6" height="6" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="11" y="11" width="6" height="6" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.7"/></svg><span>Gallery</span></button>
-      <div class="dl-wrap">
-        <button type="button" class="ab ab-dl" id="albumDl" aria-haspopup="menu" aria-expanded="false" aria-controls="dlMenu"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v10M5.5 9l4.5 4.5L14.5 9M4 17h12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Download</span><svg class="caret" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-        <div class="dl-menu" id="dlMenu" role="menu" hidden>
-          <button type="button" role="menuitem" data-dl="photo"><b>This photo</b><small>Full size</small></button>
-          <button type="button" role="menuitem" data-dl="strip"><b>Photobooth strip</b><small id="dlStripNote">Of this photo</small></button>
-          <button type="button" role="menuitem" data-dl="all"><b>All photos</b><small id="dlAllNote">As a .zip file</small></button>
-        </div>
-      </div>
-      <button type="button" class="ab ab-del" id="albumDel" aria-label="Delete this photo"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 6h12M8 6V4h4v2M6 6l1 10h6l1-10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Delete</span></button>
-    </div>
-    <p class="album-msg" id="albumMsg" role="status"></p>
   </div>
 </section>
 
@@ -1135,14 +1159,14 @@
         <p class="note">Low = hawker food and a simple KL hotel; high = sit-down meals and a comfortable KL hotel. Langkawi ($220.32) and Penang ($265.71) are the real prices you paid, split between you.</p>
       </div>
 
-      <div class="panel">
-        <h3>Activity costs</h3>
-        <table>
-          <thead><tr><th>Day</th><th>Activity</th><th class="n">RM</th></tr></thead>
-          <tbody id="actRows"></tbody>
-          <tfoot><tr><td></td><td>Total, with your Day 10 pick</td><td class="n" id="actTotal"></td></tr></tfoot>
-        </table>
-        <p class="note">Foreigner prices where they differ. ~ means approximate; check before booking.</p>
+      <div class="panel act-panel">
+        <div class="spend-head"><h3>Our activities</h3><p class="act-total" id="actTotal"></p></div>
+        <form class="act-form" id="actForm" autocomplete="off">
+          <label class="a-what"><span class="sr">Activity</span><input name="what" maxlength="80" placeholder="Add an activity" required></label>
+          <label class="a-amt"><span class="sr">Cost in RM</span><input name="amt" type="number" inputmode="decimal" min="0.01" step="any" placeholder="RM" required></label>
+          <button type="submit">Add</button>
+        </form>
+        <ul class="act-list" id="actList"></ul>
       </div>
 
     </div>
@@ -1170,7 +1194,6 @@
     </div>
   </div>
 </section>
-
 
 <section id="before">
   <div class="wrap">
@@ -1630,7 +1653,7 @@
   }
 
   /* ---------- food ---------- */
-  var food = [{"city":"Mains & savoury","dishes":[["Char kway teow","f_ckt","Smoky stir-fried flat noodles with prawns","char kway teow Penang"],["Hokkien mee","f_hokkien","Rich prawn noodle soup","Hokkien mee Penang"],["Assam laksa","f_laksa","Sour, spicy fish noodle soup","assam laksa Penang"],["Nasi lemak","f_nasilemak","Coconut rice, sambal, egg, peanuts · breakfast","nasi lemak Kuala Lumpur"],["Roti canai","f_roti","Flaky flatbread with curry","roti canai Kuala Lumpur"],["Nasi kandar","f_kandar","Rice with mixed curries poured over · halal","nasi kandar Penang"],["Satay","f_satay","Grilled skewers with peanut sauce","satay Jalan Alor Kuala Lumpur"],["Claypot chicken rice","f_claypot","Rice and chicken cooked in a clay pot, crispy at the bottom","Heun Kee Claypot Chicken Rice"],["Banana leaf rice","f_bananaleaf","South Indian rice meal served on a leaf","banana leaf rice Brickfields"],["Oyster omelette","f_oyster","Crispy egg with oysters","oyster omelette Penang"],["Chicken rice balls","f_riceballs","Chicken rice shaped into little balls","chicken rice ball Melaka","malacca"],["Dim sum","fx_dimsum","Steamed baskets, best at breakfast","dim sum breakfast"],["Dumplings","fx_dumplings","Pan-fried or steamed, with chilli vinegar","dumplings Kuala Lumpur"],["Takoyaki","fx_takoyaki","Hot octopus balls off the griddle","takoyaki Jalan Alor"],["Spicy fried squid","fx_squid","Grilled or fried sotong, chilli-glazed","spicy squid night market"],["Steamed scallops","fx_scallops","With garlic and glass noodles","steamed scallops Jalan Alor"]]},{"city":"Desserts & sweets","dishes":[["Cendol","f_cendol","Shaved ice, coconut milk, palm sugar","cendol Penang Road"],["Ais kacang (ABC)","f_abc","Rainbow shaved ice with syrup, corn and jelly","ais kacang"],["Apam balik","f_apam","Crispy peanut pancake","apam balik"],["Pisang goreng","f_pisang","Hot banana fritters","pisang goreng"],["Kaya toast","f_kaya","Coconut jam toast with soft eggs","kaya toast"],["Egg tarts","fx_eggtart","Flaky, wobbly custard tarts","egg tart bakery"],["Japanese pancakes","fx_jpancake","Fluffy soufflé pancakes","japanese souffle pancake Kuala Lumpur"]]},{"city":"Drinks","dishes":[["Teh tarik","f_tehtarik","\"Pulled\" frothy milk tea","teh tarik"],["Ipoh white coffee","f_coffee","Creamy, sweet coffee · packs make good gifts","white coffee kopitiam"],["Milo dinosaur","f_milo","Iced Milo topped with a mountain of Milo powder","milo dinosaur"],["Sugarcane juice","f_tebu","Fresh-pressed, ice cold","sugarcane juice"]]}];
+  var food = [{"city":"Mains & savoury","dishes":[["Char kway teow","f_ckt","Smoky fried flat noodles","char kway teow Penang"],["Hokkien mee","f_hokkien","Prawn noodle soup","Hokkien mee Penang"],["Nasi lemak","f_nasilemak","Coconut rice & sambal","nasi lemak Kuala Lumpur"],["Roti canai","f_roti","Flatbread with curry","roti canai Kuala Lumpur"],["Nasi kandar","f_kandar","Rice with mixed curries","nasi kandar Penang"],["Satay","f_satay","Skewers, peanut sauce","satay Jalan Alor Kuala Lumpur"],["Claypot chicken rice","f_claypot","Crispy claypot rice","Heun Kee Claypot Chicken Rice"],["Banana leaf rice","f_bananaleaf","Curry rice on a leaf","banana leaf rice Brickfields"],["Chicken rice balls","f_riceballs","Chicken rice in balls","chicken rice ball Melaka","malacca"],["Dim sum","fx_dimsum","Steamed baskets","dim sum breakfast"],["Dumplings","fx_dumplings","With chilli vinegar","dumplings Kuala Lumpur"],["Takoyaki","fx_takoyaki","Octopus balls","takoyaki Jalan Alor"],["Spicy fried squid","fx_squid","Chilli-glazed squid","spicy squid night market"],["Steamed scallops","fx_scallops","Garlic & glass noodles","steamed scallops Jalan Alor"]]},{"city":"Desserts & sweets","dishes":[["Cendol","f_cendol","Shaved ice, palm sugar","cendol Penang Road"],["Ais kacang (ABC)","f_abc","Rainbow shaved ice","ais kacang"],["Apam balik","f_apam","Peanut pancake","apam balik"],["Pisang goreng","f_pisang","Banana fritters","pisang goreng"],["Kaya toast","f_kaya","Coconut jam toast","kaya toast"],["Egg tarts","fx_eggtart","Custard tarts","egg tart bakery"],["Japanese pancakes","fx_jpancake","Fluffy soufflé pancakes","japanese souffle pancake Kuala Lumpur"]]}];
   var board = document.getElementById('board');
   board.innerHTML = food.map(function(c){
     return '<p class="city-label">'+c.city+'</p><div class="dishes">' + c.dishes.map(function(d){
@@ -1726,13 +1749,29 @@
     '<br><small style="font-weight:600;color:#587266">' + range(CASH_DAY[0]*14*RATES.EGP, CASH_DAY[1]*14*RATES.EGP, 'EGP') + ' · ' + range(CASH_DAY[0]*14*RATES.GBP, CASH_DAY[1]*14*RATES.GBP, 'GBP') + ' · ' + range(CASH_DAY[0]*14*RATES.USD, CASH_DAY[1]*14*RATES.USD, 'USD') + '</small>';
 
   function renderActivities(){
-    var rows = [], total = 0;
-    days.map(resolve).forEach(function(r){
-      (body(r).c || []).forEach(function(c){ total += c[1]; rows.push('<tr><td>'+r.n+'</td><td>'+c[0]+'</td><td class="n">'+(c[2]?'~':'')+c[1]+'</td></tr>'); });
-    });
-    document.getElementById('actRows').innerHTML = rows.join('');
-    document.getElementById('actTotal').textContent = '~' + total;
+    var list = (S.spend || []).slice().sort(function(a, b){ return (a.at || '') < (b.at || '') ? -1 : 1; });
+    var total = list.reduce(function(t, x){ return t + (x.cur === 'MYR' ? +x.amt || 0 : (+x.amt || 0) / ((RATES && RATES[x.cur]) || 1)); }, 0);
+    document.getElementById('actTotal').textContent = list.length ? 'Total RM' + Math.round(total).toLocaleString('en-GB') : '';
+    document.getElementById('actList').innerHTML = !list.length ? '<li class="a-empty">Nothing yet. Add activities you want to do and what they cost.</li>' :
+      list.map(function(x){
+        return '<li><div class="a-body"><b>' + esc(x.what) + '</b><span>' + (x.who ? 'Added by ' + esc(x.who) : '') + '</span></div>' +
+          '<span class="a-amt">' + (x.cur === 'MYR' ? 'RM' : x.cur + ' ') + (+x.amt).toLocaleString('en-GB') + '</span>' +
+          '<button type="button" class="sp-del" data-adel="' + esc(x.id) + '" aria-label="Delete ' + esc(x.what) + '"><svg class="x-ico" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 2.5l7 7M9.5 2.5l-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></li>';
+      }).join('');
   }
+  listeners.push(renderActivities);
+  document.getElementById('actForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var what = this.elements.what.value.trim(), amt = parseFloat(this.elements.amt.value);
+    if (!what || !(amt > 0)) return;
+    var who = S.people.indexOf(me) >= 0 ? me : S.people[0];
+    op({a:'spend.add', item:{id:Date.now().toString(36) + Math.random().toString(36).slice(2, 6), at:new Date().toISOString(), who:who, what:what, amt:Math.round(amt * 100) / 100, cur:'MYR', split:'both'}});
+    this.reset(); this.elements.what.focus();
+  });
+  document.getElementById('actList').addEventListener('click', function(e){
+    var b = e.target.closest('[data-adel]'); if (!b) return;
+    op({a:'spend.del', id:b.dataset.adel});
+  });
   /* mini converter in the header */
   var mA = document.getElementById('mAmt'), mC = document.getElementById('mCur'), mO = document.getElementById('mOut');
   function miniConvert(){
@@ -2273,6 +2312,7 @@
     renderAlbum();
     var empty = document.getElementById('albumEmpty');
     empty.hidden = list.length > 0;
+    document.getElementById('album').classList.toggle('is-empty', !list.length);
     empty.querySelector('p').textContent = !tripCode ? 'Enter the trip code to see our photos.' : 'No photos yet. Tap “Add photos” to start our album.';
     document.querySelector('.album-nav').hidden = list.length < 1;
   }
