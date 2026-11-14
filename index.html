@@ -411,7 +411,9 @@
   /* nav */
   .nav{border-bottom:1.5px solid var(--rose-l)}
   .nav a{color:var(--jade-dd)}
-  .nav a:hover{background:var(--hib-l);color:var(--hib-d)}
+  .nav li:not(.nav-logo) a{border:1.5px solid transparent;padding:6px 12px}
+  .nav li:not(.nav-logo) a:hover{background:transparent;border-color:var(--hib-l);color:var(--jade-dd)}
+  .nav li:not(.nav-logo) a.is-active,.nav li:not(.nav-logo) a[aria-current="true"]{background:var(--hib-l);border-color:var(--hib-l);color:var(--hib-d)}
 
   /* checkerboard band (poster motif) */
   .food,footer{position:relative}
@@ -2443,6 +2445,29 @@
       })
       .catch(function(){ albumMsg('Couldn’t delete. Try again.'); });
   });
+
+  /* ---------- nav: highlight the section on screen ---------- */
+  (function(){
+    var links = [].slice.call(document.querySelectorAll('.nav li:not(.nav-logo) a[href^="#"]'));
+    var secs = links.map(function(a){ return document.getElementById(a.getAttribute('href').slice(1)); });
+    var navUl = document.querySelector('.nav ul'), current = null;
+    function update(){
+      var y = window.scrollY + 120, pick = null;
+      secs.forEach(function(sec, i){ if (sec && !sec.hidden && sec.offsetTop <= y) pick = i; });
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) { for (var j = secs.length - 1; j >= 0; j--) if (secs[j] && !secs[j].hidden) { pick = j; break; } }
+      if (pick === current) return;
+      current = pick;
+      links.forEach(function(a, i){
+        var on = i === pick;
+        a.classList.toggle('is-active', on);
+        if (on) { a.setAttribute('aria-current', 'true'); var l = a.offsetLeft - 20; if (navUl.scrollLeft > l || navUl.scrollLeft + navUl.clientWidth < a.offsetLeft + a.offsetWidth + 20) navUl.scrollTo({left:l, behavior:'smooth'}); }
+        else a.removeAttribute('aria-current');
+      });
+    }
+    window.addEventListener('scroll', update, {passive:true});
+    window.addEventListener('resize', update);
+    update();
+  })();
 
   /* ---------- sharing setup pill ---------- */
   var syncBox = document.getElementById('syncBox'), syncPanel = document.getElementById('syncPanel');
