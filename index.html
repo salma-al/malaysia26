@@ -1046,6 +1046,7 @@
   .opt-meta .opt-use{margin-top:auto}
   .h3-title{font-size:clamp(46px,6.6vw,90px)!important}
   .h3-sub p{font-size:clamp(20px,2.3vw,28px)!important}
+  .weather .wx{background:var(--rose-l)}
   @media print{.nav,.filters,.tabs{display:none}}
 </style>
 </head>
@@ -1345,7 +1346,7 @@
 
   /* ---------- shared trip data: ticks, notes, spending, photos ----------
      Works on this device with no setup. Paste the Google Apps Script web-app
-     link (see sync/trip-sync.gs) into SYNC_URL to share it between devices. */
+     link (see the Google script).into SYNC_URL to share it between devices. */
   var SYNC_URL = 'https://script.google.com/macros/s/AKfycbwz9PLku-wZi3BttQUrpEqSeyPH8q8k6yC3_UJ4SJW6Pp-1TWNkt-yCWxuuKWd70Vlaxg/exec';
   var S = {ticks:{}, notes:{}, spend:[], shop:[], bookings:[], settings:{}, people:['Salma','Rahma']};
   var queue = [], tripCode = '', me = '', syncState = 'local', listeners = [];
@@ -2692,7 +2693,7 @@
       });
       var sig = list.map(function(x){ return x.fid || x.src; }).join('|');
       if (sig !== albumSig || !album.length) { albumSig = sig; if (!booth) setAlbum(list, true); else pendingAlbum = list; }
-      if (d.drive == null) albumMsg('Update the Google script to enable uploads (see sync/trip-sync.gs).'); else albumMsg('');
+      if (d.drive == null) albumMsg('Update the Google script to enable uploads (see the Google script).'); else albumMsg('');
     }).catch(function(){ albumMsg('Couldn’t reach the album. Check your connection.'); });
   }
   function exifDate(file){
