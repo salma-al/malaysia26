@@ -775,7 +775,7 @@
   .acard img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
   .acard:not(.on){filter:brightness(.82)}
   .acard.on{cursor:zoom-in}
-  .acard.is-booth{top:0;height:100%;width:auto;aspect-ratio:1/3.25;background:#7A1C1C;cursor:default;border-radius:4px;container-type:inline-size}
+  .acard.is-booth{top:0;height:100%;width:auto;aspect-ratio:1/2.85;background:#7A1C1C;cursor:default;border-radius:4px;container-type:inline-size}
   .acard.is-booth > img{opacity:0}
   .booth-wrap{position:absolute;inset:0;pointer-events:none}
   .album-count{text-align:center;font-size:13px;font-weight:700;color:var(--mint);margin-top:4px}
@@ -825,7 +825,7 @@
   .tk-info b{font-size:7cqw;line-height:1.05}
   .tk-when span{font-size:3.1cqw;border-bottom:.45cqw solid var(--red);padding-bottom:1cqw;white-space:nowrap}
   .tk-when b{font-size:5cqw;padding-top:.6cqw}
-  .tk-frames{flex:1;display:grid;grid-template-rows:repeat(4,1fr);gap:2.6cqw;padding:2.8cqw 2.6cqw}
+  .tk-frames{flex:1;display:grid;grid-template-rows:repeat(3,1fr);gap:3cqw;padding:3cqw 2.6cqw}
   .tk-f{display:block;background-repeat:no-repeat;background-color:#3a1010;border:.5cqw solid var(--red);filter:saturate(1.12) contrast(1.06)}
   .tk-tag{font-family:"Instrument Serif",Georgia,serif;font-size:2.9cqw;border-top:.45cqw solid var(--red);border-bottom:.45cqw solid var(--red);padding:1.4cqw 0;white-space:nowrap;letter-spacing:.02em}
   .tk-brand{font-family:"Plus Jakarta Sans",sans-serif;font-size:9.5cqw;line-height:1;padding:3.4cqw 0 3.8cqw;letter-spacing:-.02em}
@@ -867,6 +867,33 @@
   .hero-cta:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 #400D01}
   .mini-conv + .hero-cta{margin-top:14px}
   @media (max-width:560px){.album-bar{border-radius:18px;width:100%}.album-bar .ab span{font-size:12.5px}.ab-sep{display:none}}
+  /* ---------- album view switch, gallery, sync minimise ---------- */
+  .seg{display:inline-flex;background:#FBF1E8;border-radius:999px;padding:3px;gap:2px}
+  .seg-b{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 12px;border:0;border-radius:999px;background:transparent;color:var(--jade-dd);font:800 13px/1 "Plus Jakarta Sans",sans-serif;cursor:pointer}
+  .seg-b svg{width:16px;height:16px}
+  .seg-b[aria-pressed="true"]{background:var(--jade-dd);color:#fff}
+  .album-bar .ab-again{padding:0;width:40px;color:var(--jade-dd);border:1.5px solid var(--rose-l)}
+  .album-bar .ab-again:hover{transform:rotate(-30deg);transition:transform .2s}
+  dialog.gal-dlg{width:min(980px,96vw);max-height:90vh;padding:0;border:0;border-radius:16px;background:#FBF1E8;overflow:hidden}
+  dialog.gal-dlg::backdrop{background:rgba(15,61,46,.75)}
+  .gal-dlg[open]{display:flex;flex-direction:column}
+  .gal-bar{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1.5px solid var(--rose-l);background:#fff}
+  .gal-title{font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-size:22px;color:var(--rasp)}
+  .gal-title span{font-family:"Plus Jakarta Sans",sans-serif;font-style:normal;font-size:13px;color:var(--soft)}
+  .gal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;padding:14px;overflow:auto}
+  .gal-t{position:relative;aspect-ratio:1;border:0;padding:0;border-radius:10px;overflow:hidden;background:var(--rose-l);cursor:pointer}
+  .gal-t img{width:100%;height:100%;object-fit:cover;display:block}
+  .gal-t span{position:absolute;left:6px;bottom:6px;font:700 11px/1 "Plus Jakarta Sans",sans-serif;color:#fff;background:rgba(15,61,46,.7);padding:4px 7px;border-radius:999px}
+  .gal-t.on{outline:3px solid var(--hib);outline-offset:-3px}
+  .gal-t:hover img{transform:scale(1.04);transition:transform .25s}
+  .pill-chev{display:none;width:14px;height:14px;margin-left:2px}
+  .pill-chev svg{width:14px;height:14px}
+  .sync-pill[aria-expanded="true"] .pill-chev{display:inline-block}
+  .sp-head{display:flex;align-items:center;justify-content:space-between}
+  .sp-head .sp-title{margin:0}
+  .sync-panel .sp-min{width:28px;height:28px;margin:0;padding:0;border-radius:50%;border:1.5px solid var(--rose-l);background:#fff;color:var(--jade-dd);display:grid;place-items:center;cursor:pointer}
+  .sync-panel .sp-min svg{width:13px;height:13px}
+  @media (max-width:560px){.seg-b span{display:none}.seg-b{padding:0 11px}.album-bar .ab-grid span{display:none}}
   @media print{.nav,.filters,.tabs{display:none}}
 </style>
 </head>
@@ -998,7 +1025,7 @@
 
 <section id="photos">
   <div class="wrap">
-    <div class="eyebrow-row"><div><h2 class="sp">Our album</h2><p class="sub" id="albumSub">Swipe through the trip. Tap the strip button to turn a photo into a photobooth print.</p></div></div>
+    <div class="eyebrow-row"><div><h2 class="sp">Our album</h2><p class="sub" id="albumSub">Our trip photos. Switch to Photobooth for a ticket strip, or Mix for a shuffle of three.</p></div></div>
     <div class="album" id="album" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Photo album">
       <div class="album-stage" id="albumStage"></div>
       <div class="album-empty" id="albumEmpty"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="11" width="36" height="28" rx="4" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="24" cy="25" r="7" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M17 11l3-4h8l3 4" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/></svg><p></p></div>
@@ -1011,8 +1038,9 @@
     <div class="album-bar" role="toolbar" aria-label="Album actions">
       <label class="ab ab-add" id="albumAdd"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><span>Add photos</span><input type="file" accept="image/*" multiple class="sr" id="albumFile"></label>
       <span class="ab-sep" aria-hidden="true"></span>
-      <button type="button" class="ab ab-booth" id="albumBooth" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="6" y="1.5" width="8" height="17" rx="1" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M6 5.8h8M6 10h8M6 14.2h8" stroke="currentColor" stroke-width="1.4"/></svg><span>Photobooth</span></button>
-      <button type="button" class="ab ab-shuf" id="albumShuffle"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 6h3.5c2 0 3 1 4.2 3l1.6 2.4c1.1 1.6 2 2.6 4 2.6H17M14.5 11.6L17 14l-2.5 2.4M3 14h3.5c1.4 0 2.3-.6 3-1.5M12 7.6c.8-1 1.7-1.6 3.3-1.6H17M14.5 3.6L17 6l-2.5 2.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Shuffle</span></button>
+      <div class="seg" role="group" aria-label="View"><button type="button" class="seg-b" data-view="photo" aria-pressed="true"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="4" width="15" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5 13l3.5-3.5 2.5 2.5 2-2 2 2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>Photo</span></button><button type="button" class="seg-b" data-view="single" aria-pressed="false" id="albumBooth"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="6" y="1.5" width="8" height="17" rx="1" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M6 7h8M6 13h8" stroke="currentColor" stroke-width="1.4"/></svg><span>Photobooth</span></button><button type="button" class="seg-b" data-view="mix" aria-pressed="false" id="albumShuffle"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 6h3.5c2 0 3 1 4.2 3l1.6 2.4c1.1 1.6 2 2.6 4 2.6H17M14.5 11.6L17 14l-2.5 2.4M3 14h3.5c1.4 0 2.3-.6 3-1.5M12 7.6c.8-1 1.7-1.6 3.3-1.6H17M14.5 3.6L17 6l-2.5 2.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Mix</span></button></div>
+      <button type="button" class="ab ab-again" id="albumAgain" aria-label="Shuffle again" title="Shuffle again" hidden><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M15.5 6.5A6.5 6.5 0 1 0 16.5 11" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><path d="M16 2.8v4h-4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button type="button" class="ab ab-grid" id="albumGrid" aria-label="Open the gallery" title="Gallery"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="3" width="6" height="6" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="11" y="3" width="6" height="6" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="3" y="11" width="6" height="6" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="11" y="11" width="6" height="6" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.7"/></svg><span>Gallery</span></button>
       <div class="dl-wrap">
         <button type="button" class="ab ab-dl" id="albumDl" aria-haspopup="menu" aria-expanded="false" aria-controls="dlMenu"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v10M5.5 9l4.5 4.5L14.5 9M4 17h12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Download</span><svg class="caret" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <div class="dl-menu" id="dlMenu" role="menu" hidden>
@@ -1160,15 +1188,20 @@
 <div class="syncbox" id="syncBox" hidden>
   <div class="sync-panel" id="syncPanel" hidden>
     <form id="syncForm">
-      <p class="sp-title">Shared trip</p>
+      <div class="sp-head"><p class="sp-title">Shared trip</p><button type="button" class="sp-min" id="syncMin" aria-label="Minimise"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
       <label>Trip code<input id="tripCode" type="password" autocomplete="off" required></label>
       <label>I am<select id="meSel"></select></label>
       <button type="submit">Save</button>
       <p class="sp-msg" id="syncMsg" role="status"></p>
     </form>
   </div>
-  <button type="button" class="sync-pill" id="syncPill" aria-expanded="false" aria-controls="syncPanel"><span class="dot" aria-hidden="true"></span><span id="syncText">Sharing</span></button>
+  <button type="button" class="sync-pill" id="syncPill" aria-expanded="false" aria-controls="syncPanel"><span class="dot" aria-hidden="true"></span><span id="syncText">Sharing</span><span class="pill-chev" aria-hidden="true"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
 </div>
+
+<dialog class="gal-dlg" id="galDlg" aria-label="Gallery">
+  <div class="gal-bar"><p class="gal-title">Our album <span id="galCount"></span></p><button type="button" class="doc-close" id="galClose" aria-label="Close the gallery"><svg class="x-ico" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 2.5l7 7M9.5 2.5l-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+  <div class="gal-grid" id="galGrid"></div>
+</dialog>
 
 <dialog class="doc-dlg" id="docDlg" aria-label="Booking">
   <div class="doc-bar"><p class="doc-title"></p><a class="doc-open" target="_blank" rel="noopener">Open in new tab</a><a class="doc-dl">Download</a><button type="button" class="doc-close" aria-label="Close"><svg class="x-ico" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 2.5l7 7M9.5 2.5l-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
@@ -1940,7 +1973,7 @@
       if (viaScript[id]) { viaScript[id].then(done); return; }
       viaScript[id] = fetch(SYNC_URL + '?what=img&id=' + encodeURIComponent(id) + '&code=' + encodeURIComponent(tripCode))
         .then(function(r){ return r.json(); })
-        .then(function(d){ if (!d || !d.data) throw 0; return 'data:' + (d.mime || 'image/jpeg') + ';base64,' + d.data; });
+        .then(function(d){ if (!d || !d.data) throw new Error(d && d.error ? d.error : 'update'); return 'data:' + (d.mime || 'image/jpeg') + ';base64,' + d.data; });
       viaScript[id].then(done).catch(function(){ img.classList.add('img-missing'); });
       return;
     }
@@ -2092,7 +2125,7 @@
     return plan.mal === 'day' && k === 20261206 ? 'MLK' : 'KUL';
   }
   var mix = [];
-  var CROPS = [[1, .5, .5], [1.6, .3, .4], [1.75, .7, .45], [1.45, .5, .7]];
+  var CROPS = [[1, .5, .5], [1.6, .3, .4], [1.6, .7, .6]];
   function stripModel(){
     if (booth === 'mix') {
       var first = photoDate(mix[0]), last = photoDate(mix[mix.length - 1]);
@@ -2138,13 +2171,12 @@
       (active + 1) + ' / ' + n + (pdc ? ' · ' + shortDay(pdc) : '') + (cur && cur.by ? ' · added by ' + cur.by : '');
     var del = document.getElementById('albumDel'); del.hidden = !(albumReal && album[active]); delete del.dataset.sure; del.classList.remove('sure');
     del.querySelector('span').textContent = 'Delete';
-    var bb = document.getElementById('albumBooth');
-    bb.setAttribute('aria-pressed', String(!!booth));
-    bb.querySelector('span').textContent = booth ? 'Back to photo' : 'Photobooth';
-    bb.hidden = !n;
+    var view = booth || 'photo';
+    document.querySelectorAll('.seg-b').forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.view === view)); });
+    document.querySelector('.seg').hidden = !n;
     document.getElementById('albumShuffle').hidden = n < 2;
-    document.getElementById('albumShuffle').querySelector('span').textContent = booth === 'mix' ? 'Shuffle again' : 'Shuffle';
-    document.getElementById('albumShuffle').setAttribute('aria-pressed', String(booth === 'mix'));
+    document.getElementById('albumAgain').hidden = booth !== 'mix';
+    document.getElementById('albumGrid').hidden = !n;
     document.getElementById('albumDl').parentNode.hidden = !n;
     document.querySelector('#albumBar, .album-bar .ab-sep').hidden = !n;
     document.getElementById('dlStripNote').textContent = booth === 'mix' ? 'The shuffled mix' : 'Of this photo';
@@ -2180,15 +2212,21 @@
   function shuffleStrip(){
     var pool = album.slice();
     for (var i = pool.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)), t = pool[i]; pool[i] = pool[j]; pool[j] = t; }
-    mix = pool.slice(0, 4);
-    while (mix.length < 4 && pool.length) mix.push(pool[mix.length % pool.length]);
+    mix = pool.slice(0, 3);
+    while (mix.length < 3 && pool.length) mix.push(pool[mix.length % pool.length]);
     mix.sort(function(a, b){ var x = photoDate(a), y = photoDate(b); return (x ? x.d : 0) - (y ? y.d : 0); });
     showBooth('mix');
   }
   document.getElementById('albumPrev').addEventListener('click', function(){ go(active - 1); });
   document.getElementById('albumNext').addEventListener('click', function(){ go(active + 1); });
-  document.getElementById('albumBooth').addEventListener('click', toggleBooth);
-  document.getElementById('albumShuffle').addEventListener('click', shuffleStrip);
+  document.querySelector('.seg').addEventListener('click', function(e){
+    var b = e.target.closest('.seg-b'); if (!b) return;
+    var v = b.dataset.view;
+    if (v === 'photo') { if (pendingAlbum) { var l = pendingAlbum; pendingAlbum = null; setAlbum(l, true); } else showBooth(false); }
+    else if (v === 'single') showBooth('single');
+    else if (booth !== 'mix') shuffleStrip();
+  });
+  document.getElementById('albumAgain').addEventListener('click', shuffleStrip);
   albumStage.addEventListener('click', function(e){
     var c = e.target.closest('.acard'); if (!c) return;
     var i = +c.dataset.i;
@@ -2219,7 +2257,7 @@
     album = list; albumReal = real; booth = false;
     var k = keep ? list.map(function(x){ return x.fid; }).indexOf(keep) : -1;
     active = k >= 0 ? k : Math.min(active, Math.max(0, list.length - 1));
-    document.getElementById('albumSub').textContent = 'Our trip photos. Tap the strip button to turn one into a photobooth print.';
+    document.getElementById('albumSub').textContent = 'Our trip photos. Switch to Photobooth for a ticket strip, or Mix for a shuffle of three.';
     renderAlbum();
     var empty = document.getElementById('albumEmpty');
     empty.hidden = list.length > 0;
@@ -2228,15 +2266,35 @@
   }
   setAlbum([], false);
 
+  function blobToData(b){ return new Promise(function(res){ var fr = new FileReader(); fr.onload = function(){ res(fr.result); }; fr.readAsDataURL(b); }); }
+  function viaUrl(u){
+    return fetch(u, {mode:'cors', credentials:'omit', referrerPolicy:'no-referrer'}).then(function(r){
+      if (!r.ok) throw new Error('http ' + r.status);
+      return r.blob();
+    }).then(function(b){ if (!/^image\//.test(b.type)) throw new Error('not an image'); return blobToData(b); });
+  }
   function photoData(it){
     if (it.fid) {
       if (!viaScript[it.fid]) viaScript[it.fid] = fetch(SYNC_URL + '?what=img&id=' + encodeURIComponent(it.fid) + '&code=' + encodeURIComponent(tripCode))
-        .then(function(r){ return r.json(); }).then(function(d){ if (!d || !d.data) throw 0; return 'data:' + (d.mime || 'image/jpeg') + ';base64,' + d.data; });
-      return viaScript[it.fid];
+        .then(function(r){ return r.json(); }).then(function(d){
+          if (d && d.data) return 'data:' + (d.mime || 'image/jpeg') + ';base64,' + d.data;
+          throw new Error(d && d.error ? d.error : 'update');
+        });
+      var p = viaScript[it.fid].catch(function(err){
+        delete viaScript[it.fid];
+        return viaUrl(imgSrc(it.fid, 2000)).catch(function(){ throw err; });
+      });
+      return p;
     }
-    return fetch(it.full || it.src).then(function(r){ return r.blob(); }).then(function(b){
-      return new Promise(function(res){ var fr = new FileReader(); fr.onload = function(){ res(fr.result); }; fr.readAsDataURL(b); });
-    });
+    return viaUrl(it.full || it.src);
+  }
+  function dlReason(err){
+    var m = (err && err.message) || (typeof err === 'string' ? err : '');
+    if (m === 'update' || m === 'unknown action') return 'the Google script needs updating to the latest version';
+    if (m === 'not allowed') return 'that photo isn’t in the album folder';
+    if (m === 'code') return 'the trip code didn’t work';
+    if (/fetch|network|Failed/i.test(m)) return 'no connection';
+    return m || 'unknown error';
   }
   function loadImg(src){ return new Promise(function(res, rej){ var im = new Image(); im.onload = function(){ res(im); }; im.onerror = rej; im.src = src; }); }
   function drawCover(ctx, im, x, y, w, h, zoom, fx, fy){
@@ -2245,7 +2303,7 @@
     ctx.drawImage(im, sx, sy, sw, sh, x, y, w, h);
   }
   function stripCanvas(imgs, m){
-    var RED = '#7A1C1C', CREAM = '#F8EFE4', W = 640, H = 2080, mx = 46, r = 15;
+    var RED = '#7A1C1C', CREAM = '#F8EFE4', W = 640, H = 1820, mx = 46, r = 15;
     var c = document.createElement('canvas'); c.width = W; c.height = H;
     var g = c.getContext('2d');
     g.fillStyle = RED; g.fillRect(0, 0, W, H);
@@ -2273,7 +2331,7 @@
     g.fillText(m.city, (ix + c1) / 2, ry + 86); g.fillText(m.num, (c1 + c2) / 2, ry + 86);
     g.font = 'bold 32px "Instrument Serif", Georgia, serif'; g.fillText(m.time, (c2 + ix + iw) / 2, ry + 90);
     // frames
-    var fx = ix + 16, fw = iw - 32, fy = ry + rh + 22, gap = 18, fh = Math.round((ih - (fy - iy) - 200 - gap * 3) / 4);
+    var nf = m.frames.length, fx = ix + 16, fw = iw - 32, fy = ry + rh + 22, gap = 20, fh = Math.round((ih - (fy - iy) - 200 - gap * (nf - 1)) / nf);
     if ('filter' in g) g.filter = 'saturate(1.12) contrast(1.06)';
     m.frames.forEach(function(f, i){
       var y = fy + i * (fh + gap), im = imgs[f.idx];
@@ -2282,7 +2340,7 @@
     g.filter = 'none';
     m.frames.forEach(function(f, i){ g.strokeStyle = RED; g.lineWidth = 3; g.strokeRect(fx, fy + i * (fh + gap), fw, fh); });
     // tagline + brand
-    var by = fy + 4 * fh + 3 * gap + 20;
+    var by = fy + nf * fh + (nf - 1) * gap + 20;
     g.lineWidth = 2.5; g.beginPath(); g.moveTo(ix, by); g.lineTo(ix + iw, by); g.moveTo(ix, by + 50); g.lineTo(ix + iw, by + 50); g.stroke();
     g.font = '22px "Instrument Serif", Georgia, serif'; g.fillText('SAVE THE BEST MOMENT ★ CUTI-CUTI MALAYSIA', W / 2, by + 34);
     g.font = 'italic 300 62px "Plus Jakarta Sans", sans-serif';
@@ -2364,11 +2422,30 @@
     var b = e.target.closest('[data-dl]'); if (!b || !album.length) return;
     menu(false); busy(true); albumMsg('');
     var job = b.dataset.dl === 'photo' ? downloadPhoto() : b.dataset.dl === 'strip' ? downloadStrip() : downloadAll();
-    job.then(function(){ busy(false); }).catch(function(){ busy(false); albumMsg('Couldn’t prepare the download. Try again.'); });
+    job.then(function(){ busy(false); }).catch(function(err){ busy(false); albumMsg('Couldn’t prepare the download: ' + dlReason(err) + '.'); });
   });
   var albumSig = '', pendingAlbum = null, uploading = false;
   setInterval(function(){ if (document.visibilityState === 'visible' && !uploading) loadPhotos(); }, 60000);
   document.addEventListener('visibilitychange', function(){ if (document.visibilityState === 'visible' && !uploading) loadPhotos(); });
+  var galDlg = document.getElementById('galDlg');
+  function openGallery(){
+    document.getElementById('galCount').textContent = '· ' + album.length + ' photo' + (album.length === 1 ? '' : 's');
+    document.getElementById('galGrid').innerHTML = album.map(function(it, i){
+      var pd = photoDate(it);
+      return '<button type="button" class="gal-t' + (i === active ? ' on' : '') + '" data-i="' + i + '" aria-label="Photo ' + (i + 1) + (pd ? ', ' + shortDay(pd) : '') + '">' +
+        '<img loading="lazy" decoding="async" referrerpolicy="no-referrer" src="' + esc(it.fid ? imgSrc(it.fid, 400) : it.src) + '"' + (it.fid ? ' data-fid="' + esc(it.fid) + '" data-w="400"' : '') + ' alt="">' +
+        (pd ? '<span>' + shortDay(pd) + '</span>' : '') + '</button>';
+    }).join('');
+    if (galDlg.showModal) galDlg.showModal();
+  }
+  document.getElementById('albumGrid').addEventListener('click', openGallery);
+  document.getElementById('galClose').addEventListener('click', function(){ galDlg.close(); });
+  galDlg.addEventListener('click', function(e){
+    if (e.target === galDlg) { galDlg.close(); return; }
+    var t = e.target.closest('.gal-t'); if (!t) return;
+    galDlg.close(); showBooth(false); go(+t.dataset.i);
+    document.getElementById('album').scrollIntoView({behavior:'smooth', block:'center'});
+  });
   function albumMsg(t){ document.getElementById('albumMsg').textContent = t || ''; }
   function loadPhotos(){
     if (!SYNC_URL || !tripCode) return;
@@ -2485,6 +2562,7 @@
     syncBox.hidden = false;
     fillMe();
     document.getElementById('tripCode').value = tripCode;
+    document.getElementById('syncMin').addEventListener('click', function(){ syncPanel.hidden = true; document.getElementById('syncPill').setAttribute('aria-expanded', 'false'); });
     document.getElementById('syncPill').addEventListener('click', function(){
       syncPanel.hidden = !syncPanel.hidden; this.setAttribute('aria-expanded', String(!syncPanel.hidden));
     });
