@@ -243,15 +243,17 @@ function shopFolder_() { return namedFolder_('SHOP_FOLDER', 'Malaysia 26 shoppin
 
 /* ---------- photos: read the shared album page (unofficial; may break if Google changes it) ---------- */
 function photos_() {
-  var drive = [];
-  var it = albumFolder_().getFiles();
-  while (it.hasNext()) {
-    var f = it.next();
-    if (f.isTrashed() || String(f.getMimeType()).indexOf('image/') !== 0) continue;
+  var drive = [], seen = {};
+  albumFolder_();
+  var folders = albumFolders_(), files = [];
+  folders.forEach(function (fo) { var fi = fo.getFiles(); while (fi.hasNext()) files.push(fi.next()); });
+  files.forEach(function (f) {
+    if (seen[f.getId()]) return; seen[f.getId()] = 1;
+    if (f.isTrashed() || String(f.getMimeType()).indexOf('image/') !== 0) return;
     var meta = {}, desc = f.getDescription() || '';
     try { meta = JSON.parse(desc); } catch (err) { meta = { by: desc }; }
     drive.push({ id: f.getId(), by: meta.by || '', taken: meta.taken || '', at: f.getDateCreated().toISOString() });
-  }
+  });
   drive.sort(function (a, b) { return (a.taken || a.at) < (b.taken || b.at) ? 1 : -1; });
   var g = googlePhotos_();
   return { drive: drive, photos: g.photos, url: g.url };
@@ -299,6 +301,12 @@ function namedFolder_(prop, name) {
   return folder;
 }
 function albumFolder_() { return namedFolder_('ALBUM_FOLDER', 'Malaysia 26 album'); }
+function albumFolders_() {
+  var out = [], it = DriveApp.getFoldersByName('Malaysia 26 album');
+  while (it.hasNext()) { var f = it.next(); if (!f.isTrashed()) out.push(f); }
+  return out;
+}
+function inAlbum_(file) { return albumFolders_().some(function (fo) { return inFolder_(file, fo); }); }
 function albumAdd_(img, by, taken) {
   var m = /^data:image\/(jpeg|png|webp);base64,([A-Za-z0-9+\/=]+)$/.exec(String(img || ''));
   if (!m) return { error: 'bad image' };
@@ -318,15 +326,16 @@ function inFolder_(file, folder) {
 function albumDel_(id) {
   try {
     var f = DriveApp.getFileById(String(id));
-    if (inFolder_(f, albumFolder_())) f.setTrashed(true); // goes to Drive trash
-  } catch (err) {}
-  return { ok: true };
+    if (!inAlbum_(f)) return { ok: true, deleted: false };
+    f.setTrashed(true); // goes to Drive trash, so it can be restored
+    return { ok: true, deleted: true };
+  } catch (err) { return { ok: true, deleted: false }; }
 }
 // Serves a photo's bytes when Google's direct image links don't load (only album and shopping-list files).
 function img_(id) {
   try {
     var f = DriveApp.getFileById(String(id));
-    if (!inFolder_(f, albumFolder_()) && !inFolder_(f, shopFolder_())) return { error: 'not allowed' };
+    if (!inAlbum_(f) && !inFolder_(f, shopFolder_())) return { error: 'not allowed' };
     var b = f.getBlob();
     if (b.getBytes().length > 6000000) return { error: 'too big' };
     return { mime: b.getContentType(), data: Utilities.base64Encode(b.getBytes()) };

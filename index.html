@@ -718,9 +718,10 @@
   .bk .hotel{display:flex;flex-direction:column;align-items:flex-start;flex:1}
   .bk .hotel .doc-btn{margin-top:auto}
   .bk .hotel .bk-note{margin-bottom:12px}
-  .h3-title{color:#F9D3D5}
+  .h3-title{color:#D48D91}
   .nav-logo a{color:#D48D91}
-  .hero3 .mini-conv{background:#FFE4E6}
+  .hero3 .mini-conv{background:#D48D91;border-color:#400D01}
+  .hero3 .mini-conv label,.hero3 .mini-conv p{color:#400D01}
   .cities .ph,.cities .ph.missing{background:#fff0f0}
   .pool{background:rgba(212,141,145,.82)}
   /* stay cards: clear hierarchy */
@@ -762,10 +763,6 @@
   main > section:not(:first-child):not(.food):not(.food + section):not([hidden])::before{content:"";display:block;width:150px;height:19px;margin:0 auto 44px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 20'%3E%3Cpath d='M4 10h52M104 10h52' stroke='%23D48D91' stroke-width='1.5' stroke-linecap='round'/%3E%3Ccircle cx='66' cy='10' r='2' fill='%23D48D91'/%3E%3Ccircle cx='94' cy='10' r='2' fill='%23D48D91'/%3E%3Cpath d='M80 1l2.6 6.4L89 10l-6.4 2.6L80 19l-2.6-6.4L71 10l6.4-2.6z' fill='%23B8646A'/%3E%3C/svg%3E") center/contain no-repeat}
 
   /* ---------- album (cover flow) + photobooth ---------- */
-  #photos{background:var(--jade-dd);color:#fff;position:relative;padding-top:80px}
-  #photos h2{color:var(--hib-l)}
-  #photos .sub{color:var(--mint)}
-  #photos.sp-done{}
   #photos::before{display:none!important}
   .album{position:relative;height:clamp(320px,48vw,500px);perspective:1500px;outline:none;margin-top:6px;overflow:visible;overflow-x:clip;touch-action:pan-y}
   .album:focus-visible{box-shadow:0 0 0 3px rgba(242,206,174,.45);border-radius:14px}
@@ -780,7 +777,6 @@
   .acard.is-booth > img{opacity:0}
   .booth-wrap{position:absolute;inset:0;pointer-events:none}
   .album-count{text-align:center;font-size:13px;font-weight:700;color:var(--mint);margin-top:4px}
-  .album-ctrls{display:flex;justify-content:center;align-items:center;gap:10px;margin-top:14px}
   .ab{display:inline-grid;place-items:center;min-width:44px;height:44px;border-radius:999px;border:0;background:#fff;color:var(--jade-dd);cursor:pointer;text-decoration:none;box-shadow:0 4px 12px rgba(0,0,0,.25)}
   .ab svg{width:18px;height:18px}
   .ab-booth{display:inline-flex;gap:7px;padding:0 18px;font:800 14px/1 "Plus Jakarta Sans",sans-serif}
@@ -834,7 +830,41 @@
   .tk-brand i{font-weight:300}
   .tk-brand b{font-weight:800}
   .ab-shuf{display:inline-flex;gap:7px;padding:0 16px;font:800 14px/1 "Plus Jakarta Sans",sans-serif}
-  .album-ctrls{flex-wrap:wrap}
+  /* ---------- album: light section after the food, clearer controls ---------- */
+  #photos{background:#FBF1E8;position:relative;padding-top:72px}
+  #photos .album-empty{color:var(--soft);border-color:var(--rose)}
+  .album-nav{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:6px}
+  .album-nav .album-count{margin:0;min-width:16ch;color:var(--ink);font-size:13.5px}
+  .an{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--rose-l);background:#fff;color:var(--jade-dd);display:grid;place-items:center;cursor:pointer}
+  .an svg{width:16px;height:16px}
+  .an:disabled{opacity:.35;cursor:default}
+  .album-bar{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px;margin:16px auto 0;padding:8px;background:#fff;border:1.5px solid var(--rose-l);border-radius:999px;width:max-content;max-width:100%;box-shadow:0 6px 18px rgba(15,61,46,.08)}
+  .album-bar .ab{height:40px;min-width:40px;box-shadow:none;background:transparent;color:var(--jade-dd);border:0;display:inline-flex;align-items:center;gap:7px;padding:0 14px;font:800 13.5px/1 "Plus Jakarta Sans",sans-serif;border-radius:999px;cursor:pointer}
+  .album-bar .ab:hover{background:#FBF1E8}
+  .album-bar .ab svg{width:17px;height:17px}
+  .album-bar .ab-add{background:var(--hib);color:#fff}
+  .album-bar .ab-add:hover{background:var(--rasp)}
+  .album-bar .ab[aria-pressed="true"]{background:var(--jade-dd);color:#fff}
+  .album-bar .ab-del{color:var(--hib)}
+  .album-bar .ab-del.sure{background:var(--hib);color:#fff}
+  .album-bar .ab-dl{background:transparent!important}
+  .album-bar .ab:disabled{opacity:.6;cursor:progress}
+  .ab-sep{width:1.5px;height:24px;background:var(--rose-l)}
+  .caret{width:12px!important;height:12px!important;margin-left:-2px}
+  .dl-wrap{position:relative}
+  .dl-menu{position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%);z-index:20;min-width:230px;background:#fff;border:1.5px solid var(--rose-l);border-radius:14px;padding:6px;box-shadow:0 14px 30px rgba(15,61,46,.18)}
+  .dl-menu button{display:block;width:100%;text-align:left;border:0;background:transparent;border-radius:10px;padding:9px 12px;cursor:pointer;color:var(--ink)}
+  .dl-menu button:hover,.dl-menu button:focus-visible{background:#FBF1E8;outline:none}
+  .dl-menu b{display:block;font-size:14px}
+  .dl-menu small{font-size:12px;color:var(--soft)}
+  #photos .album-msg{color:var(--hib);font-weight:600;margin-top:10px}
+  .tk-star{font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-size:4.3cqw;margin-top:-.5cqw;white-space:nowrap}
+  .tk-star b{font-weight:400;font-style:normal}
+  .hero-cta{display:inline-flex;align-items:center;gap:8px;margin-top:20px;background:#D48D91;color:#400D01;border:1.5px solid #400D01;border-radius:999px;padding:9px 18px;font:800 15px/1 "Plus Jakarta Sans",sans-serif;cursor:pointer;box-shadow:3px 3px 0 #400D01}
+  .hero-cta svg{width:19px;height:19px}
+  .hero-cta:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 #400D01}
+  .hero-cta + .mini-conv{margin-top:16px}
+  @media (max-width:560px){.album-bar{border-radius:18px;width:100%}.album-bar .ab span{font-size:12.5px}.ab-sep{display:none}}
   @media print{.nav,.filters,.tabs{display:none}}
 </style>
 </head>
@@ -869,6 +899,7 @@
       <p class="h3-pill">26 Nov <i>–</i> 10 Dec</p>
       <h1 class="h3-title">Malaysia</h1>
       <div class="h3-sub"><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span><p lang="ms">Cuti-cuti Malaysia</p></div>
+      <label class="hero-cta" id="heroAdd" for="albumFile"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="13" r="3.5" fill="none" stroke="currentColor" stroke-width="2"/></svg><span>Add a photo</span></label>
       <div class="mini-conv">
         <label for="mAmt">Quick convert</label>
         <div class="mc-row"><input id="mAmt" type="number" inputmode="decimal" min="0" step="any" value="1" aria-label="Amount"><select id="mCur" aria-label="Currency"><option value="MYR" selected>RM</option><option value="EGP">EGP</option><option value="GBP">£</option><option value="USD">$</option></select></div>
@@ -895,10 +926,10 @@
         <li><a href="#days">Day by day</a></li>
     <li><a href="#weather">Weather</a></li>
     <li><a href="#food">Food</a></li>
+    <li><a href="#photos">Album</a></li>
     <li><a href="#shop">Shopping</a></li>
     <li><a href="#money">Money &amp; costs</a></li>
     <li><a href="#around">Getting around</a></li>
-    <li><a href="#photos">Album</a></li>
     <li><a href="#before">Before you go</a></li>
   </ul>
 </nav>
@@ -960,6 +991,37 @@
     </div>
     <div id="board"></div>
     <p class="halal">Halal: Malay and mamak (Indian-Muslim) places are halal. Many Chinese hawker stalls aren't, but halal versions of most dishes are easy to find, especially in Penang.</p>
+  </div>
+</section>
+
+<section id="photos">
+  <div class="wrap">
+    <div class="eyebrow-row"><div><h2 class="sp">Our album</h2><p class="sub" id="albumSub">Swipe through the trip. Tap the strip button to turn a photo into a photobooth print.</p></div></div>
+    <div class="album" id="album" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Photo album">
+      <div class="album-stage" id="albumStage"></div>
+      <div class="album-empty" id="albumEmpty"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="11" width="36" height="28" rx="4" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="24" cy="25" r="7" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M17 11l3-4h8l3 4" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/></svg><p></p></div>
+    </div>
+    <div class="album-nav">
+      <button type="button" class="an" id="albumPrev" aria-label="Previous photo"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <p class="album-count" id="albumCount" aria-live="polite"></p>
+      <button type="button" class="an" id="albumNext" aria-label="Next photo"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7.5 4l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
+    <div class="album-bar" role="toolbar" aria-label="Album actions">
+      <label class="ab ab-add" id="albumAdd"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><span>Add photos</span><input type="file" accept="image/*" multiple class="sr" id="albumFile"></label>
+      <span class="ab-sep" aria-hidden="true"></span>
+      <button type="button" class="ab ab-booth" id="albumBooth" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="6" y="1.5" width="8" height="17" rx="1" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M6 5.8h8M6 10h8M6 14.2h8" stroke="currentColor" stroke-width="1.4"/></svg><span>Photobooth</span></button>
+      <button type="button" class="ab ab-shuf" id="albumShuffle"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 6h3.5c2 0 3 1 4.2 3l1.6 2.4c1.1 1.6 2 2.6 4 2.6H17M14.5 11.6L17 14l-2.5 2.4M3 14h3.5c1.4 0 2.3-.6 3-1.5M12 7.6c.8-1 1.7-1.6 3.3-1.6H17M14.5 3.6L17 6l-2.5 2.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Shuffle</span></button>
+      <div class="dl-wrap">
+        <button type="button" class="ab ab-dl" id="albumDl" aria-haspopup="menu" aria-expanded="false" aria-controls="dlMenu"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v10M5.5 9l4.5 4.5L14.5 9M4 17h12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Download</span><svg class="caret" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="dl-menu" id="dlMenu" role="menu" hidden>
+          <button type="button" role="menuitem" data-dl="photo"><b>This photo</b><small>Full size</small></button>
+          <button type="button" role="menuitem" data-dl="strip"><b>Photobooth strip</b><small id="dlStripNote">Of this photo</small></button>
+          <button type="button" role="menuitem" data-dl="all"><b>All photos</b><small id="dlAllNote">As a .zip file</small></button>
+        </div>
+      </div>
+      <button type="button" class="ab ab-del" id="albumDel" aria-label="Delete this photo"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 6h12M8 6V4h4v2M6 6l1 10h6l1-10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Delete</span></button>
+    </div>
+    <p class="album-msg" id="albumMsg" role="status"></p>
   </div>
 </section>
 
@@ -1073,26 +1135,6 @@
   </div>
 </section>
 
-<section id="photos">
-  <div class="wrap">
-    <div class="eyebrow-row"><div><h2 class="sp">Our album</h2><p class="sub" id="albumSub">Swipe through the trip. Tap the strip button to turn a photo into a photobooth print.</p></div></div>
-    <div class="album" id="album" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Photo album">
-      <div class="album-stage" id="albumStage"></div>
-      <div class="album-empty" id="albumEmpty"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="11" width="36" height="28" rx="4" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="24" cy="25" r="7" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M17 11l3-4h8l3 4" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/></svg><p></p></div>
-    </div>
-    <p class="album-count" id="albumCount" aria-live="polite"></p>
-    <p class="album-msg" id="albumMsg" role="status"></p>
-    <div class="album-ctrls">
-      <button type="button" class="ab" id="albumPrev" aria-label="Previous photo"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-      <button type="button" class="ab ab-booth" id="albumBooth" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="6" y="1.5" width="8" height="17" rx="1" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M6 5.8h8M6 10h8M6 14.2h8" stroke="currentColor" stroke-width="1.4"/></svg><span>Photobooth</span></button>
-      <button type="button" class="ab ab-shuf" id="albumShuffle" hidden><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 6h3.5c2 0 3 1 4.2 3l1.6 2.4c1.1 1.6 2 2.6 4 2.6H17M14.5 11.6L17 14l-2.5 2.4M3 14h3.5c1.4 0 2.3-.6 3-1.5M12 7.6c.8-1 1.7-1.6 3.3-1.6H17M14.5 3.6L17 6l-2.5 2.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Shuffle strip</span></button>
-      <button type="button" class="ab ab-dl" id="albumDl" hidden><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v10M5.5 9l4.5 4.5L14.5 9M4 17h12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Download strip</span></button>
-      <label class="ab ab-add" id="albumAdd"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><span>Add photos</span><input type="file" accept="image/*" multiple class="sr" id="albumFile"></label>
-      <button type="button" class="ab" id="albumDel" aria-label="Delete this photo" hidden><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 6h12M8 6V4h4v2M6 6l1 10h6l1-10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-      <button type="button" class="ab" id="albumNext" aria-label="Next photo"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7.5 4l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    </div>
-  </div>
-</section>
 
 <section id="before">
   <div class="wrap">
@@ -2052,7 +2094,7 @@
   function stripModel(){
     if (booth === 'mix') {
       var first = photoDate(mix[0]), last = photoDate(mix[mix.length - 1]);
-      return {frames:mix.map(function(it){ return {it:it, crop:[1, .5, .5]}; }), city:'MIX', num:('0' + mix.length).slice(-2),
+      return {mix:true, frames:mix.map(function(it){ return {it:it, crop:[1, .5, .5]}; }), city:'MIX', num:('0' + mix.length).slice(-2),
         day:mix.length ? (shortDay(first) && shortDay(last) && shortDay(first) !== shortDay(last) ? shortDay(first) + ' – ' + shortDay(last) : dayLabel(first)) : '', time:'★'};
     }
     var it = album[active], pd = photoDate(it);
@@ -2066,6 +2108,7 @@
     var m = stripModel();
     return '<div class="ticket"><div class="tk-in">' +
       '<p class="tk-stars" aria-hidden="true">★<b>★</b>★</p><p class="tk-title">Malaysia Trip</p>' +
+      (m.mix ? '<p class="tk-star">starring <b>Salma</b> &amp; <b>Rahma</b></p>' : '') +
       '<div class="tk-info"><div><span>City</span><b>' + m.city + '</b></div><div><span>Photo</span><b>' + m.num + '</b></div>' +
       '<div class="tk-when"><span>' + esc(m.day) + '</span><b>' + m.time + '</b></div></div>' +
       '<div class="tk-frames">' + m.frames.map(function(f){ return '<span class="tk-f" style="' + frameCSS(f) + '"></span>'; }).join('') + '</div>' +
@@ -2091,14 +2134,21 @@
     var cur = album[active], pdc = photoDate(cur);
     document.getElementById('albumCount').textContent = !n ? '' : booth === 'mix' ? 'A mix of ' + mix.length + ' photos' :
       (active + 1) + ' / ' + n + (pdc ? ' · ' + shortDay(pdc) : '') + (cur && cur.by ? ' · added by ' + cur.by : '');
-    var del = document.getElementById('albumDel'); del.hidden = !(albumReal && album[active] && album[active].fid); delete del.dataset.sure; del.classList.remove('sure');
+    var del = document.getElementById('albumDel'); del.hidden = !(albumReal && album[active]); delete del.dataset.sure; del.classList.remove('sure');
+    del.querySelector('span').textContent = 'Delete';
     var bb = document.getElementById('albumBooth');
     bb.setAttribute('aria-pressed', String(!!booth));
     bb.querySelector('span').textContent = booth ? 'Back to photo' : 'Photobooth';
     bb.hidden = !n;
     document.getElementById('albumShuffle').hidden = n < 2;
-    document.getElementById('albumShuffle').querySelector('span').textContent = booth === 'mix' ? 'Shuffle again' : 'Shuffle strip';
-    document.getElementById('albumDl').hidden = !booth;
+    document.getElementById('albumShuffle').querySelector('span').textContent = booth === 'mix' ? 'Shuffle again' : 'Shuffle';
+    document.getElementById('albumShuffle').setAttribute('aria-pressed', String(booth === 'mix'));
+    document.getElementById('albumDl').parentNode.hidden = !n;
+    document.querySelector('#albumBar, .album-bar .ab-sep').hidden = !n;
+    document.getElementById('dlStripNote').textContent = booth === 'mix' ? 'The shuffled mix' : 'Of this photo';
+    document.getElementById('dlAllNote').textContent = n + ' photo' + (n === 1 ? '' : 's') + ' as a .zip file';
+    document.getElementById('albumPrev').disabled = active <= 0;
+    document.getElementById('albumNext').disabled = active >= n - 1;
   }
   function renderAlbum(){
     albumStage.innerHTML = album.map(function(p, i){
@@ -2172,7 +2222,7 @@
     var empty = document.getElementById('albumEmpty');
     empty.hidden = list.length > 0;
     empty.querySelector('p').textContent = !tripCode ? 'Enter the trip code to see our photos.' : 'No photos yet. Tap “Add photos” to start our album.';
-    document.getElementById('albumPrev').hidden = document.getElementById('albumNext').hidden = list.length < 2;
+    document.querySelector('.album-nav').hidden = list.length < 1;
   }
   setAlbum([], false);
 
@@ -2209,8 +2259,10 @@
     g.font = '22px Georgia, serif'; g.fillText('★', W / 2 - 34, iy + 46); g.fillText('★', W / 2 + 34, iy + 46);
     g.font = '34px Georgia, serif'; g.fillText('★', W / 2, iy + 40);
     g.font = '82px "Pinyon Script", cursive'; g.fillText('Malaysia Trip', W / 2, iy + 128);
+    var extra = 0;
+    if (m.mix) { extra = 44; g.font = 'italic 28px "Instrument Serif", Georgia, serif'; g.fillText('starring Salma & Rahma', W / 2, iy + 170); }
     // info row
-    var ry = iy + 158, rh = 104, c1 = ix + iw * 0.2, c2 = ix + iw * 0.4;
+    var ry = iy + 158 + extra, rh = 104, c1 = ix + iw * 0.2, c2 = ix + iw * 0.4;
     g.lineWidth = 2.5; g.strokeRect(ix, ry, iw, rh);
     g.beginPath(); g.moveTo(c1, ry); g.lineTo(c1, ry + rh); g.moveTo(c2, ry); g.lineTo(c2, ry + rh); g.moveTo(c2, ry + rh / 2); g.lineTo(ix + iw, ry + rh / 2); g.stroke();
     g.font = '26px "Instrument Serif", Georgia, serif';
@@ -2238,22 +2290,79 @@
     g.font = '800 62px "Plus Jakarta Sans", sans-serif'; g.fillText('26.', x0 + w1, by + 128);
     return c;
   }
-  document.getElementById('albumDl').addEventListener('click', function(){
-    if (!booth) return;
-    var b = this, lbl = b.querySelector('span'), m = stripModel();
+  function saveBlob(blob, name){
+    var url = URL.createObjectURL(blob), a = document.createElement('a');
+    a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 6000);
+  }
+  function dataToBlob(d){
+    var m = /^data:([^;,]+)?(;base64)?,(.*)$/.exec(d); if (!m) return Promise.reject(new Error('bad data'));
+    var bin = m[2] ? atob(m[3]) : decodeURIComponent(m[3]), u = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
+    return Promise.resolve(new Blob([u], {type:m[1] || 'image/jpeg'}));
+  }
+  function photoName(it, i){
+    var pd = photoDate(it), d = pd ? pd.d : null, p2 = function(n){ return ('0' + n).slice(-2); };
+    var stamp = d ? d.getFullYear() + '-' + p2(d.getMonth() + 1) + '-' + p2(d.getDate()) + (pd.time ? '_' + p2(d.getHours()) + p2(d.getMinutes()) : '') : 'photo-' + (i + 1);
+    return 'malaysia26_' + stamp + (it.by ? '_' + it.by.toLowerCase() : '') + '.jpg';
+  }
+  var dlBtn = document.getElementById('albumDl'), dlMenu = document.getElementById('dlMenu');
+  function menu(open){ dlMenu.hidden = !open; dlBtn.setAttribute('aria-expanded', String(open)); if (open) dlMenu.querySelector('button').focus(); }
+  dlBtn.addEventListener('click', function(){ menu(dlMenu.hidden); });
+  document.addEventListener('click', function(e){ if (!dlMenu.hidden && !e.target.closest('.dl-wrap')) menu(false); });
+  dlMenu.addEventListener('keydown', function(e){
+    var items = [].slice.call(dlMenu.querySelectorAll('button')), i = items.indexOf(document.activeElement);
+    if (e.key === 'Escape') { menu(false); dlBtn.focus(); }
+    else if (e.key === 'ArrowDown') { e.preventDefault(); items[(i + 1) % items.length].focus(); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); items[(i - 1 + items.length) % items.length].focus(); }
+  });
+  function busy(on, text){ dlBtn.disabled = on; dlBtn.querySelector('span').textContent = on ? (text || 'Preparing…') : 'Download'; }
+  function downloadStrip(){
+    var mode = booth || 'single', saved = booth; booth = mode;
+    var m = stripModel(); booth = saved;
     var uniq = [];
     m.frames.forEach(function(f){ var k = uniq.indexOf(f.it); if (k < 0) { k = uniq.length; uniq.push(f.it); } f.idx = k; });
-    lbl.textContent = 'Preparing…'; b.disabled = true;
-    var fonts = document.fonts ? Promise.all(['82px "Pinyon Script"', '26px "Instrument Serif"', 'bold 44px "Instrument Serif"', 'italic 300 62px "Plus Jakarta Sans"', '800 62px "Plus Jakarta Sans"'].map(function(f){ return document.fonts.load(f); })) : null;
-    Promise.all([Promise.all(uniq.map(function(it){ return photoData(it).then(loadImg); })), fonts]).then(function(r){
-      stripCanvas(r[0], m).toBlob(function(blob){
-        var url = URL.createObjectURL(blob), a = document.createElement('a');
-        a.href = url; a.download = 'malaysia26-photobooth' + (booth === 'mix' ? '-mix' : '-' + (active + 1)) + '.png';
-        document.body.appendChild(a); a.click(); a.remove();
-        setTimeout(function(){ URL.revokeObjectURL(url); }, 4000);
-        lbl.textContent = 'Download strip'; b.disabled = false;
-      }, 'image/png');
-    }).catch(function(){ lbl.textContent = 'Download strip'; b.disabled = false; albumMsg('Couldn’t prepare these photos for download. Try again.'); });
+    var fonts = document.fonts ? Promise.all(['82px "Pinyon Script"', '26px "Instrument Serif"', 'bold 44px "Instrument Serif"', 'italic 28px "Instrument Serif"', 'italic 300 62px "Plus Jakarta Sans"', '800 62px "Plus Jakarta Sans"'].map(function(f){ return document.fonts.load(f); })) : null;
+    return Promise.all([Promise.all(uniq.map(function(it){ return photoData(it).then(loadImg); })), fonts]).then(function(r){
+      return new Promise(function(res){ stripCanvas(r[0], m).toBlob(function(blob){ saveBlob(blob, 'malaysia26-photobooth' + (mode === 'mix' ? '-mix' : '-' + (active + 1)) + '.png'); res(); }, 'image/png'); });
+    });
+  }
+  function downloadPhoto(){
+    var it = album[active];
+    return photoData(it).then(dataToBlob).then(function(b){ saveBlob(b, photoName(it, active)); });
+  }
+  function loadZip(){
+    if (window.JSZip) return Promise.resolve(window.JSZip);
+    return new Promise(function(res, rej){
+      var sc = document.createElement('script'); sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+      sc.onload = function(){ res(window.JSZip); }; sc.onerror = rej; document.head.appendChild(sc);
+    });
+  }
+  function downloadAll(){
+    return loadZip().then(function(JSZip){
+      var zip = new JSZip(), names = {}, skipped = 0;
+      return album.reduce(function(chain, it, i){
+        return chain.then(function(){
+          busy(true, (i + 1) + ' of ' + album.length + '…');
+          return photoData(it).then(dataToBlob).then(function(b){
+            var n = photoName(it, i), k = 2; while (names[n]) n = n.replace(/(_\d+)?\.jpg$/, '_' + (k++) + '.jpg'); names[n] = 1;
+            zip.file(n, b);
+          }).catch(function(){ skipped++; });
+        });
+      }, Promise.resolve()).then(function(){
+        busy(true, 'Zipping…');
+        return zip.generateAsync({type:'blob'}).then(function(b){
+          saveBlob(b, 'malaysia26-album.zip');
+          if (skipped) albumMsg(skipped + ' photo' + (skipped === 1 ? '' : 's') + ' from Google Photos couldn’t be included.');
+        });
+      });
+    });
+  }
+  dlMenu.addEventListener('click', function(e){
+    var b = e.target.closest('[data-dl]'); if (!b || !album.length) return;
+    menu(false); busy(true); albumMsg('');
+    var job = b.dataset.dl === 'photo' ? downloadPhoto() : b.dataset.dl === 'strip' ? downloadStrip() : downloadAll();
+    job.then(function(){ busy(false); }).catch(function(){ busy(false); albumMsg('Couldn’t prepare the download. Try again.'); });
   });
   var albumSig = '', pendingAlbum = null, uploading = false;
   setInterval(function(){ if (document.visibilityState === 'visible' && !uploading) loadPhotos(); }, 60000);
@@ -2295,14 +2404,17 @@
       return '';
     }).catch(function(){ return ''; });
   }
-  document.getElementById('albumAdd').addEventListener('click', function(e){
-    if (!SYNC_URL || !tripCode) { e.preventDefault(); askCode('Enter the trip code to add photos to the album.'); }
+  ['albumAdd', 'heroAdd'].forEach(function(id){
+    document.getElementById(id).addEventListener('click', function(e){
+      if (!SYNC_URL || !tripCode) { e.preventDefault(); askCode('Enter the trip code to add photos to the album.'); }
+    });
   });
   document.getElementById('albumFile').addEventListener('change', function(){
     var files = [].slice.call(this.files || []); this.value = '';
     if (!files.length || !SYNC_URL || !tripCode) return;
     var done = 0, failed = 0, why = '';
     uploading = true;
+    document.getElementById('photos').scrollIntoView({behavior:'smooth', block:'start'});
     albumMsg('Uploading 1 of ' + files.length + '…');
     files.reduce(function(chain, f, i){
       return chain.then(function(){
@@ -2319,11 +2431,16 @@
     });
   });
   document.getElementById('albumDel').addEventListener('click', function(){
-    var it = album[active], b = this; if (!it || !it.fid) return;
-    if (!b.dataset.sure) { b.dataset.sure = '1'; b.classList.add('sure'); albumMsg('Tap the bin again to delete this photo.'); setTimeout(function(){ delete b.dataset.sure; b.classList.remove('sure'); }, 3000); return; }
+    var it = album[active], b = this; if (!it) return;
+    if (!it.fid) { albumMsg('This photo comes from the Google Photos album, so delete it there.'); return; }
+    if (!b.dataset.sure) { b.dataset.sure = '1'; b.classList.add('sure'); b.querySelector('span').textContent = 'Tap again'; albumMsg('Tap Delete again to remove this photo for both of you.'); setTimeout(function(){ delete b.dataset.sure; b.classList.remove('sure'); }, 3000); return; }
     albumMsg('Deleting…');
     fetch(SYNC_URL, {method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify({code:tripCode, a:'album.del', id:it.fid})})
-      .then(function(r){ return r.json(); }).then(function(){ var p = loadPhotos(); if (p) p.then(function(){ albumMsg('Photo deleted.'); }); })
+      .then(function(r){ return r.json(); }).then(function(d){
+        if (!d || !d.ok) { albumMsg('Couldn’t delete (' + ((d && d.error) === 'unknown action' ? 'the Google script needs updating' : (d && d.error) || 'unknown error') + ').'); return; }
+        if (d.deleted === false) { albumMsg('Couldn’t delete: that photo isn’t in the album folder.'); return; }
+        albumSig = ''; booth = false; pendingAlbum = null; var p = loadPhotos(); if (p) p.then(function(){ albumMsg('Photo deleted.'); });
+      })
       .catch(function(){ albumMsg('Couldn’t delete. Try again.'); });
   });
 
