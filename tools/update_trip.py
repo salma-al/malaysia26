@@ -71,7 +71,7 @@ def weather(html, apply):
         for day, mn, mx, p in zip(d["time"], d["temperature_2m_min"], d["temperature_2m_max"], d["precipitation_probability_max"]):
             print(f"     {day}  {round(mn)}–{round(mx)}°C  rain chance {p}%")
         if apply:
-            pat = re.compile(r'(<h3>' + re.escape(name) + r' · [^<]*</h3>.*?<p class="temp">)[^<]*(</p>)', re.S)
+            pat = re.compile(r'(<h3[^>]*>' + re.escape(name) + r' · [^<]*</h3>.*?<p class="temp">)[^<]*(</p>)', re.S)
             html, n = pat.subn(lambda m: f"{m.group(1)}{lo}–{hi}°C{m.group(2)}", html, count=1)
             print("     card updated" if n else "     (weather card not found)")
     return html
