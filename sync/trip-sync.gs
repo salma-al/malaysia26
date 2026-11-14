@@ -2,7 +2,7 @@
  * Malaysia 26 · shared trip data
  * Stores eating-list ticks, itinerary "done" ticks, day notes, the Malacca and travel
  * choices and the shopping list in this Google Sheet. Album and shopping-list photos are
- * saved in Google Drive folders, and photos from a shared Google Photos album are optional.
+ * saved in Google Drive folders.
  *
  * ---------------------------------------------------------------------------
  * SETUP (about 5 minutes, free)
@@ -35,8 +35,6 @@ var BOOKINGS = {
   penang: ''     // Trip.com check-in voucher (22 Macalisterz)
 };
 
-// 4. Your shared Google Photos album link (Share > Create link). Leave '' for now if you don't have it yet.
-var ALBUM_URL = '';
 
 /* ======================= nothing to change below ======================= */
 
@@ -241,7 +239,6 @@ function shopDel_(id) {
 }
 function shopFolder_() { return namedFolder_('SHOP_FOLDER', 'Malaysia 26 shopping list photos'); }
 
-/* ---------- photos: read the shared album page (unofficial; may break if Google changes it) ---------- */
 function photos_() {
   var drive = [], seen = {};
   albumFolder_();
@@ -255,27 +252,7 @@ function photos_() {
     drive.push({ id: f.getId(), by: meta.by || '', taken: meta.taken || '', at: f.getDateCreated().toISOString() });
   });
   drive.sort(function (a, b) { return (a.taken || a.at) < (b.taken || b.at) ? 1 : -1; });
-  var g = googlePhotos_();
-  return { drive: drive, photos: g.photos, url: g.url };
-}
-function googlePhotos_() {
-  if (!ALBUM_URL) return { url: '', photos: [] };
-  var cache = CacheService.getScriptCache();
-  var hit = cache.get('photos');
-  if (hit) return JSON.parse(hit);
-  var out = [], seen = {};
-  try {
-    var html = UrlFetchApp.fetch(ALBUM_URL, { followRedirects: true, muteHttpExceptions: true }).getContentText();
-    var re = /\["(https:\/\/lh3\.googleusercontent\.com\/pw\/[^"\\]+)",(\d+),(\d+)/g, m;
-    while ((m = re.exec(html)) && out.length < 600) {
-      if (seen[m[1]]) continue;
-      seen[m[1]] = 1;
-      out.push({ u: m[1], w: +m[2], h: +m[3] });
-    }
-  } catch (err) { /* fall through with what we have */ }
-  var res = { url: ALBUM_URL, photos: out };
-  try { cache.put('photos', JSON.stringify(res), 600); } catch (err) {}
-  return res;
+  return { drive: drive };
 }
 
 /* ---------- booking PDFs (private files in your Drive) ---------- */

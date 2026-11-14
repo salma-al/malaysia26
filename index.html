@@ -2413,7 +2413,7 @@
         busy(true, 'Zipping…');
         return zip.generateAsync({type:'blob'}).then(function(b){
           saveBlob(b, 'malaysia26-album.zip');
-          if (skipped) albumMsg(skipped + ' photo' + (skipped === 1 ? '' : 's') + ' from Google Photos couldn’t be included.');
+          if (skipped) albumMsg(skipped + ' photo' + (skipped === 1 ? '' : 's') + ' couldn’t be included. Try again.');
         });
       });
     });
@@ -2453,7 +2453,7 @@
       if (!d || d.error) { if (d && d.error && d.error !== 'code') albumMsg('Couldn’t load the album (' + d.error + ').'); return; }
       var list = (d.drive || []).map(function(p){
         return {fid:p.id, by:p.by, at:p.at, taken:p.taken || '', src:imgSrc(p.id, 1000), full:imgSrc(p.id, 2000)};
-      }).concat((d.photos || []).map(function(p){ return {src:p.u + '=w1000-h1000', full:p.u + '=w2000-h2000'}; }));
+      });
       var sig = list.map(function(x){ return x.fid || x.src; }).join('|');
       if (sig !== albumSig || !album.length) { albumSig = sig; if (!booth) setAlbum(list, true); else pendingAlbum = list; }
       if (d.drive == null) albumMsg('Update the Google script to enable uploads (see sync/trip-sync.gs).'); else albumMsg('');
@@ -2511,7 +2511,7 @@
   });
   document.getElementById('albumDel').addEventListener('click', function(){
     var it = album[active], b = this; if (!it) return;
-    if (!it.fid) { albumMsg('This photo comes from the Google Photos album, so delete it there.'); return; }
+    if (!it.fid) return;
     if (!b.dataset.sure) { b.dataset.sure = '1'; b.classList.add('sure'); b.querySelector('span').textContent = 'Tap again'; albumMsg('Tap Delete again to remove this photo for both of you.'); setTimeout(function(){ delete b.dataset.sure; b.classList.remove('sure'); }, 3000); return; }
     albumMsg('Deleting…');
     fetch(SYNC_URL, {method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify({code:tripCode, a:'album.del', id:it.fid})})
