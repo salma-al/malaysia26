@@ -795,6 +795,15 @@
   .ab:focus-visible{outline:3px solid var(--hib-l);outline-offset:2px}
   @media (max-width:640px){.acard{width:78%}.acard.is-booth{width:auto}}
   @media (prefers-reduced-motion:reduce){.acard{transition:none}}
+  .x-ico{width:12px;height:12px;display:block}
+  .sp-del,.doc-close,#wishClear{display:inline-grid;place-items:center;padding:0}
+  .sp-del{width:30px;min-width:30px}
+  .sp-del.sure{width:auto;padding:0 10px}
+  .w-preview button#wishClear .x-ico{width:10px;height:10px}
+  .w-editimg{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .w-eprev img{display:block;width:52px;height:52px;object-fit:cover;border-radius:8px;border:1.5px solid var(--rose-l)}
+  .w-editf .w-msg{font-size:12.5px;color:var(--hib);margin:0}
+  .w-editf .w-msg:empty{display:none}
   @media print{.nav,.filters,.tabs{display:none}}
 </style>
 </head>
@@ -933,7 +942,7 @@
         <label class="w-link"><span class="sr">Link</span><input name="link" type="text" inputmode="url" autocapitalize="off" spellcheck="false" maxlength="500" placeholder="Paste a link (optional)"></label>
         <label class="w-img"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="13" r="3.5" fill="none" stroke="currentColor" stroke-width="2"/></svg><span>Photo</span><input name="img" type="file" accept="image/*" class="sr"></label>
         <button type="submit">Add</button>
-        <div class="w-preview" id="wishPreview" hidden><img alt="Photo to add"><button type="button" id="wishClear" aria-label="Remove photo">×</button></div>
+        <div class="w-preview" id="wishPreview" hidden><img alt="Photo to add"><button type="button" id="wishClear" aria-label="Remove photo"><svg class="x-ico" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 2.5l7 7M9.5 2.5l-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
         <p class="w-msg" id="wishMsg" role="status"></p>
       </form>
       <ul class="wish-list" id="wishList"></ul>
@@ -1081,7 +1090,7 @@
 </div>
 
 <dialog class="doc-dlg" id="docDlg" aria-label="Booking">
-  <div class="doc-bar"><p class="doc-title"></p><a class="doc-open" target="_blank" rel="noopener">Open in new tab</a><a class="doc-dl">Download</a><button type="button" class="doc-close" aria-label="Close">×</button></div>
+  <div class="doc-bar"><p class="doc-title"></p><a class="doc-open" target="_blank" rel="noopener">Open in new tab</a><a class="doc-dl">Download</a><button type="button" class="doc-close" aria-label="Close"><svg class="x-ico" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 2.5l7 7M9.5 2.5l-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
   <iframe title="Booking PDF"></iframe>
 </dialog>
 
@@ -1135,7 +1144,7 @@
     else if (o.a === 'spend.add') { if (!S.spend.some(function(x){ return x.id === o.item.id; })) S.spend.push(o.item); }
     else if (o.a === 'spend.del') { S.spend = S.spend.filter(function(x){ return x.id !== o.id; }); }
     else if (o.a === 'shop.add') { if (!S.shop.some(function(x){ return x.id === o.item.id; })) S.shop.push(o.item); }
-    else if (o.a === 'shop.edit') { S.shop.forEach(function(x){ if (x.id === o.id) { x.text = o.text; x.link = o.link; if (o.rmimg) x.img = ''; } }); }
+    else if (o.a === 'shop.edit') { S.shop.forEach(function(x){ if (x.id === o.id) { x.text = o.text; x.link = o.link; if (o.rmimg) x.img = ''; if (o.img) x.img = o.img; } }); }
     else if (o.a === 'shop.toggle') { S.shop.forEach(function(x){ if (x.id === o.id) x.got = o.on ? 1 : 0; }); }
     else if (o.a === 'set') { S.settings = S.settings || {}; S.settings[o.key] = o.val; }
     else if (o.a === 'shop.del') { S.shop = S.shop.filter(function(x){ return x.id !== o.id; }); }
@@ -1793,6 +1802,7 @@
   docDlg.addEventListener('click', function(e){ if (e.target === docDlg) docDlg.close(); });
 
   /* ---------- our shopping list: text, link and/or photo ---------- */
+  var XICO = '<svg class="x-ico" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 2.5l7 7M9.5 2.5l-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
   var wishForm = document.getElementById('wishForm'), wishImg = '';
   function imgSrc(v, w){
     if (!v) return '';
@@ -1829,7 +1839,7 @@
         return '<li class="' + (x.got ? 'got' : '') + '">' +
           '<label class="done"><input type="checkbox" data-wish="' + esc(x.id) + '"' + (x.got ? ' checked' : '') + '><span class="sr">Bought</span></label>' + img +
           '<div class="w-body">' + (x.text ? '<p class="w-t">' + esc(x.text) + '</p>' : '') + link + '<span class="w-by">' + (x.by ? 'Added by ' + esc(x.by) : '') + '</span></div>' +
-          '<div class="w-acts"><button type="button" class="w-edit" data-wedit="' + esc(x.id) + '">Edit</button><button type="button" class="sp-del" data-wdel="' + esc(x.id) + '" aria-label="Delete">×</button></div></li>';
+          '<div class="w-acts"><button type="button" class="w-edit" data-wedit="' + esc(x.id) + '">Edit</button><button type="button" class="sp-del" data-wdel="' + esc(x.id) + '" aria-label="Delete"><svg class="x-ico" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 2.5l7 7M9.5 2.5l-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div></li>';
       }).join('');
   }
   wishForm.elements.img.addEventListener('change', function(){
@@ -1859,10 +1869,24 @@
     if (link && !/^https?:\/\//i.test(link)) link = 'https://' + link;
     var it = (S.shop || []).filter(function(x){ return x.id === f.dataset.id; })[0];
     var rm = f.elements.rmimg && f.elements.rmimg.checked;
-    if (!text && !link && (!it || !it.img || rm)) { text = it ? it.text : ''; }
-    op({a:'shop.edit', id:f.dataset.id, text:text.slice(0, 200), link:link.slice(0, 500), rmimg:rm ? 1 : 0});
+    if (!text && !link && !editImg && (!it || !it.img || rm)) { text = it ? it.text : ''; }
+    op({a:'shop.edit', id:f.dataset.id, text:text.slice(0, 200), link:link.slice(0, 500), rmimg:rm ? 1 : 0, img:editImg});
+    editImg = '';
   });
+  var editImg = '';
   document.getElementById('wishList').addEventListener('change', function(e){
+    if (e.target.name === 'newimg') {
+      var f = e.target.files && e.target.files[0]; if (!f) return;
+      var form = e.target.closest('.w-editf'), msg = form.querySelector('.w-msg');
+      msg.textContent = 'Preparing photo…';
+      shrink(f).then(function(d){
+        editImg = d; msg.textContent = '';
+        var pv = form.querySelector('.w-eprev'); pv.hidden = false; pv.querySelector('img').src = d;
+        var rm = form.elements.rmimg; if (rm) rm.checked = false;
+      }).catch(function(){ msg.textContent = 'Couldn’t read that photo. Try another one.'; });
+      return;
+    }
+    if (e.target.name === 'rmimg') { var pv2 = e.target.closest('.w-editf').querySelector('.w-eprev'); pv2.hidden = e.target.checked; if (e.target.checked) editImg = ''; return; }
     var id = e.target.dataset && e.target.dataset.wish; if (!id) return;
     op({a:'shop.toggle', id:id, on:e.target.checked});
   });
@@ -1882,8 +1906,12 @@
       li.querySelector('.w-body').innerHTML = '<form class="w-editf" data-id="' + esc(it.id) + '">' +
         '<input name="text" maxlength="200" value="' + esc(it.text) + '" placeholder="What to buy" aria-label="What to buy">' +
         '<input name="link" maxlength="500" value="' + esc(it.link) + '" placeholder="Link (optional)" aria-label="Link" inputmode="url" autocapitalize="off" spellcheck="false">' +
-        (it.img ? '<label class="w-rm"><input type="checkbox" name="rmimg"> Remove photo</label>' : '') +
+        '<div class="w-editimg"><span class="w-eprev"' + (it.img ? '' : ' hidden') + '><img alt="" src="' + esc(imgSrc(it.img, 200)) + '"></span>' +
+          '<label class="w-img"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="13" r="3.5" fill="none" stroke="currentColor" stroke-width="2"/></svg><span>' + (it.img ? 'Change photo' : 'Add photo') + '</span><input type="file" accept="image/*" name="newimg" class="sr"></label>' +
+          (it.img ? '<label class="w-rm"><input type="checkbox" name="rmimg"> Remove photo</label>' : '') + '</div>' +
+        '<p class="w-msg" role="status"></p>' +
         '<div class="w-editb"><button type="submit">Save</button><button type="button" class="w-cancel">Cancel</button></div></form>';
+      editImg = '';
       li.querySelector('.w-acts').hidden = true;
       li.querySelector('.w-editf input').focus();
       return;
@@ -1892,7 +1920,7 @@
     var b = e.target.closest('[data-wdel]'); if (!b) return;
     if (b.dataset.sure) { op({a:'shop.del', id:b.dataset.wdel}); return; }
     b.dataset.sure = '1'; b.textContent = 'Delete?'; b.classList.add('sure');
-    setTimeout(function(){ if (b.isConnected) { delete b.dataset.sure; b.textContent = '×'; b.classList.remove('sure'); } }, 3000);
+    setTimeout(function(){ if (b.isConnected) { delete b.dataset.sure; b.innerHTML = XICO; b.classList.remove('sure'); } }, 3000);
   });
   listeners.push(renderWish);
   renderWish();

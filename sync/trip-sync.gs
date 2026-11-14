@@ -63,7 +63,7 @@ function doPost(e) {
     if (b.a === 'spend.del') return reply_(spendDel_(b.id));
     if (b.a === 'set') return reply_(set_(b.key, b.val, by));
     if (b.a === 'shop.add') return reply_(shopAdd_(b.item, by));
-    if (b.a === 'shop.edit') return reply_(shopEdit_(b.id, b.text, b.link, !!b.rmimg));
+    if (b.a === 'shop.edit') return reply_(shopEdit_(b.id, b.text, b.link, !!b.rmimg, b.img));
     if (b.a === 'shop.toggle') return reply_(shopToggle_(b.id, !!b.on));
     if (b.a === 'shop.del') return reply_(shopDel_(b.id));
     return reply_({ error: 'unknown action' });
@@ -188,30 +188,32 @@ function shopAdd_(x, by) {
   var text = String(x.text || '').slice(0, 200);
   var link = String(x.link || '').slice(0, 500);
   if (link && !/^https?:\/\/[^\s<>"]+$/i.test(link)) link = '';
-  var fileId = '';
-  var img = String(x.img || '');
-  var m = /^data:image\/(jpeg|png|webp);base64,([A-Za-z0-9+\/=]+)$/.exec(img);
-  if (m && m[2].length < LIMITS.imgBytes * 1.4) {
-    var blob = Utilities.newBlob(Utilities.base64Decode(m[2]), 'image/' + m[1], x.id + '.' + (m[1] === 'jpeg' ? 'jpg' : m[1]));
-    var file = shopFolder_().createFile(blob);
-    file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
-    fileId = file.getId();
-  }
+  var fileId = saveImg_(x.id, x.img);
   if (!text && !link && !fileId) return { error: 'empty' };
   sh.appendRow([x.id, now_(), by, clean_(text, 200), clean_(link, 500), fileId, '0']);
   return { ok: true, img: fileId };
 }
-function shopEdit_(id, text, link, rmimg) {
+function saveImg_(id, img) {
+  img = String(img || '');
+  var m = /^data:image\/(jpeg|png|webp);base64,([A-Za-z0-9+\/=]+)$/.exec(img);
+  if (!m || m[2].length >= LIMITS.imgBytes * 1.4) return '';
+  var blob = Utilities.newBlob(Utilities.base64Decode(m[2]), 'image/' + m[1], id + '.' + (m[1] === 'jpeg' ? 'jpg' : m[1]));
+  var file = shopFolder_().createFile(blob);
+  file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+  return file.getId();
+}
+function shopEdit_(id, text, link, rmimg, img) {
   var sh = shopSheet_(), row = rowOf_(sh, String(id));
   if (!row) return { ok: true };
   text = String(text || '').slice(0, 200);
   link = String(link || '').slice(0, 500);
   if (link && !/^https?:\/\/[^\s<>"]+$/i.test(link)) link = '';
   sh.getRange(row, 4, 1, 2).setValues([[clean_(text, 200), clean_(link, 500)]]);
-  if (rmimg) {
-    var fileId = String(sh.getRange(row, 6).getValue());
-    if (fileId) { try { DriveApp.getFileById(fileId).setTrashed(true); } catch (err) {} }
-    sh.getRange(row, 6).setValue('');
+  var newId = img ? saveImg_(String(id), img) : '';
+  if (rmimg || newId) {
+    var oldId = String(sh.getRange(row, 6).getValue());
+    if (oldId) { try { DriveApp.getFileById(oldId).setTrashed(true); } catch (err) {} }
+    sh.getRange(row, 6).setValue(newId);
   }
   return { ok: true };
 }
