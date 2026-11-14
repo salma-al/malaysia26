@@ -580,7 +580,8 @@
   .done input{appearance:none;-webkit-appearance:none;width:19px;height:19px;margin:0;border:2px solid var(--rose);border-radius:50%;background:#fff;cursor:pointer;display:grid;place-items:center}
   .done input:checked{background:var(--jade-d);border-color:var(--jade-d)}
   .done input:checked::after{content:"";width:5px;height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:translateY(-1px) rotate(45deg)}
-  .stop.is-done h4{color:var(--soft)}
+  .stop.is-done h4{color:var(--soft);text-decoration:line-through;text-decoration-thickness:1.5px}
+  .stop.is-done p{text-decoration:line-through}
   .stop.is-done p{opacity:.6}
   .day-notes{margin-top:14px;border-top:1.5px dashed var(--rose-l);padding-top:10px}
   .day-notes summary{cursor:pointer;font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-size:18px;color:var(--rasp);width:max-content}
