@@ -717,6 +717,8 @@
   .doc-bar a{font-size:13px;font-weight:700;color:var(--jade-d)}
   .doc-close{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--rose-l);background:#fff;color:var(--rasp);font:800 18px/1 "Plus Jakarta Sans",sans-serif;display:grid;place-items:center;cursor:pointer}
   .doc-dlg iframe{flex:1;width:100%;border:0}
+  .bk-note{margin-top:8px;font-size:13px;line-height:1.45;background:#FBEFF2;border-left:3px solid var(--hib);border-radius:0 8px 8px 0;padding:7px 10px;color:var(--ink)}
+  .bk-note b{color:var(--rasp)}
   @media print{.nav,.filters,.tabs{display:none}}
 </style>
 </head>
@@ -1271,7 +1273,8 @@
       hotel:'Coconut Beach Villa Langkawi', q:'Coconut Beach Villa Langkawi',
       room:'Beachfront Private Villa, semi-open bathroom · breakfast included',
       addr:'Lot 37, Jalan Kuala Muda, Padang Matsirat · ~10 min by Grab to the airport and Pantai Cenang',
-      facts:['In from 3 pm · out by noon','Front desk 7 am–midnight; no late check-in']},
+      facts:['In from 3 pm · out by noon','Front desk 7 am–midnight; no late check-in'],
+      note:'<b>Pay at the villa:</b> RM50 deposit per stay, plus city tax of RM3 per night (RM12 for 4 nights). The tax can go up during big events like LIMA, Le Tour de Langkawi or Ironman.'},
       opts:[
       ['Pantai Tengah','Top pick','Quiet sunset beach, 5 min to the Cenang strip, 10 min to the airport.'],
       ['Pantai Cenang','Lively','Restaurants, shops and nightlife on your doorstep. Busier and more touristy.']]},
@@ -1279,7 +1282,8 @@
       hotel:'22 Macalisterz Premium Suites by BYON', q:'22 Macalisterz, Jalan Macalister, George Town, Penang',
       room:'Tropical 2-Bedroom Suite · 2 queen beds · no breakfast',
       addr:'22 Jalan Macalister (corner of Jalan Anson) · 15 min walk to Penang Road, Grab 5 min to the heritage zone',
-      facts:['In after 3 pm · out before noon','Fee charged if you don\u2019t check in']},
+      facts:['In after 3 pm · out before noon','Fee charged if you don\u2019t check in'],
+      note:'<b>Security deposit:</b> RM200 at check-in, cashless only (bring a card, not cash). Fully refunded after check-out if nothing is damaged or missing.'},
       opts:[
       ['Muntri Street / Stewart Lane','Top pick','Quiet end of the heritage zone. Walk to the murals, Chulia Street hawkers, Little India.'],
       ['Penang Road / Campbell Street','More local','Near the famous cendol and shopping streets, still walkable to everything.']]},
@@ -1324,6 +1328,7 @@
       '<a class="map-link" href="https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(b.q)+'" target="_blank" rel="noopener" aria-label="Open '+b.hotel+' in Google Maps">'+PIN+'Map</a>'+
       '<p class="room">'+b.room+'</p><ul class="hfacts">'+b.facts.map(function(f){ return '<li>'+f+'</li>'; }).join('')+'</ul>'+
       '<p class="addr">'+b.addr+'</p>'+
+      (b.note ? '<p class="bk-note">'+b.note+'</p>' : '')+
       (b.doc ? '<button type="button" class="doc-btn" data-doc="'+b.doc+'" data-docname="'+b.docName+'"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 2h7l4 4v12H5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 2v4h4M8 11h5M8 14h5" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg><span>View booking</span></button>' : '')+'</div>';
   }
   function renderStays(){
