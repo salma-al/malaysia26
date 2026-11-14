@@ -603,11 +603,6 @@
   .sp-del.sure{background:var(--hib);border-color:var(--hib);color:#fff;font-size:12px}
   @media (max-width:760px){.spend-form{grid-template-columns:1fr 1fr}.f-what{grid-column:1 / -1}.spend-add{grid-column:1 / -1}}
 
-  .album-btn{align-self:flex-end;font-weight:800;font-size:14px;text-decoration:none;color:#fff;background:var(--hib);border-radius:999px;padding:8px 16px}
-  .pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
-  .pt{padding:0;border:0;border-radius:8px;overflow:hidden;aspect-ratio:1;background:var(--rose-l);cursor:zoom-in}
-  .pt img{width:100%;height:100%;object-fit:cover;display:block}
-  .p-empty{color:var(--soft);font-size:15px}
 
   .syncbox{position:fixed;right:16px;bottom:16px;z-index:40;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
   .sync-pill{display:flex;align-items:center;gap:7px;border:1.5px solid var(--rose);background:#fff;color:var(--ink);font-weight:700;font-size:13px;border-radius:999px;padding:7px 13px;cursor:pointer;box-shadow:0 4px 14px rgba(15,61,46,.15)}
@@ -765,6 +760,41 @@
   [hidden]{display:none!important}
   /* little dividers between sections */
   main > section:not(:first-child):not(.food):not(.food + section):not([hidden])::before{content:"";display:block;width:150px;height:19px;margin:0 auto 44px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 20'%3E%3Cpath d='M4 10h52M104 10h52' stroke='%23D48D91' stroke-width='1.5' stroke-linecap='round'/%3E%3Ccircle cx='66' cy='10' r='2' fill='%23D48D91'/%3E%3Ccircle cx='94' cy='10' r='2' fill='%23D48D91'/%3E%3Cpath d='M80 1l2.6 6.4L89 10l-6.4 2.6L80 19l-2.6-6.4L71 10l6.4-2.6z' fill='%23B8646A'/%3E%3C/svg%3E") center/contain no-repeat}
+
+  /* ---------- album (cover flow) + photobooth ---------- */
+  #photos{background:var(--jade-dd);color:#fff;position:relative;padding-top:80px}
+  #photos h2{color:var(--hib-l)}
+  #photos .sub{color:var(--mint)}
+  #photos.sp-done{}
+  #photos::before{display:none!important}
+  .album{position:relative;height:clamp(300px,46vw,470px);perspective:1500px;outline:none;margin-top:6px;overflow:hidden;touch-action:pan-y}
+  .album:focus-visible{box-shadow:0 0 0 3px rgba(242,206,174,.45);border-radius:14px}
+  .album-stage{position:absolute;inset:0;transform-style:preserve-3d}
+  .acard{position:absolute;top:6%;left:50%;width:min(560px,74%);aspect-ratio:4/3;border-radius:14px;overflow:hidden;background:#fff;cursor:pointer;
+    transform-style:preserve-3d;transition:transform .55s cubic-bezier(.2,.75,.25,1),opacity .4s,width .45s,aspect-ratio .45s;
+    box-shadow:0 18px 40px rgba(0,0,0,.35);will-change:transform}
+  .acard img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
+  .acard:not(.on){filter:brightness(.82)}
+  .acard.on{cursor:zoom-in}
+  .acard.is-booth{top:2%;height:96%;width:auto;aspect-ratio:1/2.85;background:#F7F2EA;cursor:default;border-radius:4px}
+  .acard.is-booth > img{opacity:0}
+  .booth-wrap{position:absolute;inset:0;pointer-events:none}
+  .strip{position:absolute;inset:0;padding:8% 9% 0;display:flex;flex-direction:column;background:#F7F2EA}
+  .strip::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.22;mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
+  .strip-frames{display:grid;grid-template-rows:repeat(4,1fr);gap:5%;flex:1}
+  .strip-f{display:block;background-color:#222;background-repeat:no-repeat;filter:grayscale(1) contrast(1.25) brightness(1.05);border-radius:1px;box-shadow:inset 0 0 18px rgba(0,0,0,.35)}
+  .strip-cap{font-family:"Chango",Georgia,serif;font-size:clamp(11px,1.6vw,16px);color:#2a2622;text-align:center;margin-top:7%;letter-spacing:.04em}
+  .strip-date{font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-size:clamp(10px,1.3vw,13px);color:#6b625a;text-align:center;margin:2px 0 8%}
+  .album-count{text-align:center;font-size:13px;font-weight:700;color:var(--mint);margin-top:4px}
+  .album-ctrls{display:flex;justify-content:center;align-items:center;gap:10px;margin-top:14px}
+  .ab{display:inline-grid;place-items:center;min-width:44px;height:44px;border-radius:999px;border:0;background:#fff;color:var(--jade-dd);cursor:pointer;text-decoration:none;box-shadow:0 4px 12px rgba(0,0,0,.25)}
+  .ab svg{width:18px;height:18px}
+  .ab-booth{display:inline-flex;gap:7px;padding:0 18px;font:800 14px/1 "Plus Jakarta Sans",sans-serif}
+  .ab-booth[aria-pressed="true"]{background:var(--hib);color:#fff}
+  .ab:focus-visible{outline:3px solid var(--hib-l);outline-offset:2px}
+  @media (max-width:640px){.acard{width:78%}.acard.is-booth{width:auto}}
+  @media (prefers-reduced-motion:reduce){.acard{transition:none}}
   @media print{.nav,.filters,.tabs{display:none}}
 </style>
 </head>
@@ -828,7 +858,7 @@
     <li><a href="#shop">Shopping</a></li>
     <li><a href="#money">Money &amp; costs</a></li>
     <li><a href="#around">Getting around</a></li>
-    <li hidden><a href="#photos">Photos</a></li>
+    <li><a href="#photos">Album</a></li>
     <li><a href="#before">Before you go</a></li>
   </ul>
 </nav>
@@ -1002,11 +1032,19 @@
   </div>
 </section>
 
-<section id="photos" hidden>
+<section id="photos">
   <div class="wrap">
-    <div class="eyebrow-row"><div><h2 class="sp">Our photos</h2><p class="sub">From our shared Google Photos album. Add photos there and they appear here.</p></div>
-      <a class="album-btn" id="albumLink" href="#" target="_blank" rel="noopener">Add photos</a></div>
-    <div class="pgrid" id="pgrid"></div>
+    <div class="eyebrow-row"><div><h2 class="sp">Our album</h2><p class="sub" id="albumSub">Swipe through the trip. Tap the strip button to turn a photo into a photobooth print.</p></div></div>
+    <div class="album" id="album" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Photo album">
+      <div class="album-stage" id="albumStage"></div>
+    </div>
+    <p class="album-count" id="albumCount" aria-live="polite"></p>
+    <div class="album-ctrls">
+      <button type="button" class="ab" id="albumPrev" aria-label="Previous photo"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button type="button" class="ab ab-booth" id="albumBooth" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="6" y="1.5" width="8" height="17" rx="1" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M6 5.8h8M6 10h8M6 14.2h8" stroke="currentColor" stroke-width="1.4"/></svg><span>Photobooth</span></button>
+      <a class="ab" id="albumLink" href="#" target="_blank" rel="noopener" aria-label="Add photos to the album" hidden><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></a>
+      <button type="button" class="ab" id="albumNext" aria-label="Next photo"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7.5 4l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
   </div>
 </section>
 
@@ -1859,30 +1897,102 @@
   listeners.push(renderWish);
   renderWish();
 
-  /* ---------- our photos (Google Photos shared album via the script) ---------- */
-  var photosSec = document.getElementById('photos');
+  /* ---------- our album: cover-flow carousel + photobooth strips ---------- */
+  var albumStage = document.getElementById('albumStage'), album = [], active = 0, booth = false, albumReal = false;
+  function sampleAlbum(){
+    var keys = ['hero_langkawi', 'cenang', 'skybridge', 'hero_penang', 'chewjetty', 'keklok', 'f_ckt', 'hero_kl', 'batucaves', 'petronas', 'jalanalor', 'f_cendol'];
+    return keys.filter(function(k){ return P[k]; }).map(function(k){ return {src:P[k].t, full:P[k].o || P[k].t}; });
+  }
+  function boothHTML(src){
+    var pos = ['50% 50%', '30% 40%', '70% 45%', '50% 70%'], zoom = ['cover', '160% auto', '175% auto', '145% auto'];
+    return '<div class="strip"><div class="strip-frames">' + pos.map(function(p, i){
+      return '<span class="strip-f" style="background-image:url(\'' + src.replace(/'/g, '%27') + '\');background-position:' + p + ';background-size:' + zoom[i] + '"></span>';
+    }).join('') + '</div><p class="strip-cap">MALAYSIA 26</p><p class="strip-date">27.11 – 10.12.2026</p></div>';
+  }
+  function placeCards(){
+    var cards = albumStage.children, n = cards.length;
+    for (var i = 0; i < n; i++) {
+      var d = i - active, ad = Math.abs(d), sg = d < 0 ? -1 : 1, c = cards[i];
+      var t;
+      if (d === 0) t = 'translateX(-50%) translateZ(0) rotateY(0deg)';
+      else t = 'translateX(calc(-50% + ' + sg * (52 + (ad - 1) * 7) + '%)) translateZ(' + (-140 - ad * 30) + 'px) rotateY(' + (-sg * 58) + 'deg)';
+      c.style.transform = t;
+      c.style.zIndex = 100 - ad;
+      c.style.opacity = ad > 6 ? 0 : 1;
+      c.style.pointerEvents = ad > 6 ? 'none' : '';
+      c.classList.toggle('on', d === 0);
+      c.setAttribute('aria-hidden', d === 0 ? 'false' : 'true');
+      c.tabIndex = d === 0 ? 0 : -1;
+      c.classList.toggle('is-booth', d === 0 && booth);
+    }
+    document.getElementById('albumCount').textContent = n ? (active + 1) + ' / ' + n + (albumReal ? '' : ' · sample photos') : '';
+    var bb = document.getElementById('albumBooth');
+    bb.setAttribute('aria-pressed', String(booth));
+    bb.querySelector('span').textContent = booth ? 'Back to photo' : 'Photobooth';
+  }
+  function renderAlbum(){
+    albumStage.innerHTML = album.map(function(p, i){
+      return '<div class="acard" data-i="' + i + '" role="group" aria-label="Photo ' + (i + 1) + ' of ' + album.length + '">' +
+        '<img src="' + esc(p.src) + '" alt="" loading="' + (i < 5 ? 'eager' : 'lazy') + '" decoding="async" referrerpolicy="no-referrer">' +
+        '<div class="booth-wrap">' + (i === active && booth ? boothHTML(p.src) : '') + '</div></div>';
+    }).join('');
+    placeCards();
+  }
+  function go(i){
+    if (!album.length) return;
+    i = Math.max(0, Math.min(album.length - 1, i));
+    if (i === active) return;
+    var old = albumStage.children[active]; if (old) old.querySelector('.booth-wrap').innerHTML = '';
+    active = i; booth = false; placeCards();
+  }
+  function toggleBooth(){
+    var c = albumStage.children[active]; if (!c) return;
+    booth = !booth;
+    c.querySelector('.booth-wrap').innerHTML = booth ? boothHTML(album[active].src) : '';
+    placeCards();
+  }
+  document.getElementById('albumPrev').addEventListener('click', function(){ go(active - 1); });
+  document.getElementById('albumNext').addEventListener('click', function(){ go(active + 1); });
+  document.getElementById('albumBooth').addEventListener('click', toggleBooth);
+  albumStage.addEventListener('click', function(e){
+    var c = e.target.closest('.acard'); if (!c) return;
+    var i = +c.dataset.i;
+    if (i !== active) { go(i); return; }
+    if (booth || !lb.showModal) return;
+    var im = lb.querySelector('img'); im.onerror = null; im.src = album[i].full; im.alt = 'Trip photo';
+    lb.querySelector('.cap').textContent = 'Our album';
+    var cr = lb.querySelector('.credit');
+    if (albumReal) { cr.href = document.getElementById('albumLink').href; cr.textContent = 'Open album'; } else { cr.removeAttribute('href'); cr.textContent = ''; }
+    lb.showModal();
+  });
+  document.getElementById('album').addEventListener('keydown', function(e){
+    if (e.key === 'ArrowLeft') { e.preventDefault(); go(active - 1); }
+    else if (e.key === 'ArrowRight') { e.preventDefault(); go(active + 1); }
+  });
+  (function(){
+    var x0 = null, y0 = 0;
+    albumStage.addEventListener('pointerdown', function(e){ x0 = e.clientX; y0 = e.clientY; });
+    albumStage.addEventListener('pointerup', function(e){
+      if (x0 === null) return;
+      var dx = e.clientX - x0, dy = e.clientY - y0; x0 = null;
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) go(active + (dx < 0 ? 1 : -1));
+    });
+  })();
+  function setAlbum(list, real){
+    album = list; albumReal = real; active = Math.min(active, Math.max(0, list.length - 1)); booth = false;
+    document.getElementById('albumSub').textContent = real ? 'From our shared Google Photos album. Tap the strip button to turn a photo into a photobooth print.'
+      : 'A preview with trip photos until our Google Photos album is connected. Tap the strip button for a photobooth print.';
+    renderAlbum();
+  }
+  setAlbum(sampleAlbum(), false);
   function loadPhotos(){
     if (!SYNC_URL || !tripCode) return;
     fetch(SYNC_URL + '?what=photos&code=' + encodeURIComponent(tripCode)).then(function(r){ return r.json(); }).then(function(d){
       if (!d || d.error || !d.url) return;
-      photosSec.hidden = false;
-      document.querySelector('a[href="#photos"]').parentNode.hidden = false;
-      document.getElementById('albumLink').href = d.url;
-      var g = document.getElementById('pgrid');
-      if (!d.photos || !d.photos.length) { g.innerHTML = '<p class="p-empty">No photos yet. Add some to the album and they’ll show up here.</p>'; return; }
-      g.innerHTML = d.photos.map(function(p, i){
-        return '<button type="button" class="pt" data-u="' + esc(p.u) + '" aria-label="Open photo ' + (i + 1) + '"><img loading="lazy" decoding="async" referrerpolicy="no-referrer" src="' + esc(p.u) + '=w500-h500-c" alt=""></button>';
-      }).join('');
+      var link = document.getElementById('albumLink'); link.href = d.url; link.hidden = false;
+      if (d.photos && d.photos.length) setAlbum(d.photos.map(function(p){ return {src:p.u + '=w1000-h1000', full:p.u + '=w2000-h2000'}; }), true);
     }).catch(function(){});
   }
-  document.getElementById('pgrid').addEventListener('click', function(e){
-    var b = e.target.closest('.pt'); if (!b || !lb.showModal) return;
-    var im = lb.querySelector('img'); im.onerror = null; im.src = b.dataset.u + '=w1600-h1600'; im.alt = 'Trip photo';
-    lb.querySelector('.cap').textContent = 'Our photos';
-    lb.querySelector('.credit').href = document.getElementById('albumLink').href;
-    lb.querySelector('.credit').textContent = 'Open album';
-    lb.showModal();
-  });
 
   /* ---------- sharing setup pill ---------- */
   var syncBox = document.getElementById('syncBox'), syncPanel = document.getElementById('syncPanel');
