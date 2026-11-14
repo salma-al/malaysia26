@@ -170,7 +170,12 @@ function spendDel_(id) {
 }
 
 /* ---------- shared settings (e.g. Malacca day trip on/off) ---------- */
-var SETTINGS = { malday: ['0', '1'] };
+var SETTINGS = {
+  malday: ['0', '1'],
+  tr_klia: ['plane', 'trainferry'],
+  tr_lgkpen: ['plane', 'ferry'],
+  tr_penkl: ['plane', 'train', 'bus']
+};
 function set_(key, val, by) {
   if (!SETTINGS.hasOwnProperty(key) || SETTINGS[key].indexOf(String(val)) < 0) return { error: 'bad setting' };
   var sh = settingsSheet_(), row = rowOf_(sh, key);
