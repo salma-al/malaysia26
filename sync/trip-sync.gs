@@ -77,7 +77,7 @@ function doPost(e) {
     if (b.a === 'bk.del') return reply_(bkDel_(b.id));
     return reply_({ error: 'unknown action' });
   } catch (err) {
-    return reply_({ error: 'failed' });
+    return reply_({ error: 'failed', why: String(err && err.message || err).slice(0, 200) });
   } finally {
     lock.releaseLock();
   }
