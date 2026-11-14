@@ -863,7 +863,7 @@
   .hero-cta{display:inline-flex;align-items:center;gap:8px;margin-top:20px;background:#D48D91;color:#400D01;border:1.5px solid #400D01;border-radius:999px;padding:9px 18px;font:800 15px/1 "Plus Jakarta Sans",sans-serif;cursor:pointer;box-shadow:3px 3px 0 #400D01}
   .hero-cta svg{width:19px;height:19px}
   .hero-cta:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 #400D01}
-  .hero-cta + .mini-conv{margin-top:16px}
+  .mini-conv + .hero-cta{margin-top:14px}
   @media (max-width:560px){.album-bar{border-radius:18px;width:100%}.album-bar .ab span{font-size:12.5px}.ab-sep{display:none}}
   @media print{.nav,.filters,.tabs{display:none}}
 </style>
@@ -899,12 +899,12 @@
       <p class="h3-pill">26 Nov <i>–</i> 10 Dec</p>
       <h1 class="h3-title">Malaysia</h1>
       <div class="h3-sub"><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span><p lang="ms">Cuti-cuti Malaysia</p></div>
-      <label class="hero-cta" id="heroAdd" for="albumFile"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="13" r="3.5" fill="none" stroke="currentColor" stroke-width="2"/></svg><span>Add a photo</span></label>
       <div class="mini-conv">
         <label for="mAmt">Quick convert</label>
         <div class="mc-row"><input id="mAmt" type="number" inputmode="decimal" min="0" step="any" value="1" aria-label="Amount"><select id="mCur" aria-label="Currency"><option value="MYR" selected>RM</option><option value="EGP">EGP</option><option value="GBP">£</option><option value="USD">$</option></select></div>
         <p id="mOut" aria-live="polite"></p>
       </div>
+      <label class="hero-cta" id="heroAdd" for="albumFile"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="13" r="3.5" fill="none" stroke="currentColor" stroke-width="2"/></svg><span>Add a photo</span></label>
     </div>
     <div class="h3-art" aria-label="The three stops">
       <div class="pool" aria-hidden="true"></div>
