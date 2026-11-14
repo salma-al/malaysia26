@@ -54,6 +54,10 @@ function doPost(e) {
   var b;
   try { b = JSON.parse(e.postData.contents); } catch (err) { return reply_({ error: 'bad request' }); }
   if (!codeOk_(b.code)) return reply_({ error: 'code' });
+  // Photo uploads only create a Drive file, so they skip the lock and several can save at once.
+  if (b.a === 'album.add') {
+    try { return reply_(albumAdd_(b.img, PEOPLE.indexOf(b.by) >= 0 ? b.by : '', b.taken)); } catch (err) { return reply_({ error: 'failed' }); }
+  }
   var lock = LockService.getScriptLock();
   lock.waitLock(15000);
   try {
@@ -63,7 +67,6 @@ function doPost(e) {
     if (b.a === 'spend.add') return reply_(spendAdd_(b.item));
     if (b.a === 'spend.del') return reply_(spendDel_(b.id));
     if (b.a === 'set') return reply_(set_(b.key, b.val, by));
-    if (b.a === 'album.add') return reply_(albumAdd_(b.img, by, b.taken));
     if (b.a === 'album.del') return reply_(albumDel_(b.id));
     if (b.a === 'shop.add') return reply_(shopAdd_(b.item, by));
     if (b.a === 'shop.edit') return reply_(shopEdit_(b.id, b.text, b.link, !!b.rmimg, b.img));
