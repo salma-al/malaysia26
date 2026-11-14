@@ -865,7 +865,9 @@
   .hero-cta{display:inline-flex;align-items:center;gap:8px;margin-top:20px;background:rgba(212,141,145,.82);color:#400D01;border:1.5px solid #400D01;border-radius:999px;padding:9px 18px;font:800 15px/1 "Plus Jakarta Sans",sans-serif;cursor:pointer;box-shadow:3px 3px 0 #400D01}
   .hero-cta svg{width:19px;height:19px}
   .hero-cta:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 #400D01}
-  .mini-conv + .hero-cta{margin-top:14px}
+  .hero-ctas{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+  .hero-ctas .hero-cta{margin-top:0}
+  .gal-empty{grid-column:1/-1;text-align:center;padding:40px 10px;font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-size:20px;opacity:.8}
   @media (max-width:560px){.album-bar{border-radius:18px;width:100%}.album-bar .ab span{font-size:12.5px}.ab-sep{display:none}}
   /* ---------- album view switch, gallery, sync minimise ---------- */
   .seg{display:inline-flex;background:#FBF1E8;border-radius:999px;padding:3px;gap:2px}
@@ -933,7 +935,10 @@
         <div class="mc-row"><input id="mAmt" type="number" inputmode="decimal" min="0" step="any" value="1" aria-label="Amount"><select id="mCur" aria-label="Currency"><option value="MYR" selected>RM</option><option value="EGP">EGP</option><option value="GBP">£</option><option value="USD">$</option></select></div>
         <p id="mOut" aria-live="polite"></p>
       </div>
+      <div class="hero-ctas">
       <label class="hero-cta" id="heroAdd" for="albumFile"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="13" r="3.5" fill="none" stroke="currentColor" stroke-width="2"/></svg><span>Add a photo</span></label>
+      <button type="button" class="hero-cta" id="heroGal"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="2"/><rect x="13" y="4" width="7" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="2"/><rect x="4" y="13" width="7" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="2"/><rect x="13" y="13" width="7" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="2"/></svg><span>Our gallery</span></button>
+      </div>
     </div>
     <div class="h3-art" aria-label="The three stops">
       <div class="pool" aria-hidden="true"></div>
@@ -2435,10 +2440,14 @@
       return '<button type="button" class="gal-t' + (i === active ? ' on' : '') + '" data-i="' + i + '" aria-label="Photo ' + (i + 1) + (pd ? ', ' + shortDay(pd) : '') + '">' +
         '<img loading="lazy" decoding="async" referrerpolicy="no-referrer" src="' + esc(it.fid ? imgSrc(it.fid, 400) : it.src) + '"' + (it.fid ? ' data-fid="' + esc(it.fid) + '" data-w="400"' : '') + ' alt="">' +
         (pd ? '<span>' + shortDay(pd) + '</span>' : '') + '</button>';
-    }).join('');
+    }).join('') || '<p class="gal-empty">No photos yet. Tap “Add a photo” to start our album.</p>';
     if (galDlg.showModal) galDlg.showModal();
   }
   document.getElementById('albumGrid').addEventListener('click', openGallery);
+  document.getElementById('heroGal').addEventListener('click', function(){
+    if (!SYNC_URL || !tripCode) { askCode('Enter the trip code to see our photos.'); return; }
+    openGallery();
+  });
   document.getElementById('galClose').addEventListener('click', function(){ galDlg.close(); });
   galDlg.addEventListener('click', function(e){
     if (e.target === galDlg) { galDlg.close(); return; }
