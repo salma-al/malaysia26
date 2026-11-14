@@ -903,17 +903,6 @@
     <div class="eyebrow-row"><div><h2 class="sp">Money &amp; costs</h2><p class="sub">All estimates, per person unless marked. International flights not included.</p></div></div>
     <div class="money-grid">
 
-      <div class="panel span2 spend" id="spendPanel">
-        <div class="spend-head"><h3>Our spending</h3><p class="spend-total" id="spendTotal"></p></div>
-        <form class="spend-form" id="spendForm" autocomplete="off">
-          <label class="f-what"><span>What</span><input name="what" required maxlength="80" placeholder="Dinner at Jalan Alor"></label>
-          <label class="f-amt"><span>Amount</span><input name="amt" type="number" inputmode="decimal" min="0" step="any" required placeholder="45"></label>
-          <label class="f-cur"><span>Currency</span><select name="cur"><option value="MYR">RM</option><option value="EGP">EGP</option><option value="GBP">£</option><option value="USD">$</option></select></label>
-          <label class="f-who"><span>Paid by</span><select name="who" id="spendWho"></select></label>
-          <button type="submit" class="spend-add">Add</button>
-        </form>
-        <ol class="spend-list" id="spendList"><li class="sp-empty">Nothing yet.</li></ol>
-      </div>
 
       <div class="panel">
         <h3>Converter</h3>
@@ -1741,43 +1730,6 @@
   docDlg.querySelector('.doc-close').addEventListener('click', function(){ docDlg.close(); });
   docDlg.addEventListener('click', function(e){ if (e.target === docDlg) docDlg.close(); });
 
-  /* ---------- our spending ---------- */
-  var spendForm = document.getElementById('spendForm');
-  function toRM(x){ return (+x.amt || 0) / (RATES[x.cur] || 1); }
-  function people(){ return (S.people && S.people.length >= 2) ? S.people.slice(0, 2) : ['Salma','Rahma']; }
-  function fillWho(){
-    var sel = document.getElementById('spendWho'), P2 = people(), cur = sel.value || me || P2[0];
-    sel.innerHTML = P2.map(function(p){ return '<option'+(p === cur ? ' selected' : '')+'>'+esc(p)+'</option>'; }).join('');
-  }
-  function renderSpend(){
-    fillWho();
-    var total = 0;
-    var list = S.spend.slice().sort(function(a, b){ return (b.at || '') < (a.at || '') ? -1 : 1; });
-    list.forEach(function(x){ total += toRM(x); });
-    document.getElementById('spendTotal').textContent = list.length ? 'RM' + Math.round(total).toLocaleString('en-GB') + ' so far' : '';
-    document.getElementById('spendList').innerHTML = list.length ? '' : '<li class="sp-empty">Nothing yet. Add what you spend as you go.</li>';
-    if (list.length) document.getElementById('spendList').innerHTML = list.map(function(x){
-      var amt = x.cur === 'MYR' ? 'RM' + (+x.amt).toFixed(2) : fmt(+x.amt, x.cur) + ' <small>≈ RM' + toRM(x).toFixed(2) + '</small>';
-      return '<li><div><b>' + esc(x.what) + '</b><span>' + esc(x.who) + ' paid' + (x.at ? ' · ' + esc(String(x.at).slice(5, 10).split('-').reverse().join('/')) : '') + '</span></div>' +
-        '<p class="sp-amt">' + amt + '</p><button type="button" class="sp-del" data-id="' + esc(x.id) + '" aria-label="Delete ' + esc(x.what) + '">×</button></li>';
-    }).join('');
-  }
-  spendForm.addEventListener('submit', function(e){
-    e.preventDefault();
-    var f = spendForm.elements, amt = parseFloat(f.amt.value);
-    if (!f.what.value.trim() || !(amt > 0)) return;
-    op({a:'spend.add', item:{id:Date.now().toString(36) + Math.random().toString(36).slice(2, 6), at:new Date().toISOString(), who:f.who.value, what:f.what.value.trim().slice(0, 80), amt:Math.round(amt * 100) / 100, cur:f.cur.value, split:'both'}});
-    f.what.value = ''; f.amt.value = ''; f.what.focus();
-  });
-  document.getElementById('spendList').addEventListener('click', function(e){
-    var b = e.target.closest('.sp-del'); if (!b) return;
-    if (b.dataset.sure) { op({a:'spend.del', id:b.dataset.id}); return; }
-    b.dataset.sure = '1'; b.textContent = 'Delete?'; b.classList.add('sure');
-    setTimeout(function(){ if (b.isConnected) { delete b.dataset.sure; b.textContent = '×'; b.classList.remove('sure'); } }, 3000);
-  });
-  listeners.push(renderSpend);
-  renderSpend();
-
   /* ---------- our shopping list: text, link and/or photo ---------- */
   var wishForm = document.getElementById('wishForm'), wishImg = '';
   function imgSrc(v, w){
@@ -1910,10 +1862,10 @@
 
   /* ---------- sharing setup pill ---------- */
   var syncBox = document.getElementById('syncBox'), syncPanel = document.getElementById('syncPanel');
+  function people(){ return (S.people && S.people.length >= 2) ? S.people.slice(0, 2) : ['Salma','Rahma']; }
   function fillMe(){
     var sel = document.getElementById('meSel'), P2 = people();
     sel.innerHTML = '<option value="">Choose…</option>' + P2.map(function(p){ return '<option'+(p === me ? ' selected' : '')+'>'+esc(p)+'</option>'; }).join('');
-    renderSpend();
   }
   function askCode(msg){
     setSync('need', 'Set up sharing');
