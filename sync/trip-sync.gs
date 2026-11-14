@@ -55,6 +55,7 @@ function doPost(e) {
     if (b.a === 'spend.del') return reply_(spendDel_(b.id));
     if (b.a === 'set') return reply_(set_(b.key, b.val, by));
     if (b.a === 'shop.add') return reply_(shopAdd_(b.item, by));
+    if (b.a === 'shop.edit') return reply_(shopEdit_(b.id, b.text, b.link, !!b.rmimg));
     if (b.a === 'shop.toggle') return reply_(shopToggle_(b.id, !!b.on));
     if (b.a === 'shop.del') return reply_(shopDel_(b.id));
     return reply_({ error: 'unknown action' });
@@ -191,6 +192,20 @@ function shopAdd_(x, by) {
   if (!text && !link && !fileId) return { error: 'empty' };
   sh.appendRow([x.id, now_(), by, clean_(text, 200), clean_(link, 500), fileId, '0']);
   return { ok: true, img: fileId };
+}
+function shopEdit_(id, text, link, rmimg) {
+  var sh = shopSheet_(), row = rowOf_(sh, String(id));
+  if (!row) return { ok: true };
+  text = String(text || '').slice(0, 200);
+  link = String(link || '').slice(0, 500);
+  if (link && !/^https?:\/\/[^\s<>"]+$/i.test(link)) link = '';
+  sh.getRange(row, 4, 1, 2).setValues([[clean_(text, 200), clean_(link, 500)]]);
+  if (rmimg) {
+    var fileId = String(sh.getRange(row, 6).getValue());
+    if (fileId) { try { DriveApp.getFileById(fileId).setTrashed(true); } catch (err) {} }
+    sh.getRange(row, 6).setValue('');
+  }
+  return { ok: true };
 }
 function shopToggle_(id, on) {
   var sh = shopSheet_(), row = rowOf_(sh, String(id));

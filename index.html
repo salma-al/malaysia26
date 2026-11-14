@@ -601,7 +601,7 @@
   .spend-list li span{font-size:12.5px;color:var(--soft)}
   .sp-amt{font-weight:800;white-space:nowrap;text-align:right}
   .sp-amt small{display:block;font-weight:600;color:var(--soft);font-size:11.5px}
-  .sp-del{border:1.5px solid var(--rose-l);background:#fff;color:var(--rasp);border-radius:999px;min-width:30px;height:30px;font-weight:800;cursor:pointer;padding:0 8px}
+  .sp-del{display:inline-grid;place-items:center;border:1.5px solid var(--rose-l);background:#fff;color:var(--rasp);border-radius:999px;min-width:30px;height:30px;font:800 18px/1 "Plus Jakarta Sans",sans-serif;cursor:pointer;padding:0 8px}
   .sp-del.sure{background:var(--hib);border-color:var(--hib);color:#fff;font-size:12px}
   @media (max-width:760px){.spend-form{grid-template-columns:1fr 1fr}.f-what{grid-column:1 / -1}.spend-add{grid-column:1 / -1}}
 
@@ -654,6 +654,39 @@
   .wish-list li.got .w-thumb{opacity:.55}
   .w-empty,.sp-empty{color:var(--soft);font-size:14.5px;display:block!important;border-top:0!important}
   @media (max-width:700px){.wish-form{grid-template-columns:1fr auto}.w-text,.w-link{grid-column:1 / -1}}
+
+  /* ---------- tweaks: focus, edit, filters, view more, calendar ---------- */
+  input:focus-visible,select:focus-visible,textarea:focus-visible,
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--jade)!important;box-shadow:0 0 0 3px rgba(97,150,123,.22)}
+  .mini-conv input,.mini-conv select,.conv input,.conv select{transition:box-shadow .15s,border-color .15s}
+  .done input:focus-visible{box-shadow:0 0 0 3px rgba(97,150,123,.35)}
+  @media (prefers-reduced-motion:reduce){.mini-conv input,.mini-conv select,.conv input,.conv select{transition:none}}
+
+  .w-acts{display:flex;align-items:center;gap:6px;flex:none}
+  .w-edit{border:1.5px solid var(--mint);background:var(--mint-l);color:var(--jade-dd);border-radius:999px;height:30px;padding:0 12px;font:700 13px/1 "Plus Jakarta Sans",sans-serif;cursor:pointer}
+  .w-edit:hover{background:var(--jade-d);border-color:var(--jade-d);color:#fff}
+  .w-editf{display:grid;gap:6px}
+  .w-editf input:not([type=checkbox]){width:100%;font-size:15px;padding:8px 10px;border:1.5px solid var(--rose-l);border-radius:8px;background:#fff;color:var(--ink)}
+  .w-rm{font-size:13px;color:var(--soft);display:flex;align-items:center;gap:6px}
+  .w-editb{display:flex;gap:6px}
+  .w-editb button{font:800 14px/1 "Plus Jakarta Sans",sans-serif;padding:9px 14px;border-radius:8px;cursor:pointer;border:1.5px solid var(--jade-d);background:var(--jade-d);color:#fff}
+  .w-editb .w-cancel{background:#fff;color:var(--jade-dd);border-color:var(--mint)}
+
+  .shop-bar{display:grid;gap:10px;margin-bottom:16px}
+  .f-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .f-lab{font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-size:17px;color:var(--rasp);min-width:42px}
+  .f-row + .f-row{padding-top:10px;border-top:1.5px dashed var(--rose-l)}
+  .shop-cities button{font-size:15px;font-weight:700;padding:8px 16px}
+  .view-more{display:block;width:100%;margin-top:4px;padding:11px;border:1.5px dashed var(--rose);border-radius:10px;background:transparent;color:var(--rasp);font:700 14.5px/1 "Plus Jakarta Sans",sans-serif;cursor:pointer}
+  .view-more:hover{background:var(--paper)}
+
+  .cal{width:58px;border-radius:8px;box-shadow:3px 3px 0 color-mix(in srgb,var(--c) 30%,#fff)}
+  .cal-m{border-radius:6px 6px 0 0;padding:7px 0 2px;font-size:11.5px;line-height:1.1}
+  .cal::before,.cal::after{top:-6px;height:10px;width:5px}
+  .cal::before{left:12px}.cal::after{right:12px}
+  .cal b{font-size:23px;line-height:1;padding-top:3px}
+  .cal-d{font-size:10.5px;padding:1px 0 4px}
+  @media (max-width:520px){.cal{width:52px}.cal b{font-size:21px}}
   @media print{.nav,.filters,.tabs{display:none}}
 </style>
 </head>
@@ -800,8 +833,8 @@
     </div>
     <p class="shop-tip">Haggle at street stalls, not in shops · bring cash for markets · keep your bag in front in crowds.</p>
     <div class="shop-bar">
-      <div class="filters shop-cities" id="shopCities" role="group" aria-label="City"></div>
-      <div class="filters shop-types" id="shopTypes" role="group" aria-label="Type of shopping"></div>
+      <div class="f-row"><span class="f-lab" aria-hidden="true">Where</span><div class="filters shop-cities" id="shopCities" role="group" aria-label="City"></div></div>
+      <div class="f-row"><span class="f-lab" aria-hidden="true">What</span><div class="filters shop-types" id="shopTypes" role="group" aria-label="Type of shopping"></div></div>
     </div>
     <div class="shop-grid">
       <ol class="shops" id="shops"></ol>
@@ -982,6 +1015,7 @@
     else if (o.a === 'spend.add') { if (!S.spend.some(function(x){ return x.id === o.item.id; })) S.spend.push(o.item); }
     else if (o.a === 'spend.del') { S.spend = S.spend.filter(function(x){ return x.id !== o.id; }); }
     else if (o.a === 'shop.add') { if (!S.shop.some(function(x){ return x.id === o.item.id; })) S.shop.push(o.item); }
+    else if (o.a === 'shop.edit') { S.shop.forEach(function(x){ if (x.id === o.id) { x.text = o.text; x.link = o.link; if (o.rmimg) x.img = ''; } }); }
     else if (o.a === 'shop.toggle') { S.shop.forEach(function(x){ if (x.id === o.id) x.got = o.on ? 1 : 0; }); }
     else if (o.a === 'set') { S.settings = S.settings || {}; S.settings[o.key] = o.val; }
     else if (o.a === 'shop.del') { S.shop = S.shop.filter(function(x){ return x.id !== o.id; }); }
@@ -1139,7 +1173,7 @@
     var tabs = r.choice ? '<div class="tabs" role="tablist" aria-label="Day '+r.n+' plans">'+r.options.map(function(op,i){ return '<button type="button" role="tab" aria-selected="'+(op===r.cur)+'" data-i="'+i+'">'+op.label+'</button>'; }).join('')+'</div>' : '';
     return '<li class="day">'+head+tabs+inner(o, r.date)+'</li>';
   }
-  var filter = 'all';
+  var filter = 'all', openCities = {};
   function renderDays(){
     var groups = [];
     days.map(resolve).forEach(function(r){
@@ -1151,7 +1185,8 @@
     document.getElementById('dayGroups').innerHTML = groups.map(function(g){
       var first = g.days[0], last = g.days[g.days.length - 1], cont = seen[g.s];
       seen[g.s] = true; if (cities.indexOf(g.s) < 0) cities.push(g.s);
-      return '<details class="city" data-s="'+g.s+'" open style="--c:'+COLORS[g.s]+';--fg:'+FG[g.s]+'"><summary>'+
+      var key = g.s + (cont ? '2' : '');
+      return '<details class="city" data-s="'+g.s+'" data-key="'+key+'"'+(openCities[key] ? ' open' : '')+' style="--c:'+COLORS[g.s]+';--fg:'+FG[g.s]+'"><summary>'+
         '<span class="city-name">'+PLACE[g.s]+(cont ? ' <small>continued</small>' : '')+'</span>'+
         '<span class="city-dates">'+short(first.date)+(g.days.length > 1 ? ' – '+short(last.date) : '')+'</span>'+
         '<span class="city-count">Day '+first.n+(g.days.length > 1 ? '–'+last.n : '')+'</span><span class="chev" aria-hidden="true"></span></summary>'+
@@ -1166,8 +1201,11 @@
   }
   function applyFilter(){
     document.querySelectorAll('#filters button').forEach(function(x){ x.setAttribute('aria-pressed', String(x.dataset.f === filter)); });
-    document.querySelectorAll('#dayGroups details.city').forEach(function(d){ var show = filter === 'all' || d.dataset.s === filter; d.hidden = !show; if (show) d.open = true; });
+    document.querySelectorAll('#dayGroups details.city').forEach(function(d){ var show = filter === 'all' || d.dataset.s === filter; d.hidden = !show; if (show && filter !== 'all') { d.open = true; openCities[d.dataset.key] = true; } });
   }
+  document.getElementById('dayGroups').addEventListener('toggle', function(e){
+    var d = e.target; if (d.matches && d.matches('details.city')) openCities[d.dataset.key] = d.open;
+  }, true);
   document.getElementById('filters').addEventListener('click', function(e){ var b = e.target.closest('button'); if (!b) return; filter = b.dataset.f; applyFilter(); });
   document.getElementById('malTop').addEventListener('change', function(e){ setMal(e.target.checked); });
   document.getElementById('dayGroups').addEventListener('change', function(e){
@@ -1407,10 +1445,28 @@
   mA.addEventListener('input', miniConvert); mC.addEventListener('change', miniConvert); miniConvert();
 
   /* ---------- shopping ---------- */
-  var TYPES = {thrift:'Thrift & vintage', local:'Local brands & gifts', clothes:'Clothes & bags', crafts:'Crafts', market:'Markets'};
+  var TYPES = {mall:'Big malls', thrift:'Thrift & vintage', local:'Local brands & gifts', clothes:'Clothes & bags', crafts:'Crafts', market:'Markets'};
   var SHOP_CITIES = {kl:{name:'Kuala Lumpur', c:[3.1450,101.7010], z:14}, penang:{name:'Penang', c:[5.4160,100.3300], z:15}, langkawi:{name:'Langkawi', c:[6.3450,99.7750], z:11}};
   var HOME = {penang:{name:'Your hotel: 22 Macalisterz', ll:[5.41723,100.32123]}};
   var SHOP = [
+    {s:'kl', n:'Pavilion Kuala Lumpur', t:['mall','clothes'], area:'Bukit Bintang', ll:[3.14915,101.71295], q:'Pavilion Kuala Lumpur',
+     why:'The big glossy one on Bukit Bintang: international and Malaysian fashion, beauty, a huge food court and lots of places to sit in the cold air.',
+     when:'Daily, 10 am–10 pm', day:'Day 9 evening'},
+    {s:'kl', n:'Suria KLCC', t:['mall','clothes'], area:'Under the Petronas Towers', ll:[3.15738,101.71237], q:'Suria KLCC',
+     why:'Right under the twin towers, so it pairs with the park and fountain show. Department stores, fashion, and a big Kinokuniya bookshop.',
+     when:'Daily, 10 am–10 pm', day:'Day 12'},
+    {s:'kl', n:'The Exchange TRX', t:['mall','clothes'], area:'Tun Razak Exchange, 10 min walk from Pavilion', ll:[3.14254,101.71807], q:'The Exchange TRX',
+     why:'KL’s newest big mall, bright and spacious, with a large rooftop park. Calmer than Pavilion.',
+     when:'Daily, 10 am–10 pm', day:'Any KL day'},
+    {s:'kl', n:'Mid Valley Megamall & The Gardens', t:['mall','clothes'], area:'Mid Valley, 1 train stop from KL Sentral', ll:[3.11766,101.67737], q:'Mid Valley Megamall',
+     why:'One of the biggest malls in the country, joined to the more upmarket Gardens Mall. Everything from budget fashion to big brands under one roof.',
+     when:'Daily, 10 am–10 pm', day:'Any KL day'},
+    {s:'kl', n:'Berjaya Times Square', t:['mall','clothes'], area:'Bukit Bintang', ll:[3.14223,101.71050], q:'Berjaya Times Square',
+     why:'Huge and cheaper than Pavilion, with lots of small fashion and accessory shops and an indoor theme park inside.',
+     when:'Daily, 10 am–10 pm', day:'Day 9 evening'},
+    {s:'kl', n:'Sunway Pyramid', t:['mall'], area:'Subang Jaya, Grab ~35 min', ll:[3.07249,101.60655], q:'Sunway Pyramid',
+     why:'The Egyptian-themed mega mall with an ice rink inside. Worth it only if you want a whole mall day.',
+     when:'Daily, 10 am–10 pm', day:'Optional'},
     {s:'kl', n:'Central Market & Kasturi Walk', t:['local','crafts'], area:'Chinatown', ll:[3.14460,101.69553], q:'Central Market (Pasar Seni), Kuala Lumpur',
      why:'Art-deco hall with two floors of batik, songket, wau kites, pewter and wood carving. Air-conditioned, mostly fixed prices. Cheaper souvenir stalls outside on Kasturi Walk.',
      when:'Daily, about 10 am–9:30 pm', day:'Day 11'},
@@ -1439,6 +1495,12 @@
      why:'Malaysia’s famous pewter maker. Free factory tour, a big shop of gifts, and a short class where you make your own pewter dish.',
      when:'Daily, 9 am–5 pm', day:'Optional'},
 
+    {s:'penang', n:'Gurney Plaza & Gurney Paragon', t:['mall','clothes'], area:'Gurney Drive, Grab ~10 min', ll:[5.43588,100.30881], q:'Gurney Plaza, Penang',
+     why:'Penang’s main malls, side by side on the seafront. Pair with dinner at Gurney Drive hawker centre next door.',
+     when:'Daily, 10 am–10 pm', day:'Day 7 dinner'},
+    {s:'penang', n:'Queensbay Mall', t:['mall','clothes'], area:'Bayan Lepas, near the airport, Grab ~25 min', ll:[5.33327,100.30651], q:'Queensbay Mall, Penang',
+     why:'The biggest mall on the island, by the sea near the airport.',
+     when:'Daily, 10 am–10 pm', day:'Optional'},
     {s:'penang', n:'Chowrasta Market', t:['market','local'], area:'Penang Road · 15 min walk from your hotel', ll:[5.41811,100.33157], q:'Chowrasta Market, George Town, Penang',
      why:'The local market for food gifts: nutmeg, pickled fruit, tau sar pneah and dried snacks. Upstairs there are second-hand book stalls.',
      when:'Daily; mornings are best', day:'Day 8'},
@@ -1477,6 +1539,7 @@
      why:'Mostly food, with some clothes and bits. Saturday is Kuah (the biggest, Day 2); Sunday is Padang Matsirat, minutes from your villa (Day 3).',
      when:'About 5–10 pm', day:'Days 2 & 3'}
   ];
+  var SHOW = 6, showAll = false;
   var shopCity = 'kl', shopType = 'all', smap = null, slayer = null, smarks = {};
   try { var sc = localStorage.getItem('trip26-shopcity'); if (SHOP_CITIES[sc]) shopCity = sc; } catch(e) {}
   function shopNum(){ var i = {}, n = {}; SHOP.forEach(function(x){ if (x.ll) { i[x.s] = (i[x.s] || 0) + 1; n[x.n] = i[x.s]; } }); return n; }
@@ -1491,15 +1554,17 @@
   function renderShops(){
     renderShopBar();
     var list = SHOP.filter(function(x){ return x.s === shopCity; });
+    var shown = 0, match = list.filter(function(x){ return shopType === 'all' || x.t.indexOf(shopType) >= 0; }).length;
     document.getElementById('shops').innerHTML = list.map(function(x){
       var hide = shopType !== 'all' && x.t.indexOf(shopType) < 0;
+      if (!hide) { shown++; if (!showAll && shown > SHOW) hide = true; }
       var num = x.ll ? '<button type="button" class="pin-no" data-n="'+x.n.replace(/"/g,'&quot;')+'" aria-label="Show '+x.n+' on the map">'+SNUM[x.n]+'</button>' : '<span class="pin-no none" aria-hidden="true">·</span>';
       return '<li class="shp" data-n="'+x.n.replace(/"/g,'&quot;')+'" style="--c:'+COLORS[x.s]+';--fg:'+FG[x.s]+'"'+(hide ? ' hidden' : '')+'>'+num+'<div>'+
         '<h3>'+x.n+'</h3><a class="map-link" href="https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(x.q + ', Malaysia')+'" target="_blank" rel="noopener" aria-label="Open '+x.n+' in Google Maps">'+PIN+'Map</a>'+
         '<p class="area-l">'+x.area+'</p><p class="why">'+x.why+'</p>'+
         '<div class="meta"><span><b>When:</b> '+x.when+'</span><span><b>Fits:</b> '+x.day+'</span></div>'+
         '<div class="types">'+x.t.map(function(t){ return '<span>'+TYPES[t]+'</span>'; }).join('')+'</div></div></li>';
-    }).join('');
+    }).join('') + (match > SHOW ? '<li><button type="button" class="view-more" id="viewMore" aria-expanded="'+showAll+'">'+(showAll ? 'Show fewer' : 'View ' + (match - SHOW) + ' more')+'</button></li>' : '');
     drawMap();
   }
   function icon(txt, cls, c){ return window.L.divIcon({className:'', html:'<div class="mk '+(cls||'')+'" style="--c:'+COLORS[c]+';--fg:'+FG[c]+'">'+txt+'</div>', iconSize:[26,26], iconAnchor:[13,13], popupAnchor:[0,-12]}); }
@@ -1531,12 +1596,13 @@
     if (!pan) { var li = document.querySelector('#shops .shp.on'); if (li && li.scrollIntoView) li.scrollIntoView({block:'nearest', behavior:'smooth'}); }
   }
   document.getElementById('shopCities').addEventListener('click', function(e){
-    var b = e.target.closest('button'); if (!b) return; shopCity = b.dataset.c;
+    var b = e.target.closest('button'); if (!b) return; shopCity = b.dataset.c; showAll = false;
     try { localStorage.setItem('trip26-shopcity', shopCity); } catch(err) {}
     renderShops();
   });
-  document.getElementById('shopTypes').addEventListener('click', function(e){ var b = e.target.closest('button'); if (!b) return; shopType = b.dataset.t; renderShops(); });
+  document.getElementById('shopTypes').addEventListener('click', function(e){ var b = e.target.closest('button'); if (!b) return; shopType = b.dataset.t; showAll = false; renderShops(); });
   document.getElementById('shops').addEventListener('click', function(e){
+    if (e.target.closest('#viewMore')) { showAll = !showAll; renderShops(); if (!showAll) document.getElementById('shop').scrollIntoView({block:'start'}); return; }
     var b = e.target.closest('.pin-no[data-n]'); if (!b) return;
     if (!smap) return;
     highlight(b.dataset.n, true);
@@ -1640,7 +1706,7 @@
         return '<li class="' + (x.got ? 'got' : '') + '">' +
           '<label class="done"><input type="checkbox" data-wish="' + esc(x.id) + '"' + (x.got ? ' checked' : '') + '><span class="sr">Bought</span></label>' + img +
           '<div class="w-body">' + (x.text ? '<p class="w-t">' + esc(x.text) + '</p>' : '') + link + '<span class="w-by">' + (x.by ? 'Added by ' + esc(x.by) : '') + '</span></div>' +
-          '<button type="button" class="sp-del" data-wdel="' + esc(x.id) + '" aria-label="Delete">×</button></li>';
+          '<div class="w-acts"><button type="button" class="w-edit" data-wedit="' + esc(x.id) + '">Edit</button><button type="button" class="sp-del" data-wdel="' + esc(x.id) + '" aria-label="Delete">×</button></div></li>';
       }).join('');
   }
   wishForm.elements.img.addEventListener('change', function(){
@@ -1663,8 +1729,18 @@
     f.text.value = ''; f.link.value = ''; f.img.value = ''; wishImg = ''; msg.textContent = '';
     document.getElementById('wishPreview').hidden = true;
   });
+  document.getElementById('wishList').addEventListener('submit', function(e){
+    var f = e.target.closest('.w-editf'); if (!f) return;
+    e.preventDefault();
+    var text = f.elements.text.value.trim(), link = f.elements.link.value.trim();
+    if (link && !/^https?:\/\//i.test(link)) link = 'https://' + link;
+    var it = (S.shop || []).filter(function(x){ return x.id === f.dataset.id; })[0];
+    var rm = f.elements.rmimg && f.elements.rmimg.checked;
+    if (!text && !link && (!it || !it.img || rm)) { text = it ? it.text : ''; }
+    op({a:'shop.edit', id:f.dataset.id, text:text.slice(0, 200), link:link.slice(0, 500), rmimg:rm ? 1 : 0});
+  });
   document.getElementById('wishList').addEventListener('change', function(e){
-    var id = e.target.dataset.wish; if (!id) return;
+    var id = e.target.dataset && e.target.dataset.wish; if (!id) return;
     op({a:'shop.toggle', id:id, on:e.target.checked});
   });
   document.getElementById('wishList').addEventListener('click', function(e){
@@ -1675,6 +1751,21 @@
       lb.querySelector('.credit').removeAttribute('href'); lb.querySelector('.credit').textContent = '';
       lb.showModal(); return;
     }
+    var ed = e.target.closest('[data-wedit]');
+    if (ed) {
+      var it = (S.shop || []).filter(function(x){ return x.id === ed.dataset.wedit; })[0]; if (!it) return;
+      var li = ed.closest('li');
+      li.classList.add('editing');
+      li.querySelector('.w-body').innerHTML = '<form class="w-editf" data-id="' + esc(it.id) + '">' +
+        '<input name="text" maxlength="200" value="' + esc(it.text) + '" placeholder="What to buy" aria-label="What to buy">' +
+        '<input name="link" maxlength="500" value="' + esc(it.link) + '" placeholder="Link (optional)" aria-label="Link" inputmode="url" autocapitalize="off" spellcheck="false">' +
+        (it.img ? '<label class="w-rm"><input type="checkbox" name="rmimg"> Remove photo</label>' : '') +
+        '<div class="w-editb"><button type="submit">Save</button><button type="button" class="w-cancel">Cancel</button></div></form>';
+      li.querySelector('.w-acts').hidden = true;
+      li.querySelector('.w-editf input').focus();
+      return;
+    }
+    if (e.target.closest('.w-cancel')) { renderWish(); return; }
     var b = e.target.closest('[data-wdel]'); if (!b) return;
     if (b.dataset.sure) { op({a:'shop.del', id:b.dataset.wdel}); return; }
     b.dataset.sure = '1'; b.textContent = 'Delete?'; b.classList.add('sure');
