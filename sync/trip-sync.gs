@@ -1,7 +1,7 @@
 /**
  * Malaysia 26 · shared trip data
- * Stores eating-list ticks, itinerary "done" ticks, day notes, the spending log, the
- * Malacca day-trip choice and the shopping list in this Google Sheet (shopping-list photos go to a Google Drive folder), and reads the photo list from your shared Google Photos album.
+ * Stores eating-list ticks, itinerary "done" ticks, day notes, the Malacca and travel
+ * choices, the shopping list and the photo album (photos go to Google Drive folders) in this Google Sheet (shopping-list photos go to a Google Drive folder), and reads the photo list from your shared Google Photos album.
  *
  * ---------------------------------------------------------------------------
  * SETUP (about 5 minutes, free)
@@ -45,6 +45,7 @@ function doGet(e) {
   var p = (e && e.parameter) || {};
   if (!codeOk_(p.code)) return reply_({ error: 'code' });
   if (p.what === 'photos') return reply_(photos_());
+  if (p.what === 'img') return reply_(img_(p.id));
   if (p.what === 'booking') return reply_(booking_(p.id));
   return reply_(state_());
 }
@@ -62,6 +63,8 @@ function doPost(e) {
     if (b.a === 'spend.add') return reply_(spendAdd_(b.item));
     if (b.a === 'spend.del') return reply_(spendDel_(b.id));
     if (b.a === 'set') return reply_(set_(b.key, b.val, by));
+    if (b.a === 'album.add') return reply_(albumAdd_(b.img, by));
+    if (b.a === 'album.del') return reply_(albumDel_(b.id));
     if (b.a === 'shop.add') return reply_(shopAdd_(b.item, by));
     if (b.a === 'shop.edit') return reply_(shopEdit_(b.id, b.text, b.link, !!b.rmimg, b.img));
     if (b.a === 'shop.toggle') return reply_(shopToggle_(b.id, !!b.on));
@@ -246,6 +249,18 @@ function shopFolder_() {
 
 /* ---------- photos: read the shared album page (unofficial; may break if Google changes it) ---------- */
 function photos_() {
+  var drive = [];
+  var it = albumFolder_().getFiles();
+  while (it.hasNext()) {
+    var f = it.next();
+    if (f.isTrashed() || String(f.getMimeType()).indexOf('image/') !== 0) continue;
+    drive.push({ id: f.getId(), by: f.getDescription() || '', at: f.getDateCreated().toISOString() });
+  }
+  drive.sort(function (a, b) { return a.at < b.at ? 1 : -1; });
+  var g = googlePhotos_();
+  return { drive: drive, photos: g.photos, url: g.url };
+}
+function googlePhotos_() {
   if (!ALBUM_URL) return { url: '', photos: [] };
   var cache = CacheService.getScriptCache();
   var hit = cache.get('photos');
@@ -274,6 +289,48 @@ function booking_(key) {
   var bytes = file.getBlob().getBytes();
   if (bytes.length > 10000000) return { error: 'too big' };
   return { name: file.getName(), data: Utilities.base64Encode(bytes) };
+}
+
+/* ---------- album uploads (Drive folder "Malaysia 26 album") ---------- */
+function albumFolder_() {
+  var props = PropertiesService.getScriptProperties();
+  var id = props.getProperty('ALBUM_FOLDER');
+  if (id) { try { var f = DriveApp.getFolderById(id); if (!f.isTrashed()) return f; } catch (err) {} }
+  var folder = DriveApp.createFolder('Malaysia 26 album');
+  props.setProperty('ALBUM_FOLDER', folder.getId());
+  return folder;
+}
+function albumAdd_(img, by) {
+  var m = /^data:image\/(jpeg|png|webp);base64,([A-Za-z0-9+\/=]+)$/.exec(String(img || ''));
+  if (!m) return { error: 'bad image' };
+  if (m[2].length > 8000000) return { error: 'too big' };
+  var name = new Date().toISOString().replace(/[:.]/g, '-') + '.' + (m[1] === 'jpeg' ? 'jpg' : m[1]);
+  var file = albumFolder_().createFile(Utilities.newBlob(Utilities.base64Decode(m[2]), 'image/' + m[1], name));
+  file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+  if (by) file.setDescription(by);
+  return { ok: true, id: file.getId() };
+}
+function inFolder_(file, folder) {
+  var ps = file.getParents();
+  while (ps.hasNext()) if (ps.next().getId() === folder.getId()) return true;
+  return false;
+}
+function albumDel_(id) {
+  try {
+    var f = DriveApp.getFileById(String(id));
+    if (inFolder_(f, albumFolder_())) f.setTrashed(true); // goes to Drive trash
+  } catch (err) {}
+  return { ok: true };
+}
+// Serves a photo's bytes when Google's direct image links don't load (only album and shopping-list files).
+function img_(id) {
+  try {
+    var f = DriveApp.getFileById(String(id));
+    if (!inFolder_(f, albumFolder_()) && !inFolder_(f, shopFolder_())) return { error: 'not allowed' };
+    var b = f.getBlob();
+    if (b.getBytes().length > 6000000) return { error: 'too big' };
+    return { mime: b.getContentType(), data: Utilities.base64Encode(b.getBytes()) };
+  } catch (err) { return { error: 'missing' }; }
 }
 
 /* ---------- helpers ---------- */
