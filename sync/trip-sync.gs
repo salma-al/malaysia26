@@ -64,7 +64,7 @@ function doPost(e) {
     if (b.a === 'spend.add') return reply_(spendAdd_(b.item));
     if (b.a === 'spend.del') return reply_(spendDel_(b.id));
     if (b.a === 'set') return reply_(set_(b.key, b.val, by));
-    if (b.a === 'album.add') return reply_(albumAdd_(b.img, by));
+    if (b.a === 'album.add') return reply_(albumAdd_(b.img, by, b.taken));
     if (b.a === 'album.del') return reply_(albumDel_(b.id));
     if (b.a === 'shop.add') return reply_(shopAdd_(b.item, by));
     if (b.a === 'shop.edit') return reply_(shopEdit_(b.id, b.text, b.link, !!b.rmimg, b.img));
@@ -239,14 +239,7 @@ function shopDel_(id) {
   sh.deleteRow(row);
   return { ok: true };
 }
-function shopFolder_() {
-  var props = PropertiesService.getScriptProperties();
-  var id = props.getProperty('SHOP_FOLDER');
-  if (id) { try { return DriveApp.getFolderById(id); } catch (err) {} }
-  var f = DriveApp.createFolder('Malaysia 26 shopping list photos');
-  props.setProperty('SHOP_FOLDER', f.getId());
-  return f;
-}
+function shopFolder_() { return namedFolder_('SHOP_FOLDER', 'Malaysia 26 shopping list photos'); }
 
 /* ---------- photos: read the shared album page (unofficial; may break if Google changes it) ---------- */
 function photos_() {
@@ -255,9 +248,11 @@ function photos_() {
   while (it.hasNext()) {
     var f = it.next();
     if (f.isTrashed() || String(f.getMimeType()).indexOf('image/') !== 0) continue;
-    drive.push({ id: f.getId(), by: f.getDescription() || '', at: f.getDateCreated().toISOString() });
+    var meta = {}, desc = f.getDescription() || '';
+    try { meta = JSON.parse(desc); } catch (err) { meta = { by: desc }; }
+    drive.push({ id: f.getId(), by: meta.by || '', taken: meta.taken || '', at: f.getDateCreated().toISOString() });
   }
-  drive.sort(function (a, b) { return a.at < b.at ? 1 : -1; });
+  drive.sort(function (a, b) { return (a.taken || a.at) < (b.taken || b.at) ? 1 : -1; });
   var g = googlePhotos_();
   return { drive: drive, photos: g.photos, url: g.url };
 }
@@ -293,22 +288,26 @@ function booking_(key) {
 }
 
 /* ---------- album uploads (Drive folder "Malaysia 26 album") ---------- */
-function albumFolder_() {
+function namedFolder_(prop, name) {
   var props = PropertiesService.getScriptProperties();
-  var id = props.getProperty('ALBUM_FOLDER');
+  var id = props.getProperty(prop);
   if (id) { try { var f = DriveApp.getFolderById(id); if (!f.isTrashed()) return f; } catch (err) {} }
-  var folder = DriveApp.createFolder('Malaysia 26 album');
-  props.setProperty('ALBUM_FOLDER', folder.getId());
+  var it = DriveApp.getFoldersByName(name), folder = null;
+  while (it.hasNext()) { var c = it.next(); if (!c.isTrashed()) { folder = c; break; } }
+  if (!folder) folder = DriveApp.createFolder(name);
+  props.setProperty(prop, folder.getId());
   return folder;
 }
-function albumAdd_(img, by) {
+function albumFolder_() { return namedFolder_('ALBUM_FOLDER', 'Malaysia 26 album'); }
+function albumAdd_(img, by, taken) {
   var m = /^data:image\/(jpeg|png|webp);base64,([A-Za-z0-9+\/=]+)$/.exec(String(img || ''));
   if (!m) return { error: 'bad image' };
   if (m[2].length > 8000000) return { error: 'too big' };
   var name = new Date().toISOString().replace(/[:.]/g, '-') + '.' + (m[1] === 'jpeg' ? 'jpg' : m[1]);
   var file = albumFolder_().createFile(Utilities.newBlob(Utilities.base64Decode(m[2]), 'image/' + m[1], name));
   file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
-  if (by) file.setDescription(by);
+  taken = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(String(taken || '')) ? String(taken) : '';
+  file.setDescription(JSON.stringify({ by: by || '', taken: taken }));
   return { ok: true, id: file.getId() };
 }
 function inFolder_(file, folder) {
