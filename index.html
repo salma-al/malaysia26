@@ -1019,6 +1019,22 @@
   .est-t small.fx{display:block;font-size:11px;font-weight:500;color:var(--soft);margin-top:2px}
   .est-t tfoot small.fx{font-size:11.5px}
   @media (max-width:560px){.album-head .album-add{width:100%;justify-content:center}}
+  /* ---------- dark emerald bands (Food, Costs & bookings) with checker edges ---------- */
+  #money{background:var(--jade-dd);padding:96px 0}
+  .food{padding-bottom:96px}
+  #money h2{color:var(--hib-l)}
+  #money h2.sp::after{background:var(--hib-l)}
+  #money .sub{color:var(--mint)}
+  main > section.food::before,main > section.food::after,main > section#money::before,main > section#money::after{display:block!important;content:""!important;position:absolute!important;left:0!important;right:0!important;width:auto!important;margin:0!important;height:32px!important;
+    background:conic-gradient(var(--jade-dd) 25%,transparent 0 50%,var(--jade-dd) 0 75%,transparent 0) 0 0/32px 32px #D48D91!important}
+  main > section.food::before,main > section#money::before{top:0}
+  main > section.food::after,main > section#money::after{bottom:0;top:auto}
+  .est-more{margin-top:12px;border-top:1px solid var(--line)}
+  .est-more > summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;padding:12px 2px;font-weight:700;font-size:14.5px;color:var(--rasp)}
+  .est-more > summary::-webkit-details-marker{display:none}
+  .est-more > summary::after{content:"";width:9px;height:9px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translateY(-3px);transition:transform .2s}
+  .est-more[open] > summary::after{transform:rotate(-135deg) translateY(-3px)}
+  .est .tot-box{margin-bottom:6px}
   @media print{.nav,.filters,.tabs{display:none}}
 </style>
 </head>
@@ -1187,14 +1203,16 @@
 
       <div class="panel est">
         <div class="spend-head"><h3>Trip cost estimate</h3><p class="est-note">per person · hotels already paid</p></div>
-        <div class="tot-box"><p class="tot-label">Each of you</p><b id="estPP"></b><span class="cur-line" id="estPPx"></span><p class="tot-both">Both of you: <strong id="estBoth"></strong></p></div>
+        <div class="tot-box"><p class="tot-label">Each of you</p><b id="estPP"></b><span class="cur-line" id="estPPx"></span></div>
+        <details class="est-more"><summary>See the breakdown</summary>
         <table class="est-t">
           <thead><tr><th>From the day plans</th><th class="n">Per person</th></tr></thead>
           <tbody id="estRows"></tbody>
           <tfoot><tr><td>Total per person</td><td class="n" id="estTot"></td></tr></tfoot>
         </table>
-        <p class="cash-tip"><b>Cash tip:</b> each of you should carry about <span id="cashPP"></span> for the 14 days (RM60–100 a day), for hawker stalls, markets and small shops. Change it at money changers in KL or Penang malls.</p>
-        <p class="note">Follows the plan you pick above (travel options, Malacca, Day 10). Ticket prices are foreigner rates from Trip.com, Expedia and the operators' own sites, checked Nov 2026. Flights change daily; a range means it depends on when you book.</p>
+        </details>
+        <p class="cash-tip"><b>Cash tip:</b> each of you should carry about <span id="cashPP"></span> for the 14 days (RM60–100 a day).</p>
+        <p class="note">Follows your plan above. Foreigner prices, checked <span id="pricesChecked">Nov 2026</span>.</p>
       </div>
 
       <div class="panel bkl">
@@ -1242,7 +1260,7 @@
       <div class="wx">
         <div class="wx-top"><h3>Langkawi · 27 Nov–1 Dec</h3>
           <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="15" cy="15" r="7" fill="#B8646A"/><path d="M14 30a7 7 0 0 1 2-13 9 9 0 0 1 17 4 5 5 0 0 1-1 9z" fill="#F2CEAE"/></svg></div>
-        <p class="temp">23–32°C</p>
+        <p class="temp">23–30°C</p>
         <ul><li>Showers on many November days, often short</li><li>Sea is about 29°C, perfect for swimming</li><li>About 6–7 hours of sun a day</li></ul>
       </div>
       <div class="wx">
@@ -1320,7 +1338,7 @@
     var f = c === 'malacca' ? null : 'img/hero-' + c + '.webp';
     P['hero_' + c] = f ? {t:f, o:f, f:f, p:f} : P[{malacca:'dutchsquare'}[c]];
   });
-  var RATES = {MYR:1, EGP:13.535, GBP:0.184733, USD:1/4.0594};
+  var RATES = {MYR:1, EGP:13.0787, GBP:0.185054, USD:0.24471};
 
 
   /* ---------- shared trip data: ticks, notes, spending, photos ----------
@@ -1811,7 +1829,6 @@
     document.getElementById('estTot').innerHTML = 'RM' + num(lo) + '–' + num(hi) + fx(lo, hi);
     document.getElementById('estPP').textContent = range(lo, hi, 'MYR');
     document.getElementById('estPPx').textContent = others(lo, hi);
-    document.getElementById('estBoth').textContent = range(lo*2, hi*2, 'MYR');
     document.getElementById('cashPP').textContent = range(CASH[0]*DAYS, CASH[1]*DAYS, 'MYR') + ' (' + others(CASH[0]*DAYS, CASH[1]*DAYS) + ')';
   }
 
