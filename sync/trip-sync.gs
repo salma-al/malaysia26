@@ -7,7 +7,7 @@
  * SETUP (about 5 minutes, free)
  *  1. Create a new Google Sheet (sheets.new). Name it "Malaysia 26".
  *  2. In the sheet: Extensions > Apps Script. Delete what's there and paste this file.
- *  3. Fill in the 3 settings just below, then click Save (the disk icon).
+ *  3. Fill in the settings just below, then click Save (the disk icon).
  *  4. Deploy > New deployment > gear icon > "Web app".
  *       Execute as: Me      Who has access: Anyone
  *     Click Deploy > Authorize access > pick your Google account.
@@ -27,7 +27,14 @@ var TRIP_CODE = 'change-me-to-something-secret';
 // 2. Your two names, exactly as you want them shown (used for "paid by" and notes).
 var PEOPLE = ['Salma', 'Rahma'];
 
-// 3. Your shared Google Photos album link (Share > Create link). Leave '' for now if you don't have it yet.
+// 3. Your booking PDFs: upload them to Google Drive (keep them private, don't share them),
+//    then paste each file's Drive link. The site can only open them with the trip code.
+var BOOKINGS = {
+  langkawi: '',  // Expedia booking (Coconut Beach Villa)
+  penang: ''     // Trip.com check-in voucher (22 Macalisterz)
+};
+
+// 4. Your shared Google Photos album link (Share > Create link). Leave '' for now if you don't have it yet.
 var ALBUM_URL = '';
 
 /* ======================= nothing to change below ======================= */
@@ -38,6 +45,7 @@ function doGet(e) {
   var p = (e && e.parameter) || {};
   if (!codeOk_(p.code)) return reply_({ error: 'code' });
   if (p.what === 'photos') return reply_(photos_());
+  if (p.what === 'booking') return reply_(booking_(p.id));
   return reply_(state_());
 }
 
@@ -248,6 +256,17 @@ function photos_() {
   var res = { url: ALBUM_URL, photos: out };
   try { cache.put('photos', JSON.stringify(res), 600); } catch (err) {}
   return res;
+}
+
+/* ---------- booking PDFs (private files in your Drive) ---------- */
+function booking_(key) {
+  if (!BOOKINGS.hasOwnProperty(key) || !BOOKINGS[key]) return { error: 'missing' };
+  var m = /[-\w]{25,}/.exec(BOOKINGS[key]);
+  if (!m) return { error: 'missing' };
+  var file = DriveApp.getFileById(m[0]);
+  var bytes = file.getBlob().getBytes();
+  if (bytes.length > 10000000) return { error: 'too big' };
+  return { name: file.getName(), data: Utilities.base64Encode(bytes) };
 }
 
 /* ---------- helpers ---------- */
