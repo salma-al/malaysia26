@@ -1,8 +1,8 @@
 /**
  * Malaysia 26 · shared trip data
  * Stores eating-list ticks, itinerary "done" ticks, day notes, the Malacca and travel
- * choices and the shopping list in this Google Sheet. Album and shopping-list photos are
- * saved in Google Drive folders.
+ * choices, the shopping list and your bookings list in this Google Sheet. Album and
+ * shopping-list photos, and booking attachments (kept private), are saved in Google Drive folders.
  *
  * ---------------------------------------------------------------------------
  * SETUP (about 5 minutes, free)
@@ -46,6 +46,7 @@ function doGet(e) {
   if (p.what === 'photos') return reply_(photos_());
   if (p.what === 'img') return reply_(img_(p.id));
   if (p.what === 'booking') return reply_(booking_(p.id));
+  if (p.what === 'bkfile') return reply_(bkFile_(p.id));
   return reply_(state_());
 }
 
@@ -68,6 +69,9 @@ function doPost(e) {
     if (b.a === 'shop.edit') return reply_(shopEdit_(b.id, b.text, b.link, !!b.rmimg, b.img));
     if (b.a === 'shop.toggle') return reply_(shopToggle_(b.id, !!b.on));
     if (b.a === 'shop.del') return reply_(shopDel_(b.id));
+    if (b.a === 'bk.add') return reply_(bkAdd_(b.item, b.file, by));
+    if (b.a === 'bk.edit') return reply_(bkEdit_(b.id, b.title, !!b.rmfile, b.file));
+    if (b.a === 'bk.del') return reply_(bkDel_(b.id));
     return reply_({ error: 'unknown action' });
   } catch (err) {
     return reply_({ error: 'failed' });
@@ -93,6 +97,7 @@ function ticksSheet_() { return sheet_('ticks', ['key', 'by', 'updated']); }
 function notesSheet_() { return sheet_('notes', ['key', 'text', 'by', 'updated']); }
 function spendSheet_() { return sheet_('spending', ['id', 'date', 'paid by', 'what', 'amount', 'currency', 'for']); }
 function settingsSheet_() { return sheet_('settings', ['setting', 'value', 'by', 'updated']); }
+function bkSheet_() { return sheet_('bookings', ['id', 'added', 'by', 'title', 'file (Drive file id)', 'file name', 'type']); }
 function shopSheet_() { return sheet_('shopping', ['id', 'added', 'by', 'item', 'link', 'photo (Drive file id)', 'bought']); }
 
 function rows_(sh) {
@@ -125,7 +130,12 @@ function state_() {
   });
   var settings = {};
   rows_(settingsSheet_()).forEach(function (r) { if (r[0]) settings[String(r[0])] = String(r[1]); });
-  return { ticks: ticks, notes: notes, spend: spend, shop: shop, settings: settings, people: PEOPLE };
+  var bookings = [];
+  rows_(bkSheet_()).forEach(function (r) {
+    if (!r[0]) return;
+    bookings.push({ id: String(r[0]), at: String(r[1]), by: String(r[2]), title: String(r[3]), file: String(r[4]), fname: String(r[5]), mime: String(r[6]) });
+  });
+  return { ticks: ticks, notes: notes, spend: spend, shop: shop, bookings: bookings, settings: settings, people: PEOPLE };
 }
 
 function tick_(key, on, by) {
@@ -237,6 +247,58 @@ function shopDel_(id) {
   sh.deleteRow(row);
   return { ok: true };
 }
+/* ---------- our bookings (title + optional photo/PDF, kept private in Drive) ---------- */
+var BK_TYPES = { 'application/pdf': 'pdf', 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp', 'image/heic': 'heic' };
+function bkFolder_() { return namedFolder_('BK_FOLDER', 'Malaysia 26 bookings'); }
+function bkSave_(id, f) {
+  if (!f || !BK_TYPES[f.mime] || typeof f.data !== 'string' || !/^[A-Za-z0-9+\/=]+$/.test(f.data)) return null;
+  if (f.data.length > 14000000) return null; // about 10 MB
+  var name = clean_(String(f.name || ('booking.' + BK_TYPES[f.mime])), 120);
+  var file = bkFolder_().createFile(Utilities.newBlob(Utilities.base64Decode(f.data), f.mime, name)); // private: only served through this script
+  return { id: file.getId(), name: name, mime: f.mime };
+}
+function bkAdd_(x, f, by) {
+  if (!x || typeof x.id !== 'string' || !/^[a-z0-9]{4,30}$/.test(x.id)) return { error: 'bad item' };
+  var title = String(x.title || '').trim().slice(0, 120);
+  if (!title) return { error: 'empty' };
+  var sh = bkSheet_();
+  if (rowOf_(sh, x.id)) return { ok: true };
+  if (sh.getLastRow() > 300) return { error: 'full' };
+  var saved = f ? bkSave_(x.id, f) : null;
+  if (f && !saved) return { error: 'bad file' };
+  sh.appendRow([x.id, now_(), by, clean_(title, 120), saved ? saved.id : '', saved ? saved.name : '', saved ? saved.mime : '']);
+  return { ok: true };
+}
+function bkEdit_(id, title, rmfile, f) {
+  var sh = bkSheet_(), row = rowOf_(sh, String(id));
+  if (!row) return { error: 'missing' };
+  title = String(title || '').trim().slice(0, 120);
+  if (title) sh.getRange(row, 4).setValue(clean_(title, 120));
+  var saved = f ? bkSave_(String(id), f) : null;
+  if (f && !saved) return { error: 'bad file' };
+  if (rmfile || saved) {
+    var oldId = String(sh.getRange(row, 5).getValue());
+    if (oldId) { try { DriveApp.getFileById(oldId).setTrashed(true); } catch (err) {} }
+    sh.getRange(row, 5, 1, 3).setValues([[saved ? saved.id : '', saved ? saved.name : '', saved ? saved.mime : '']]);
+  }
+  return { ok: true };
+}
+function bkDel_(id) {
+  var sh = bkSheet_(), row = rowOf_(sh, String(id));
+  if (!row) return { ok: true };
+  var fileId = String(sh.getRange(row, 5).getValue());
+  if (fileId) { try { DriveApp.getFileById(fileId).setTrashed(true); } catch (err) {} } // Drive trash, not deleted forever
+  sh.deleteRow(row);
+  return { ok: true };
+}
+function bkFile_(id) {
+  var sh = bkSheet_(), ok = rows_(sh).some(function (r) { return String(r[4]) === String(id) && id; });
+  if (!ok) return { error: 'not allowed' };
+  var f = DriveApp.getFileById(String(id)), bytes = f.getBlob().getBytes();
+  if (bytes.length > 10000000) return { error: 'too big' };
+  return { name: f.getName(), mime: f.getMimeType(), data: Utilities.base64Encode(bytes) };
+}
+
 function shopFolder_() { return namedFolder_('SHOP_FOLDER', 'Malaysia 26 shopping list photos'); }
 
 function photos_() {
