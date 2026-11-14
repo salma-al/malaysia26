@@ -25,7 +25,7 @@
 var TRIP_CODE = 'change-me-to-something-secret';
 
 // 2. Your two names, exactly as you want them shown (used for "paid by" and notes).
-var PEOPLE = ['Salma', 'Sister'];
+var PEOPLE = ['Salma', 'Rahma'];
 
 // 3. Your shared Google Photos album link (Share > Create link). Leave '' for now if you don't have it yet.
 var ALBUM_URL = '';

@@ -960,11 +960,12 @@
      Works on this device with no setup. Paste the Google Apps Script web-app
      link (see sync/trip-sync.gs) into SYNC_URL to share it between devices. */
   var SYNC_URL = 'https://script.google.com/macros/s/AKfycby0eoDqVqiTvDKJAlWXqm5UtC2fSDLO7ESo2k8Bwhv6YW-677Wq2XQOw51A3nqto7whRg/exec';
-  var S = {ticks:{}, notes:{}, spend:[], shop:[], settings:{}, people:['Me','Sister']};
+  var S = {ticks:{}, notes:{}, spend:[], shop:[], settings:{}, people:['Salma','Rahma']};
   var queue = [], tripCode = '', me = '', syncState = 'local', listeners = [];
   try {
     var saved = JSON.parse(localStorage.getItem('trip26-store') || 'null');
     if (saved) S = Object.assign(S, saved);
+    if (!S.people || S.people.indexOf('Sister') >= 0 || S.people.indexOf('Me') >= 0) S.people = ['Salma','Rahma'];
     queue = JSON.parse(localStorage.getItem('trip26-queue') || '[]') || [];
     tripCode = localStorage.getItem('trip26-code') || '';
     me = localStorage.getItem('trip26-me') || '';
@@ -1569,7 +1570,7 @@
   /* ---------- our spending ---------- */
   var spendForm = document.getElementById('spendForm');
   function toRM(x){ return (+x.amt || 0) / (RATES[x.cur] || 1); }
-  function people(){ return (S.people && S.people.length >= 2) ? S.people.slice(0, 2) : ['Me','Sister']; }
+  function people(){ return (S.people && S.people.length >= 2) ? S.people.slice(0, 2) : ['Salma','Rahma']; }
   function fillWho(){
     var sel = document.getElementById('spendWho'), P2 = people(), cur = sel.value || me || P2[0];
     sel.innerHTML = P2.map(function(p){ return '<option'+(p === cur ? ' selected' : '')+'>'+esc(p)+'</option>'; }).join('');
