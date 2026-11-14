@@ -783,8 +783,8 @@
   .strip::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.22;mix-blend-mode:multiply;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
   .strip-frames{display:grid;grid-template-rows:repeat(4,1fr);gap:5%;flex:1}
-  .strip-f{display:block;background-color:#222;background-repeat:no-repeat;filter:grayscale(1) contrast(1.25) brightness(1.05);border-radius:1px;box-shadow:inset 0 0 18px rgba(0,0,0,.35)}
-  .strip-cap{font-family:"Chango",Georgia,serif;font-size:clamp(11px,1.6vw,16px);color:#2a2622;text-align:center;margin-top:7%;letter-spacing:.04em}
+  .strip-f{display:block;background-color:#222;background-repeat:no-repeat;filter:saturate(1.15) contrast(1.08) sepia(.12);border-radius:1px;box-shadow:inset 0 0 18px rgba(0,0,0,.35)}
+  .strip-cap{white-space:nowrap;font-family:"Chango",Georgia,serif;font-size:clamp(9px,1.15vw,13px);color:#2a2622;text-align:center;margin-top:7%;letter-spacing:.04em}
   .strip-date{font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-size:clamp(10px,1.3vw,13px);color:#6b625a;text-align:center;margin:2px 0 8%}
   .album-count{text-align:center;font-size:13px;font-weight:700;color:var(--mint);margin-top:4px}
   .album-ctrls{display:flex;justify-content:center;align-items:center;gap:10px;margin-top:14px}
@@ -814,6 +814,11 @@
   .ab-add:focus-within{outline:3px solid var(--hib-l);outline-offset:2px}
   #albumDel.sure{background:var(--hib);color:#fff}
   img.img-missing{opacity:0}
+  .ab-dl{display:inline-flex;gap:7px;padding:0 16px;font:800 14px/1 "Plus Jakarta Sans",sans-serif;background:var(--hib-l)!important;color:var(--jade-dd)}
+  .ab-dl:disabled{opacity:.7;cursor:progress}
+  .album-empty{position:absolute;inset:6% 0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(--mint);text-align:center;border:2px dashed rgba(242,206,174,.35);border-radius:16px;margin:0 auto;width:min(560px,90%)}
+  .album-empty svg{width:48px;height:48px;opacity:.8}
+  .album-empty p{font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-size:20px;max-width:28ch}
   @media print{.nav,.filters,.tabs{display:none}}
 </style>
 </head>
@@ -1057,13 +1062,15 @@
     <div class="eyebrow-row"><div><h2 class="sp">Our album</h2><p class="sub" id="albumSub">Swipe through the trip. Tap the strip button to turn a photo into a photobooth print.</p></div></div>
     <div class="album" id="album" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Photo album">
       <div class="album-stage" id="albumStage"></div>
+      <div class="album-empty" id="albumEmpty"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="11" width="36" height="28" rx="4" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="24" cy="25" r="7" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M17 11l3-4h8l3 4" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/></svg><p></p></div>
     </div>
     <p class="album-count" id="albumCount" aria-live="polite"></p>
     <p class="album-msg" id="albumMsg" role="status"></p>
     <div class="album-ctrls">
       <button type="button" class="ab" id="albumPrev" aria-label="Previous photo"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       <button type="button" class="ab ab-booth" id="albumBooth" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="6" y="1.5" width="8" height="17" rx="1" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M6 5.8h8M6 10h8M6 14.2h8" stroke="currentColor" stroke-width="1.4"/></svg><span>Photobooth</span></button>
-      <label class="ab ab-add" id="albumAdd" hidden><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><span>Add photos</span><input type="file" accept="image/*" multiple class="sr" id="albumFile"></label>
+      <button type="button" class="ab ab-dl" id="albumDl" hidden><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v10M5.5 9l4.5 4.5L14.5 9M4 17h12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Download strip</span></button>
+      <label class="ab ab-add" id="albumAdd"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><span>Add photos</span><input type="file" accept="image/*" multiple class="sr" id="albumFile"></label>
       <button type="button" class="ab" id="albumDel" aria-label="Delete this photo" hidden><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 6h12M8 6V4h4v2M6 6l1 10h6l1-10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       <button type="button" class="ab" id="albumNext" aria-label="Next photo"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7.5 4l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     </div>
@@ -1127,7 +1134,7 @@
   /* ---------- shared trip data: ticks, notes, spending, photos ----------
      Works on this device with no setup. Paste the Google Apps Script web-app
      link (see sync/trip-sync.gs) into SYNC_URL to share it between devices. */
-  var SYNC_URL = 'https://script.google.com/macros/s/AKfycby0eoDqVqiTvDKJAlWXqm5UtC2fSDLO7ESo2k8Bwhv6YW-677Wq2XQOw51A3nqto7whRg/exec';
+  var SYNC_URL = 'https://script.google.com/macros/s/AKfycbxIaNlSmqkmDgumwtWaRp3vRo9ADMslI6Db2yaX8fW8SSxfu4gfKjUKZthb953GWsOU/exec';
   var S = {ticks:{}, notes:{}, spend:[], shop:[], settings:{}, people:['Salma','Rahma']};
   var queue = [], tripCode = '', me = '', syncState = 'local', listeners = [];
   try {
@@ -2003,10 +2010,6 @@
 
   /* ---------- our album: cover-flow carousel + photobooth strips ---------- */
   var albumStage = document.getElementById('albumStage'), album = [], active = 0, booth = false, albumReal = false;
-  function sampleAlbum(){
-    var keys = ['hero_langkawi', 'cenang', 'skybridge', 'hero_penang', 'chewjetty', 'keklok', 'f_ckt', 'hero_kl', 'batucaves', 'petronas', 'jalanalor', 'f_cendol'];
-    return keys.filter(function(k){ return P[k]; }).map(function(k){ return {src:P[k].t, full:P[k].o || P[k].t}; });
-  }
   function boothHTML(src){
     var pos = ['50% 50%', '30% 40%', '70% 45%', '50% 70%'], zoom = ['cover', '160% auto', '175% auto', '145% auto'];
     return '<div class="strip"><div class="strip-frames">' + pos.map(function(p, i){
@@ -2029,11 +2032,13 @@
       c.tabIndex = d === 0 ? 0 : -1;
       c.classList.toggle('is-booth', d === 0 && booth);
     }
-    document.getElementById('albumCount').textContent = n ? (active + 1) + ' / ' + n + (albumReal ? (album[active] && album[active].by ? ' · added by ' + album[active].by : '') : ' · sample photos') : '';
+    document.getElementById('albumCount').textContent = n ? (active + 1) + ' / ' + n + (album[active] && album[active].by ? ' · added by ' + album[active].by : '') : '';
     var del = document.getElementById('albumDel'); del.hidden = !(albumReal && album[active] && album[active].fid); delete del.dataset.sure; del.classList.remove('sure');
     var bb = document.getElementById('albumBooth');
     bb.setAttribute('aria-pressed', String(booth));
     bb.querySelector('span').textContent = booth ? 'Back to photo' : 'Photobooth';
+    bb.hidden = !n;
+    document.getElementById('albumDl').hidden = !booth;
   }
   function renderAlbum(){
     albumStage.innerHTML = album.map(function(p, i){
@@ -2086,24 +2091,77 @@
   })();
   function setAlbum(list, real){
     album = list; albumReal = real; active = Math.min(active, Math.max(0, list.length - 1)); booth = false;
-    document.getElementById('albumSub').textContent = real ? 'Our trip photos. Tap the strip button to turn one into a photobooth print.'
-      : (SYNC_URL ? 'No photos yet: tap “Add photos” to start our album. Until then, here are some trip photos.' : 'A preview with trip photos. Tap the strip button for a photobooth print.');
+    document.getElementById('albumSub').textContent = 'Our trip photos. Tap the strip button to turn one into a photobooth print.';
     renderAlbum();
+    var empty = document.getElementById('albumEmpty');
+    empty.hidden = list.length > 0;
+    empty.querySelector('p').textContent = !tripCode ? 'Enter the trip code to see our photos.' : 'No photos yet. Tap “Add photos” to start our album.';
+    document.getElementById('albumPrev').hidden = document.getElementById('albumNext').hidden = list.length < 2;
   }
-  setAlbum(sampleAlbum(), false);
+  setAlbum([], false);
+
+  function photoData(it){
+    if (it.fid) {
+      if (!viaScript[it.fid]) viaScript[it.fid] = fetch(SYNC_URL + '?what=img&id=' + encodeURIComponent(it.fid) + '&code=' + encodeURIComponent(tripCode))
+        .then(function(r){ return r.json(); }).then(function(d){ if (!d || !d.data) throw 0; return 'data:' + (d.mime || 'image/jpeg') + ';base64,' + d.data; });
+      return viaScript[it.fid];
+    }
+    return fetch(it.full || it.src).then(function(r){ return r.blob(); }).then(function(b){
+      return new Promise(function(res){ var fr = new FileReader(); fr.onload = function(){ res(fr.result); }; fr.readAsDataURL(b); });
+    });
+  }
+  function loadImg(src){ return new Promise(function(res, rej){ var im = new Image(); im.onload = function(){ res(im); }; im.onerror = rej; im.src = src; }); }
+  function drawCover(ctx, im, x, y, w, h, zoom, fx, fy){
+    var s = Math.max(w / im.width, h / im.height) * zoom, sw = w / s, sh = h / s;
+    var sx = Math.max(0, Math.min(im.width - sw, (im.width - sw) * fx)), sy = Math.max(0, Math.min(im.height - sh, (im.height - sh) * fy));
+    ctx.drawImage(im, sx, sy, sw, sh, x, y, w, h);
+  }
+  function stripCanvas(im){
+    var W = 600, pad = 48, gap = 26, fw = W - pad * 2, fh = Math.round(fw * 0.72), cap = 150;
+    var H = pad + fh * 4 + gap * 3 + cap;
+    var c = document.createElement('canvas'); c.width = W; c.height = H;
+    var g = c.getContext('2d');
+    g.fillStyle = '#F7F2EA'; g.fillRect(0, 0, W, H);
+    var crops = [[1, .5, .5], [1.6, .3, .4], [1.75, .7, .45], [1.45, .5, .7]];
+    if ('filter' in g) g.filter = 'saturate(1.15) contrast(1.08) sepia(0.12)';
+    crops.forEach(function(cr, i){ drawCover(g, im, pad, pad + i * (fh + gap), fw, fh, cr[0], cr[1], cr[2]); });
+    g.filter = 'none';
+    for (var k = 0; k < 9000; k++) { g.fillStyle = 'rgba(0,0,0,' + (Math.random() * 0.06) + ')'; g.fillRect(Math.random() * W, Math.random() * H, 1.4, 1.4); }
+    g.fillStyle = '#2a2622'; g.textAlign = 'center';
+    g.font = '30px Chango, Georgia, serif';
+    g.fillText('MALAYSIA 26', W / 2, H - cap + 70);
+    g.fillStyle = '#6b625a'; g.font = 'italic 22px "Instrument Serif", Georgia, serif';
+    g.fillText('27.11 – 10.12.2026', W / 2, H - cap + 108);
+    return c;
+  }
+  document.getElementById('albumDl').addEventListener('click', function(){
+    var it = album[active], b = this, lbl = b.querySelector('span'); if (!it) return;
+    lbl.textContent = 'Preparing…'; b.disabled = true;
+    Promise.all([photoData(it).then(loadImg), document.fonts ? document.fonts.load('30px Chango') : null]).then(function(r){
+      stripCanvas(r[0]).toBlob(function(blob){
+        var url = URL.createObjectURL(blob), a = document.createElement('a');
+        a.href = url; a.download = 'malaysia26-photobooth-' + (active + 1) + '.png';
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(function(){ URL.revokeObjectURL(url); }, 4000);
+        lbl.textContent = 'Download strip'; b.disabled = false;
+      }, 'image/png');
+    }).catch(function(){ lbl.textContent = 'Download strip'; b.disabled = false; albumMsg('Couldn’t prepare this photo for download. Try again.'); });
+  });
   function albumMsg(t){ document.getElementById('albumMsg').textContent = t || ''; }
   function loadPhotos(){
     if (!SYNC_URL || !tripCode) return;
-    document.getElementById('albumAdd').hidden = false;
     return fetch(SYNC_URL + '?what=photos&code=' + encodeURIComponent(tripCode)).then(function(r){ return r.json(); }).then(function(d){
       if (!d || d.error) { if (d && d.error && d.error !== 'code') albumMsg('Couldn’t load the album (' + d.error + ').'); return; }
       var list = (d.drive || []).map(function(p){
         return {fid:p.id, by:p.by, at:p.at, src:imgSrc(p.id, 1000), full:imgSrc(p.id, 2000)};
       }).concat((d.photos || []).map(function(p){ return {src:p.u + '=w1000-h1000', full:p.u + '=w2000-h2000'}; }));
-      if (list.length) setAlbum(list, true); else setAlbum(sampleAlbum(), false);
+      setAlbum(list, true);
       if (d.drive == null) albumMsg('Update the Google script to enable uploads (see sync/trip-sync.gs).'); else albumMsg('');
     }).catch(function(){ albumMsg('Couldn’t reach the album. Check your connection.'); });
   }
+  document.getElementById('albumAdd').addEventListener('click', function(e){
+    if (!SYNC_URL || !tripCode) { e.preventDefault(); askCode('Enter the trip code to add photos to the album.'); }
+  });
   document.getElementById('albumFile').addEventListener('change', function(){
     var files = [].slice.call(this.files || []); this.value = '';
     if (!files.length || !SYNC_URL || !tripCode) return;

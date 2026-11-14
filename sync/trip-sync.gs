@@ -1,7 +1,8 @@
 /**
  * Malaysia 26 · shared trip data
  * Stores eating-list ticks, itinerary "done" ticks, day notes, the Malacca and travel
- * choices, the shopping list and the photo album (photos go to Google Drive folders) in this Google Sheet (shopping-list photos go to a Google Drive folder), and reads the photo list from your shared Google Photos album.
+ * choices and the shopping list in this Google Sheet. Album and shopping-list photos are
+ * saved in Google Drive folders, and photos from a shared Google Photos album are optional.
  *
  * ---------------------------------------------------------------------------
  * SETUP (about 5 minutes, free)
