@@ -1199,6 +1199,18 @@
     .dish label{min-height:32px}
     .wx{padding:16px 18px}
   }
+  .dchip{border-radius:8px!important}
+  @media (max-width:640px){
+    .sync-panel{width:min(240px,calc(100vw - 32px));padding:10px 12px}
+    .sync-panel form{display:grid;grid-template-columns:1fr 1fr;gap:0 8px}
+    .sync-panel .sp-head,.sync-panel button[type=submit],.sync-panel .sp-msg{grid-column:1 / -1}
+    .sync-panel .sp-title{font-size:15px!important}
+    .sync-panel label{margin-top:6px;font-size:11.5px}
+    .sync-panel input,.sync-panel select{height:36px;padding:0 8px!important;margin-top:2px}
+    .sync-panel button[type=submit]{height:34px!important;margin-top:8px}
+    .sync-panel .sp-msg{font-size:11.5px;margin-top:6px}
+    .sync-panel .sp-msg:empty{display:none}
+  }
   @media print{.nav,.filters,.tabs{display:none}}
 </style>
 </head>
@@ -3053,7 +3065,7 @@
       syncPanel.hidden = true; document.getElementById('syncPill').setAttribute('aria-expanded', 'false');
       flush(); loadPhotos();
     });
-    if (!tripCode) askCode('Enter the trip code to share ticks, notes, spending and photos.');
+    if (!tripCode) askCode('Enter the trip code to sync.');
     else { flush(); loadPhotos(); }
     document.addEventListener('visibilitychange', function(){ if (document.visibilityState === 'visible') flush(); });
     setInterval(function(){ if (document.visibilityState === 'visible' && !queue.length) pull(); }, 60000);
