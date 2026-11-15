@@ -1118,6 +1118,41 @@
   .dchip[aria-selected="true"] .dc-n{background:var(--c);color:var(--fg)}
   .dchip[aria-selected="true"] .dc-w{color:var(--soft);opacity:1}
   @media (max-width:640px){.dchip{height:56px}.dchip .dc-n{height:31px;font-size:17px}}
+  /* ---------- one button system for the whole site ----------
+     primary: solid rose · secondary: white with a rose outline · icon: round outline
+     hover: a small colour step only (no fills flipping, no movement) */
+  .btn-add,.bk-form > button,.wish-form > button,.b-save,.b-view,.save-all,#heroAdd,.sync-panel button[type=submit],.w-editb button:not(.w-cancel){
+    display:inline-flex!important;align-items:center;justify-content:center;gap:6px;height:38px!important;padding:0 16px!important;box-sizing:border-box;
+    border:1.5px solid var(--hib)!important;background:var(--hib)!important;color:#fff!important;border-radius:999px!important;
+    font:700 14px/1 "Plus Jakarta Sans",sans-serif!important;box-shadow:none!important;transform:none!important;cursor:pointer;transition:background .15s,border-color .15s}
+  .btn-add:hover,.bk-form > button:hover,.wish-form > button:hover,.b-save:hover,.b-view:hover,.save-all:hover,#heroAdd:hover,.sync-panel button[type=submit]:hover,.w-editb button:not(.w-cancel):hover{background:#93474D!important;border-color:#93474D!important}
+  .btn-add svg{width:15px;height:15px}
+  .map-link,.doc-btn,.b-file,.w-img,.w-edit,.b-cancel,.w-cancel,.opt-use,#heroGal,.album-add{
+    display:inline-flex!important;align-items:center;justify-content:center;gap:6px;box-sizing:border-box;
+    border:1.5px solid var(--rose)!important;background:#fff!important;color:var(--rasp)!important;border-radius:999px!important;
+    font:700 13px/1 "Plus Jakarta Sans",sans-serif!important;box-shadow:none!important;transform:none!important;cursor:pointer;text-decoration:none;transition:background .15s,border-color .15s}
+  .map-link:hover,.doc-btn:hover,.b-file:hover,.w-img:hover,.w-edit:hover,.b-cancel:hover,.w-cancel:hover,.opt-use:hover:not([aria-pressed="true"]),#heroGal:hover,.album-add:hover{background:#FDF4F2!important;border-color:var(--hib)!important;color:var(--rasp)!important}
+  .opt-use[aria-pressed="true"]{background:var(--jade-d)!important;border-color:var(--jade-d)!important;color:#fff!important;cursor:default}
+  /* sizes: 38px in forms and big actions, 30px inside cards and lists */
+  .b-file,.w-img,.album-add,#heroGal,#heroAdd{height:38px!important;padding:0 16px!important;font-size:14px!important}
+  .album-add{height:44px!important;padding:0 26px!important;font-size:15px!important}
+  .map-link,.doc-btn,.w-edit,.b-view,.b-save,.b-cancel,.opt-use{height:30px!important;padding:0 12px!important;font-size:12.5px!important}
+  .map-link svg{width:12px;height:12px}
+  .h-acts .map-link,.h-acts .doc-btn{height:32px!important}
+  .sp-del,.dv-arrow,.an{border:1.5px solid var(--rose)!important;background:#fff!important;color:var(--rasp)!important;box-shadow:none!important;transition:background .15s,border-color .15s}
+  .sp-del{width:30px!important;min-width:30px!important;height:30px!important;border-radius:50%!important;padding:0!important}
+  .sp-del:hover,.dv-arrow:hover:not(:disabled),.an:hover:not(:disabled){background:#FDF4F2!important;border-color:var(--hib)!important}
+  .sp-del .tr-ico{width:15px;height:15px}
+  .sp-del.sure{width:auto!important;border-radius:999px!important;padding:0 12px!important;background:var(--hib)!important;border-color:var(--hib)!important;color:#fff!important;font:700 12.5px/1 "Plus Jakarta Sans",sans-serif!important}
+  /* form fields match the buttons */
+  .bk-form input[name=title],.wish-form input[name=text],.wish-form input[name=link],.bk-editf input[name=title],.w-editf input:not([type=checkbox]){height:38px!important;box-sizing:border-box;padding:0 12px!important;border-radius:10px!important;font-size:14.5px!important}
+  /* information is not a button: plain text, no pill */
+  .hfacts li{background:transparent!important;padding:0!important;border-radius:0!important;color:var(--ink)!important;font-weight:600;font-size:13px}
+  .hfacts li::before{content:"";display:inline-block;width:14px;height:14px;margin-right:6px;vertical-align:-2px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='7.5' fill='none' stroke='%23A9555C' stroke-width='1.8'/%3E%3Cpath d='M10 6v4.3l2.8 1.7' fill='none' stroke='%23A9555C' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E") center/contain no-repeat}
+  .bk-note{background:#F4ECE3!important}
+  /* messages fade */
+  .w-msg,.album-msg,#bkMsg{transition:opacity .4s}
+  .msg-out{opacity:0}
   @media print{.nav,.filters,.tabs{display:none}}
 </style>
 </head>
@@ -1260,7 +1295,7 @@
         <label class="w-text"><span class="sr">What to buy</span><input name="text" maxlength="200" placeholder="What do you want to buy?"></label>
         <label class="w-link"><span class="sr">Link</span><input name="link" type="text" inputmode="url" autocapitalize="off" spellcheck="false" maxlength="500" placeholder="Paste a link (optional)"></label>
         <label class="w-img"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="13" r="3.5" fill="none" stroke="currentColor" stroke-width="2"/></svg><span>Photo</span><input name="img" type="file" accept="image/*" class="sr"></label>
-        <button type="submit">Add</button>
+        <button type="submit" class="btn-add"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4.5v11M4.5 10h11" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><span>Add</span></button>
         <div class="w-preview" id="wishPreview" hidden><img alt="Photo to add"><button type="button" id="wishClear" aria-label="Remove photo"><svg class="x-ico" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 2.5l7 7M9.5 2.5l-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
         <p class="w-msg" id="wishMsg" role="status"></p>
       </form>
@@ -1302,7 +1337,7 @@
         <form class="bk-form" id="bkForm" autocomplete="off">
           <label class="b-title"><span class="sr">What did you book?</span><input name="title" maxlength="120" placeholder="What did you book?"></label>
           <label class="b-file"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M13.5 6.5l-6 6a1.8 1.8 0 0 0 2.5 2.5l6.5-6.5a3.3 3.3 0 0 0-4.7-4.7L5.3 10.3a4.8 4.8 0 0 0 6.8 6.8l4.4-4.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span>Attach</span><input name="file" type="file" accept="image/*,application/pdf" class="sr"></label>
-          <button type="submit">Add</button>
+          <button type="submit" class="btn-add"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4.5v11M4.5 10h11" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><span>Add</span></button>
           <p class="b-chip" id="bkChip" hidden><span></span><button type="button" id="bkClear" aria-label="Remove attachment"><svg class="x-ico" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 2.5l7 7M9.5 2.5l-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></p>
           <p class="w-msg" id="bkMsg" role="status"></p>
         </form>
@@ -1438,6 +1473,14 @@
   normFood(S.ticks);
   function persist(){
     try { localStorage.setItem('trip26-store', JSON.stringify(S)); localStorage.setItem('trip26-queue', JSON.stringify(queue)); } catch(e) {}
+  }
+  /* status messages: progress (…) stays, everything else fades after a few seconds */
+  function flashMsg(el, t){
+    if (!el) return;
+    clearTimeout(el._t); el.classList.remove('msg-out'); el.textContent = t || '';
+    if (!t || /…\s*$/.test(t) || el.querySelector && el.querySelector('button')) return;
+    var err = /couldn|didn|no connection|needs|use a photo|add some|add a title|try again/i.test(t);
+    el._t = setTimeout(function(){ el.classList.add('msg-out'); el._t = setTimeout(function(){ el.textContent = ''; el.classList.remove('msg-out'); }, 400); }, err ? 7000 : 3000);
   }
   function esc(t){ return String(t == null ? '' : t).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
   function isTicked(k){ return !!S.ticks[k]; }
@@ -1972,7 +2015,7 @@
 
   /* ---------- our bookings: title + optional photo or PDF (private, via the script) ---------- */
   var bkForm = document.getElementById('bkForm'), bkFile = null, bkBusy = false, bkEditing = '';
-  function bkMsg(t){ document.getElementById('bkMsg').textContent = t || ''; }
+  function bkMsg(t){ flashMsg(document.getElementById('bkMsg'), t); }
   function readFile(f){
     if (/^image\//.test(f.type) && f.type !== 'image/heic') {
       return shrink(f, 1800).then(function(d){ return {name:f.name.replace(/\.\w+$/, '') + '.jpg', mime:'image/jpeg', data:d.split(',')[1]}; });
@@ -2019,7 +2062,7 @@
         return '<li><span class="b-ico">' + fileIco(x.mime) + '</span><div class="b-body"><p class="b-t">' + esc(x.title) + '</p><span class="b-by">' + (x.by ? 'Added by ' + esc(x.by) : '') + '</span></div>' +
           '<div class="w-acts">' + (x.file ? '<button type="button" class="b-view" data-bview="' + esc(x.id) + '">View</button>' : '') +
           '<button type="button" class="w-edit" data-bedit="' + esc(x.id) + '">Edit</button>' +
-          '<button type="button" class="sp-del" data-bdel="' + esc(x.id) + '" aria-label="Delete ' + esc(x.title) + '"><svg class="x-ico" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 2.5l7 7M9.5 2.5l-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div></li>';
+          '<button type="button" class="sp-del" data-bdel="' + esc(x.id) + '" aria-label="Delete ' + esc(x.title) + '"><svg class="tr-ico" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 6h12M8 6V4h4v2M6 6l1 10h6l1-10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div></li>';
       }).join('');
   }
   listeners.push(function(){ if (!bkEditing) renderBookings(); });
@@ -2319,7 +2362,7 @@
   docDlg.addEventListener('click', function(e){ if (e.target === docDlg) docDlg.close(); });
 
   /* ---------- our shopping list: text, link and/or photo ---------- */
-  var XICO = '<svg class="x-ico" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 2.5l7 7M9.5 2.5l-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
+  var XICO = '<svg class="tr-ico" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 6h12M8 6V4h4v2M6 6l1 10h6l1-10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   var wishForm = document.getElementById('wishForm'), wishImg = '';
   function imgSrc(v, w){
     if (!v) return '';
@@ -2381,16 +2424,16 @@
         return '<li class="' + (x.got ? 'got' : '') + '">' +
           '<label class="done"><input type="checkbox" data-wish="' + esc(x.id) + '"' + (x.got ? ' checked' : '') + '><span class="sr">Bought</span></label>' + img +
           '<div class="w-body">' + (x.text ? '<p class="w-t">' + esc(x.text) + '</p>' : '') + link + '<span class="w-by">' + (x.by ? 'Added by ' + esc(x.by) : '') + '</span></div>' +
-          '<div class="w-acts"><button type="button" class="w-edit" data-wedit="' + esc(x.id) + '">Edit</button><button type="button" class="sp-del" data-wdel="' + esc(x.id) + '" aria-label="Delete"><svg class="x-ico" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 2.5l7 7M9.5 2.5l-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div></li>';
+          '<div class="w-acts"><button type="button" class="w-edit" data-wedit="' + esc(x.id) + '">Edit</button><button type="button" class="sp-del" data-wdel="' + esc(x.id) + '" aria-label="Delete"><svg class="tr-ico" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 6h12M8 6V4h4v2M6 6l1 10h6l1-10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div></li>';
       }).join('');
   }
   wishForm.elements.img.addEventListener('change', function(){
     var f = this.files && this.files[0]; if (!f) return;
-    var msg = document.getElementById('wishMsg'); msg.textContent = 'Preparing photo…';
+    var msg = document.getElementById('wishMsg'); flashMsg(msg, 'Preparing photo…');
     shrink(f).then(function(d){
       wishImg = d; msg.textContent = '';
       var pv = document.getElementById('wishPreview'); pv.hidden = false; pv.querySelector('img').src = d;
-    }).catch(function(){ msg.textContent = 'Couldn’t read that photo. Try another one.'; });
+    }).catch(function(){ flashMsg(msg, 'Couldn’t read that photo. Try another one.'); });
   });
   document.getElementById('wishClear').addEventListener('click', function(){
     wishImg = ''; wishForm.elements.img.value = ''; document.getElementById('wishPreview').hidden = true;
@@ -2399,7 +2442,7 @@
     e.preventDefault();
     var f = wishForm.elements, text = f.text.value.trim(), link = f.link.value.trim(), msg = document.getElementById('wishMsg');
     if (link && !/^https?:\/\//i.test(link)) link = 'https://' + link;
-    if (!text && !link && !wishImg) { msg.textContent = 'Add some text, a link or a photo.'; return; }
+    if (!text && !link && !wishImg) { flashMsg(msg, 'Add some text, a link or a photo.'); return; }
     op({a:'shop.add', item:{id:Date.now().toString(36) + Math.random().toString(36).slice(2, 6), at:new Date().toISOString(), text:text.slice(0, 200), link:link.slice(0, 500), img:wishImg, got:0, by:me || ''}});
     f.text.value = ''; f.link.value = ''; f.img.value = ''; wishImg = ''; msg.textContent = '';
     document.getElementById('wishPreview').hidden = true;
@@ -2425,7 +2468,7 @@
         editImg = d; msg.textContent = '';
         var pv = form.querySelector('.w-eprev'); pv.hidden = false; pv.querySelector('img').src = d;
         var rm = form.elements.rmimg; if (rm) rm.checked = false;
-      }).catch(function(){ msg.textContent = 'Couldn’t read that photo. Try another one.'; });
+      }).catch(function(){ flashMsg(msg, 'Couldn’t read that photo. Try another one.'); });
       return;
     }
     if (e.target.name === 'rmimg') { var pv2 = e.target.closest('.w-editf').querySelector('.w-eprev'); pv2.hidden = e.target.checked; if (e.target.checked) editImg = ''; return; }
@@ -2818,7 +2861,7 @@
     galDlg.close(); showBooth(false); go(+t.dataset.i);
     document.getElementById('album').scrollIntoView({behavior:'smooth', block:'center'});
   });
-  function albumMsg(t){ document.getElementById('albumMsg').textContent = t || ''; }
+  function albumMsg(t){ flashMsg(document.getElementById('albumMsg'), t); }
   function loadPhotos(){
     if (!SYNC_URL || !tripCode) return;
     return fetch(SYNC_URL + '?what=photos&code=' + encodeURIComponent(tripCode)).then(function(r){ return r.json(); }).then(function(d){
