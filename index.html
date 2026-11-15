@@ -2097,7 +2097,7 @@
   function renderBookings(){
     var list = (S.bookings || []).slice().sort(function(a, b){ return (a.at || '') < (b.at || '') ? -1 : 1; });
     document.getElementById('bkCount').textContent = list.length ? list.length + ' booked' : '';
-    document.getElementById('bkList').innerHTML = !list.length ? '<li class="b-empty">Nothing yet. Add tours, tickets and transfers with their confirmation.</li>' :
+    document.getElementById('bkList').innerHTML = !list.length ? '' :
       list.map(function(x){
         if (bkEditing === x.id) {
           return '<li class="b-edit"><form class="bk-editf" data-id="' + esc(x.id) + '"><input name="title" maxlength="120" value="' + esc(x.title) + '" aria-label="Booking title" required>' +
