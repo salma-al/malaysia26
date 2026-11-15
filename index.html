@@ -1153,6 +1153,32 @@
   /* messages fade */
   .w-msg,.album-msg,#bkMsg{transition:opacity .4s}
   .msg-out{opacity:0}
+  /* ---------- stay cards: photo, name, dates, two times, one money line, actions ---------- */
+  .stay2{display:flex!important;flex-direction:column;padding:0!important;overflow:hidden}
+  .stay2 .ph{display:block!important;position:relative;height:120px;min-height:0!important;aspect-ratio:auto!important;border-radius:0}
+  .stay2 .ph figcaption{display:none}
+  .s2-city{position:absolute;left:12px;bottom:10px;background:#fff;color:var(--rasp);font:800 11.5px/1 "Plus Jakarta Sans",sans-serif;letter-spacing:.08em;text-transform:uppercase;padding:6px 10px;border-radius:6px}
+  .s2-body{display:flex;flex-direction:column;flex:1;padding:16px 18px 18px}
+  .s2-when{margin:0;font-size:13px;font-weight:700;color:var(--hib)}
+  .s2-name{margin:4px 0 2px;font-size:19px;line-height:1.25;color:var(--ink)}
+  .s2-room{margin:0;font-size:14px;color:var(--soft)}
+  .s2-times{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0 0;padding:12px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .s2-times dt{font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--soft)}
+  .s2-times dd{margin:2px 0 0;font-size:15px;font-weight:700;color:var(--ink)}
+  .s2-pay{margin:12px 0 16px;font-size:13.5px;color:var(--ink)}
+  .stay2 .h-acts{margin-top:auto;display:flex;gap:8px}
+  /* ---------- calendar chips: small weekday header, big number ---------- */
+  .dchip .dc-w{flex:none!important;height:19px;width:100%;display:flex;align-items:center;justify-content:center;font-size:10.5px!important;letter-spacing:.04em;text-transform:uppercase;border-bottom:1.5px solid var(--c);margin:0!important}
+  .dchip .dc-n{flex:1;height:auto!important;border-bottom:0!important;font-size:19px!important;background:none!important}
+  .dchip[aria-selected="true"] .dc-w{background:var(--c);color:var(--fg)!important;opacity:1}
+  .dchip[aria-selected="true"] .dc-n{color:var(--ink)!important}
+  /* ---------- tighter corners overall ---------- */
+  :root{--r:10px;--r-sm:7px}
+  .dview,.panel,.wx,.check,.bk,.leg,.hop-card,.dish,.shp{border-radius:12px!important}
+  .dchip{border-radius:9px!important}
+  .dv-photo .ph,.dv-more,.album-add{border-radius:10px!important}
+  .tot-box,.cash-tip,.bk-note,.est-more{border-radius:8px!important}
+  .bk-form input[name=title],.wish-form input[name=text],.wish-form input[name=link],.bk-editf input[name=title],.w-editf input:not([type=checkbox]),.mc-row input,.mc-row select{border-radius:8px!important}
   @media print{.nav,.filters,.tabs{display:none}}
 </style>
 </head>
@@ -1719,7 +1745,7 @@
       return '<div class="dgrp" style="--c:'+COLORS[g.s]+';--fg:'+FG[g.s]+'"><span class="dgrp-name">'+PLACE[g.s]+'</span><div class="dgrp-days">'+
         g.items.map(function(x){
           var p = x.r.date.split(' '), today = dayISO(x.r.date) === t;
-          return '<button type="button" role="tab" class="dchip'+(today ? ' is-today' : '')+'" data-i="'+x.i+'" aria-selected="'+(x.i === curDay)+'" tabindex="'+(x.i === curDay ? 0 : -1)+'" aria-label="Day '+x.r.n+', '+WD[p[0]]+' '+p[1]+' '+p[2]+(today ? ', today' : '')+'"><span class="dc-n">'+p[1]+'</span><span class="dc-w">'+(today ? 'Today' : p[0])+'</span></button>';
+          return '<button type="button" role="tab" class="dchip'+(today ? ' is-today' : '')+'" data-i="'+x.i+'" aria-selected="'+(x.i === curDay)+'" tabindex="'+(x.i === curDay ? 0 : -1)+'" aria-label="Day '+x.r.n+', '+WD[p[0]]+' '+p[1]+' '+p[2]+(today ? ', today' : '')+'"><span class="dc-w">'+(today ? 'Today' : p[0])+'</span><span class="dc-n">'+p[1]+'</span></button>';
         }).join('')+'</div></div>';
     }).join('');
     strip.scrollLeft = keep;
@@ -1777,7 +1803,8 @@
       room:'Beachfront Private Villa, semi-open bathroom · breakfast included',
       addr:'Lot 37, Jalan Kuala Muda, Padang Matsirat · ~10 min by Grab to the airport and Pantai Cenang',
       facts:['Check in 3:00 PM–midnight · check out 12:00 PM'],
-      note:'<b>Pay at the villa:</b> RM50 deposit per stay, plus city tax of RM3 per night (RM12 for 4 nights).'},
+      note:'<b>Pay at the villa:</b> RM50 deposit per stay, plus city tax of RM3 per night (RM12 for 4 nights).',
+      brief:'Beachfront villa · breakfast', cin:'3 PM – midnight', cout:'12 PM', pay:'Pay there: RM50 deposit + RM12 city tax'},
       opts:[
       ['Pantai Tengah','Top pick','Quiet sunset beach, 5 min to the Cenang strip, 10 min to the airport.'],
       ['Pantai Cenang','Lively','Restaurants, shops and nightlife on your doorstep. Busier and more touristy.']]},
@@ -1786,7 +1813,8 @@
       room:'Tropical 2-Bedroom Suite · 2 queen beds · no breakfast',
       addr:'22 Jalan Macalister (corner of Jalan Anson) · 15 min walk to Penang Road, Grab 5 min to the heritage zone',
       facts:['Check in after 3:00 PM · check out before 12:00 PM'],
-      note:'<b>Security deposit:</b> RM200 at check-in, cashless only (bring a card, not cash).'},
+      note:'<b>Security deposit:</b> RM200 at check-in, cashless only (bring a card, not cash).',
+      brief:'2-bedroom suite · no breakfast', cin:'from 3 PM', cout:'12 PM', pay:'RM200 deposit, card only'},
       opts:[
       ['Muntri Street / Stewart Lane','Top pick','Quiet end of the heritage zone. Walk to the murals, Chulia Street hawkers, Little India.'],
       ['Penang Road / Campbell Street','More local','Near the famous cendol and shopping streets, still walkable to everything.']]},
@@ -1798,7 +1826,8 @@
       room:'Deluxe Twin Room · 2 single beds · breakfast included',
       addr:'6 Changkat Raja Chulan, Bukit Ceylon · short walk to Bukit Bintang and Changkat',
       facts:['Check in after 3:00 PM · check out before 12:00 PM'],
-      note:'<b>Deposit:</b> RM100 per room at check-in.'},
+      note:'<b>Deposit:</b> RM100 per room at check-in.',
+      brief:'Twin room · breakfast', cin:'from 3 PM', cout:'12 PM', pay:'RM100 deposit at check-in'},
       opts:[
       ['Kampung Baru','Top pick','Local Malay village under the towers. Walk over Saloma bridge to KLCC; LRT to the old city. Mostly halal food.'],
       ['Tengkat Tong Shin (Bukit Bintang)','Lively','Quiet streets behind Bukit Bintang. Walk to Jalan Alor and Pavilion.'],
@@ -1875,6 +1904,18 @@
     var total = 0;
     document.getElementById('bookings').innerHTML = legs().map(function(l){
       var a = AREAS[l[0]], n = nights(l[1], l[2]); total += n;
+      var range = dt(l[1]).t.replace(/^\w+ /,'')+' – '+dt(l[2]).t.replace(/^\w+ /,'');
+      if (a.booked && a.booked.brief) {
+        var b = a.booked;
+        return '<li class="bk stay2"><figure class="ph" data-k="'+a.k+'"><figcaption></figcaption><span class="s2-city">'+a.name.split(' (')[0]+'</span></figure>'+
+          '<div class="s2-body"><p class="s2-when">'+range+' · '+n+' night'+(n>1?'s':'')+'</p>'+
+          '<h3 class="s2-name">'+b.hotel+'</h3><p class="s2-room">'+b.brief+'</p>'+
+          '<dl class="s2-times"><div><dt>Check-in</dt><dd>'+b.cin+'</dd></div><div><dt>Check-out</dt><dd>'+b.cout+'</dd></div></dl>'+
+          '<p class="s2-pay">'+b.pay+'</p>'+
+          '<div class="h-acts"><a class="map-link" href="https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(b.q)+'" target="_blank" rel="noopener" aria-label="Open '+b.hotel+' in Google Maps">'+PIN+'Map</a>'+
+          (b.doc ? '<button type="button" class="doc-btn" data-doc="'+b.doc+'" data-docname="'+b.docName+'"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 2h7l4 4v12H5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 2v4h4M8 11h5M8 14h5" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg><span>View booking</span></button>' : '')+
+          '</div></div></li>';
+      }
       return '<li class="bk"><figure class="ph" data-k="'+a.k+'"><figcaption></figcaption></figure><div class="bk-body">'+
         '<div class="bk-top"><h3>'+a.name+'</h3><span class="bk-dates">'+dt(l[1]).t.replace(/^\w+ /,'')+' – '+dt(l[2]).t.replace(/^\w+ /,'')+'</span><span class="bk-nights">'+n+' night'+(n>1?'s':'')+'</span>'+
         '</div>'+
