@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Malaysia 2026</title>
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
 <link rel="icon" type="image/png" sizes="32x32" href="img/logo-32.png">
@@ -1184,6 +1184,21 @@
   main > section#photos::before{background:var(--hib)!important;height:5px!important}
   .dchip{height:61px!important}
   .dgrp-name::before{width:11px;height:11px;border-radius:0;background:var(--c);clip-path:polygon(50% 0,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0 50%,39% 39%)}
+  .h-acts{padding-top:5px}
+  .dv-photo .ph{height:clamp(140px,18vw,190px)!important}
+  .dgrp + .dgrp{padding-left:14px;border-left:1.5px solid var(--rose-l)}
+  @media (max-width:640px){.dv-photo .ph{height:140px!important}.dgrp + .dgrp{padding-left:10px}}
+  /* ---------- phone comfort ---------- */
+  .syncbox{right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom))}
+  dialog.lb .close{top:max(14px,env(safe-area-inset-top))}
+  html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
+  @media (max-width:640px){
+    input,select,textarea{font-size:16px!important}
+    .stop .done{padding:6px;margin:-6px 2px -6px -6px}
+    .stop .done input{width:22px;height:22px}
+    .dish label{min-height:32px}
+    .wx{padding:16px 18px}
+  }
   @media print{.nav,.filters,.tabs{display:none}}
 </style>
 </head>
