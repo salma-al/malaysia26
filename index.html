@@ -1063,7 +1063,7 @@
   .dchip.is-today:not([aria-selected="true"]){border-color:var(--hib)}
   .dchip.is-today .dc-w{color:var(--hib);font-weight:800}
   .dchip:focus-visible{outline:3px solid rgba(212,141,145,.45);outline-offset:2px}
-  .dview{background:#fff;border:1.5px solid var(--rose-l);border-radius:20px;padding:18px 22px 20px;border-top:6px solid var(--c)}
+  .dview{background:#fff;border:1.5px solid var(--rose-l);border-radius:20px;padding:18px 22px 20px}
   .dv-top{display:grid;grid-template-columns:40px 1fr 40px;gap:12px;align-items:center}
   .dv-head{text-align:center}
   .dv-head .day-no{font-size:13px;font-weight:700;color:var(--soft)}
@@ -1405,7 +1405,7 @@
   /* ---------- shared trip data: ticks, notes, spending, photos ----------
      Works on this device with no setup. Paste the Google Apps Script web-app
      link (see the Google script).into SYNC_URL to share it between devices. */
-  var SYNC_URL = 'https://script.google.com/macros/s/AKfycbwz9PLku-wZi3BttQUrpEqSeyPH8q8k6yC3_UJ4SJW6Pp-1TWNkt-yCWxuuKWd70Vlaxg/exec';
+  var SYNC_URL = 'https://script.google.com/macros/s/AKfycbxfkRbq5M5L4azSEgDcnmvvH45WGqwvQZlTeJd0FMT7lYfEaYu7n3A3qUcmI20uKTe3fg/exec';
   var S = {ticks:{}, notes:{}, spend:[], shop:[], bookings:[], settings:{}, people:['Salma','Rahma']};
   var queue = [], tripCode = '', me = '', syncState = 'local', listeners = [];
   try {
