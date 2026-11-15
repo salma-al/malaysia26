@@ -1106,6 +1106,18 @@
   .dv-costs b{text-align:right;white-space:nowrap}
   .dv-costs small{display:block;font-size:11px;font-weight:500;color:var(--soft)}
   .album-add{padding:0 34px;min-width:220px;justify-content:center}
+  /* weather cards take the next section's sand colour */
+  .weather .wx{background:#F4ECE3!important;border-color:#F4ECE3!important}
+  /* album divider in pinks */
+  main > section#photos::before{background:conic-gradient(var(--hib) 25%,transparent 0 50%,var(--hib) 0 75%,transparent 0) 0 0/32px 32px #D48D91!important}
+  /* date strip as little calendar pages */
+  .dchip{justify-content:flex-start;overflow:hidden;height:60px;border-color:var(--rose-l)}
+  .dchip .dc-n{display:flex;align-items:center;justify-content:center;width:100%;height:34px;border-bottom:1.5px solid var(--c);font-size:18px}
+  .dchip .dc-w{display:flex;align-items:center;justify-content:center;flex:1;margin:0}
+  .dchip[aria-selected="true"]{background:#fff;border-color:var(--c);color:var(--ink)}
+  .dchip[aria-selected="true"] .dc-n{background:var(--c);color:var(--fg)}
+  .dchip[aria-selected="true"] .dc-w{color:var(--soft);opacity:1}
+  @media (max-width:640px){.dchip{height:56px}.dchip .dc-n{height:31px;font-size:17px}}
   @media print{.nav,.filters,.tabs{display:none}}
 </style>
 </head>
